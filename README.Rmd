@@ -16,14 +16,17 @@ This document gives an illustration with a data analysis of the popular `nycflig
 
 (Disclaimer: this is very early in this project.  So, the syntax and the code is likely to change a great deal. Input is very welcome about ways to improve it.)
 
-
+```{r, echo=FALSE,include=FALSE}
+library(devtools)
+library(tidyverse)
+load_all()
+```
 
 ### PCA the nycflights.
 The code is fast and nimble:
 ```{r, cache=TRUE}
-source("pca_4_the_people.R")
 library(nycflights13)
-embeddings = pca_count(1 ~ (month & day)*(dest), 
+embeddings = pca_count(~ (month & day)*(dest), 
                        flights, 
                        k = 6)
 ```
@@ -96,19 +99,6 @@ There are three functions that you might like `diagnose`, `pick_dim`, and `plot`
 
 # A deeper look inside the code.
 
-
-
-```{r, include=TRUE , message=FALSE}
-# be sure these packages are installed:
-library(tidyverse)
-library(irlba)
-library(Matrix)
-library(gdim)
-# library(softImpute)
-
-# here is my code:
-source("pca_4_the_people.R")
-```
 
 To illustrate the code, consider the popular data example `nycflights13` which contains a row for every flight departing from the 3 main New York City airports during 2013 (LGA, JFK, and EWR).  It includes things like date, destination, and information about delays. 
 
