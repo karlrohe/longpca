@@ -23,3 +23,5 @@ Imports:
     tidyr,
     tidyselect,
     tidytext
+URL: https://github.com/karlrohe/longpca
+BugReports: https://github.com/karlrohe/longpca/issues
