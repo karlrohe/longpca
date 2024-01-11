@@ -1,0 +1,2 @@
+1) do we want to allow option of construting sparse_matrix_ once, then doing diagnose/pick_dim/pca?
+2) helper function to select_components(mode = rows/columns) select_universe(mode = rows/columns)
