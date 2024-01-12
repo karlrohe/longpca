@@ -37,6 +37,9 @@ install.packages("devtools")
 devtools::install_github("karlrohe/longpca")
 ```
 
+Thank you to Alex Hayes for helpful feedback in this process and
+suggesting the name `longpca`.
+
 ### PCA the nycflights.
 
 The code is fast and nimble:
