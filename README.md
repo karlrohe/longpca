@@ -3,11 +3,28 @@ PCA for the people
 Karl Rohe
 2024-01-03
 
+This package introduces a novel formula syntax for PCA. In modern
+applications (where data is often in “long format”), the formula syntax
+helps to fluidly imagine PCA without thinking about matrices. In other
+words, it provides a layer of abstraction above matrices. Given the
+formula and the (long) data, the code in this package transforms your
+data into a proper format for fast PCA via sparse linear algebra. The
+package also provides code to 1) help pick the number of dimensions to
+compute, 2) diagnose the suitability of PCA (both pre and post PCA), 3)
+rotate the PCs with varimax, 4) visualize and interpret the dimensions
+uncovered, and (not yet) 5) make predictions. This package uses “PCA” as
+a broad term for computing the leading singular vectors of a normalized
+(sometimes incomplete) matrix. Some might refer to specific instances as
+factor analysis, correspondence analysis, latent symantic analysis,
+social network analysis, or low-rank matrix completion, among other
+possible terms. This is big-tent PCA, all included. `longpca` is in
+development. So, functions and syntax might change.
+
 The current approach to PCA (principal components analysis) is *matrix
 first*. This note begins to explore an alternative path, one that is
-*model first*. This is code proposes an alternative way to think about
-PCA that makes matrices transparent; completely hidden, unless you want
-to see the code.
+*model first*. The formula syntax provides an alternative way to think
+about PCA that makes matrices transparent; completely hidden, unless you
+want to see the code.
 
 I hope this makes PCA legible for folks that have not yet learned linear
 algebra (just like linear models are legible without solving linear
