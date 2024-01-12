@@ -63,7 +63,7 @@ The code is fast and nimble:
 
 ``` r
 library(nycflights13)
-embeddings = pca_count(~ (month & day)*(dest), 
+pcs = pca_count(~ (month & day)*(dest), 
                        flights, 
                        k = 6)
 ```
@@ -86,27 +86,27 @@ that day.
 The output contains the pc’s and their loadings in a tidy format:
 
 ``` r
-embeddings$row_features %>% sample_n(size = 3)
+pcs$row_features %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 11
     ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
     ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1     6    14    257     89             989      1.03     0.702   -0.113 
-    ## 2     8    12    316     86            1001      1.04     0.946   -0.0395
-    ## 3     4     4    186     87             985      1.03    -0.988    0.925 
+    ## 1     9    24    359     87             960      1.02      1.02     0.901
+    ## 2     2     8    131     86             930      1.00     -1.38     0.920
+    ## 3     2    28    151     86             964      1.02     -1.34     0.845
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
-embeddings$column_features %>% sample_n(size = 3)
+pcs$column_features %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 10
     ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
     ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 ROC       31    365            2416        0.868       -0.192       -0.524
-    ## 2 EGE       53    110             213        0.178       -3.63         0.610
-    ## 3 SRQ       33    365            1211        0.615       -0.740       -0.383
+    ## 1 OKC       84    346             346       0.328         0.323        0.408
+    ## 2 AVL       54    248             275       0.265         2.15        -1.34 
+    ## 3 CHO      102     52              52       0.0677       -0.293        0.886
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -118,9 +118,9 @@ dates, the native space is a time series or a sequence. Let’s plot it
 there. I give my interpretation after the plots.
 
 ``` r
-embeddings = pca_count(1 ~ (month & day)*(dest), flights, k = 6)
+pcs = pca_count(1 ~ (month & day)*(dest), flights, k = 6)
 
-embeddings$row_features %>% 
+pcs$row_features %>% 
   mutate(date = make_date(day = day, month=month, year = 2013)) %>% 
   select(date, contains("pc_")) %>% 
   pivot_longer(contains("pc_"), names_to = "pc_dimension", values_to = "loadings") %>% 
@@ -157,15 +157,15 @@ airports %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 8
-    ##   faa   name              lat   lon   alt    tz dst   tzone           
-    ##   <chr> <chr>           <dbl> <dbl> <dbl> <dbl> <chr> <chr>           
-    ## 1 DRI   Beauregard Rgnl  30.8 -93.3   202    -6 A     America/Chicago 
-    ## 2 OAJ   Albert J Ellis   34.8 -77.6    94    -5 A     America/New_York
-    ## 3 MGE   Dobbins Arb      33.9 -84.5  1068    -5 A     America/New_York
+    ##   faa   name                         lat    lon   alt    tz dst   tzone         
+    ##   <chr> <chr>                      <dbl>  <dbl> <dbl> <dbl> <chr> <chr>         
+    ## 1 L35   Big Bear City               34.3 -117.   6725    -8 A     America/Los_A…
+    ## 2 MOD   Modesto City Co Harry Sham  37.6 -121.     97    -8 A     America/Los_A…
+    ## 3 DPA   Dupage                      41.9  -88.2   758    -6 A     America/Chica…
 
 ``` r
 # first, get the lat and lon for the airports:
-airport_dat = embeddings$column_features %>% 
+airport_dat = pcs$column_features %>% 
   left_join(airports %>% select(dest=faa, lat,lon)) %>% 
   select(lat, lon, contains("_col")) %>% 
   pivot_longer(contains("pc_"),
@@ -451,9 +451,9 @@ this a cross-tab or a contingency table. When we do PCA to this matrix
 of counts, some folks call that Correspondence Analysis.
 
 ``` r
-embeddings = pca_count(formula, tib = flights, k = 6)
+pcs = pca_count(formula, tib = flights, k = 6)
 # In some settings, the verb "sum" is a more sensible than "count"... pca_sum is the identical function
-# embeddings = pca_sum(formula, tib = flights, k = 6) 
+# pcs = pca_sum(formula, tib = flights, k = 6) 
 ```
 
 In particular, the code takes a square root of every count. Then,
@@ -463,7 +463,7 @@ singular vectors. This is all done with sparse linear algebra via the
 packages `Matrix` and `irlba`.
 
 ``` r
-names(embeddings)
+names(pcs)
 ```
 
     ## [1] "row_features"    "column_features" "middle_B"        "settings"
@@ -473,7 +473,7 @@ don’t prefer those old terms). `middle_B` gives the singular values.
 `settings` contains some details that are handy in later functions.
 
 ``` r
-sample_n(embeddings$row_features, size = 3)
+sample_n(pcs$row_features, size = 3)
 ```
 
     ## # A tibble: 3 × 11
@@ -485,7 +485,7 @@ sample_n(embeddings$row_features, size = 3)
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
-sample_n(embeddings$column_features, size=3)
+sample_n(pcs$column_features, size=3)
 ```
 
     ## # A tibble: 3 × 10
@@ -503,11 +503,11 @@ airports (to get latitude and longitude) for `column_features`.
 
 ##### Diagnostic plots
 
-You can `plot(embeddings)`. It makes these five plots, each described
-after all plots are displayed.
+You can `plot(pcs)`. It makes these five plots, each described after all
+plots are displayed.
 
 ``` r
-plot(embeddings) 
+plot(pcs) 
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->

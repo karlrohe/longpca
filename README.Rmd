@@ -36,7 +36,7 @@ library(longpca)
 The code is fast and nimble:
 ```{r, cache=TRUE}
 library(nycflights13)
-embeddings = pca_count(~ (month & day)*(dest), 
+pcs = pca_count(~ (month & day)*(dest), 
                        flights, 
                        k = 6)
 ```
@@ -48,8 +48,8 @@ This specifies the model that we want (i.e. the matrix for PCA). In particular, 
 The output contains the pc's and their loadings in a tidy format:
 
 ```{r, cache=TRUE}
-embeddings$row_features %>% sample_n(size = 3)
-embeddings$column_features %>% sample_n(size = 3)
+pcs$row_features %>% sample_n(size = 3)
+pcs$column_features %>% sample_n(size = 3)
 ```
 
 Because they are tidy, it makes them pretty easy to ggplot. 
@@ -57,9 +57,9 @@ Because they are tidy, it makes them pretty easy to ggplot.
 First, let's do the rows (i.e. dates). To interpret pc's, it is best to plot it with contextual information and/or in the *native space*.  For dates, the native space is a time series or a sequence.  Let's plot it there. I give my interpretation after the plots.
 
 ```{r, cache=TRUE}
-embeddings = pca_count(1 ~ (month & day)*(dest), flights, k = 6)
+pcs = pca_count(1 ~ (month & day)*(dest), flights, k = 6)
 
-embeddings$row_features %>% 
+pcs$row_features %>% 
   mutate(date = make_date(day = day, month=month, year = 2013)) %>% 
   select(date, contains("pc_")) %>% 
   pivot_longer(contains("pc_"), names_to = "pc_dimension", values_to = "loadings") %>% 
@@ -77,7 +77,7 @@ Now, let's do the columns (i.e. destinations). The "native space" for destinatio
 airports %>% sample_n(size = 3)
 
 # first, get the lat and lon for the airports:
-airport_dat = embeddings$column_features %>% 
+airport_dat = pcs$column_features %>% 
   left_join(airports %>% select(dest=faa, lat,lon)) %>% 
   select(lat, lon, contains("_col")) %>% 
   pivot_longer(contains("pc_"),
@@ -177,32 +177,32 @@ Notice that the top-line of the printout says that the estimated graph dimension
 For right now, I named the function `pca_count`, because if there are multiple rows of the data that have the same values for `(month & day)` and also for `dest`, then the value inside the matrix is a *sum* of the values on the left hand side of the formula.  Right now, that is just `1`.  So, it *counts* how many times that entry appears. Some people call this a cross-tab or a contingency table.  When we do PCA to this matrix of counts, some folks call that Correspondence Analysis. 
 ```{r, cache=TRUE}
 
-embeddings = pca_count(formula, tib = flights, k = 6)
+pcs = pca_count(formula, tib = flights, k = 6)
 # In some settings, the verb "sum" is a more sensible than "count"... pca_sum is the identical function
-# embeddings = pca_sum(formula, tib = flights, k = 6) 
+# pcs = pca_sum(formula, tib = flights, k = 6) 
 ```
 
 In particular, the code takes a square root of every count.  Then, computes the normalized and regularized Laplacian `L` (using the number of non-zero entries as the degree).  Then, computes the leading `k` singular vectors.  This is all done with sparse linear algebra via the packages `Matrix` and `irlba`. 
 
 ```{r}
-names(embeddings)
+names(pcs)
 ```
 The `row_features` and `column_features` are the PC's and loadings (I don't prefer those old terms).   `middle_B` gives the singular values. `settings` contains some details that are handy in later functions.
 
 ```{r}
-sample_n(embeddings$row_features, size = 3)
-sample_n(embeddings$column_features, size=3)
+sample_n(pcs$row_features, size = 3)
+sample_n(pcs$column_features, size=3)
 ```
 
 Notice that these features are in a wide and tidy form, making it easy to `lubridate::make_date` (for `row_features`) and left-join with airports (to get latitude and longitude) for `column_features`. 
 
 ##### Diagnostic plots
 
-You can `plot(embeddings)`. It makes these five plots, each described after all plots are displayed.
+You can `plot(pcs)`. It makes these five plots, each described after all plots are displayed.
 
 
 ```{r, cache=TRUE}
-plot(embeddings) 
+plot(pcs) 
 ```
 
 These are the five plots:  
