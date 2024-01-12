@@ -69,19 +69,41 @@ pcs = pca_count(~ (month & day)*(dest),
 ```
 
 This performs PCA. The key innovation is the “formula”:
-`1 ~ (month & day)*(dest)`.
 
-This specifies the model that we want (i.e. the matrix for PCA). In
+`~ (month & day)*(dest)`,
+
+which specifies the model that we want (i.e. the matrix for PCA). In
 particular, it will perform PCA on a matrix where the rows are indexed
 by `(month & day)`, two variables of the `flights` data. There are 365
 unique values of these. And the columns of the matrix are indexed by
 destinations `dest`, another variable in `flights`. There are about 100
 different destinations. There are multiple rows of `flights` with
 identical values of `month & day` and `dest` (e.g. lots of flights from
-LGA -\> LAX every day). So, the values of the matrix are a sum over the
-variable on the left side of the formula. Here, the variable is just
-`1`… so, the matrix counts the number of flights to that destination on
-that day.
+LGA -\> LAX every day); the function `pca_count` fills the elements of
+the matrix by counting the number of flights on each day to each
+destination.
+
+A similar function `pca_sum` allows for a variable on the left hand side
+of the formula and it populates the elements of the matrix by summing up
+the values. For example, `nycflights13` has the number of seats
+available in each plane. We can join this data to the flights to find
+the number of seats available on each flight.
+
+``` r
+dat = flights %>% 
+  select(month, day, dest, tailnum) %>% 
+  left_join(planes %>% select(tailnum, seats))
+```
+
+    ## Joining with `by = join_by(tailnum)`
+
+If we use the formula `seats ~(month & day)*dest` inside `pca_sum`, then
+it will perform PCA on a matrix where the elements correspond to the
+total number of seats that flew to each destination, on each day.
+
+``` r
+pcs_seats = pca_sum(seats ~(month & day)*dest, dat, 6)
+```
 
 The output contains the pc’s and their loadings in a tidy format:
 
@@ -92,9 +114,9 @@ pcs$row_features %>% sample_n(size = 3)
     ## # A tibble: 3 × 11
     ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
     ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1     9    24    359     87             960      1.02      1.02     0.901
-    ## 2     2     8    131     86             930      1.00     -1.38     0.920
-    ## 3     2    28    151     86             964      1.02     -1.34     0.845
+    ## 1     3    10    161     88             908     0.985    -1.42      0.305
+    ## 2     3     9    160     82             765     0.906    -2.08     -2.18 
+    ## 3     5    19    231     89             911     0.987     0.285    -0.160
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -104,9 +126,9 @@ pcs$column_features %>% sample_n(size = 3)
     ## # A tibble: 3 × 10
     ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
     ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 OKC       84    346             346       0.328         0.323        0.408
-    ## 2 AVL       54    248             275       0.265         2.15        -1.34 
-    ## 3 CHO      102     52              52       0.0677       -0.293        0.886
+    ## 1 MSY       26    365            3799       1.09         0.433        -0.555
+    ## 2 ANC      104      8               8       0.0100       0.0744       -0.509
+    ## 3 TPA       10    365            7466       1.53        -0.524        -1.07 
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -130,7 +152,7 @@ pcs$row_features %>%
 
     ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 I always think of the first pc as the “mean”. What we see is that
 flights are more or less constant throughout the year (see y-axis). I
@@ -157,11 +179,11 @@ airports %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 8
-    ##   faa   name                         lat    lon   alt    tz dst   tzone         
-    ##   <chr> <chr>                      <dbl>  <dbl> <dbl> <dbl> <chr> <chr>         
-    ## 1 L35   Big Bear City               34.3 -117.   6725    -8 A     America/Los_A…
-    ## 2 MOD   Modesto City Co Harry Sham  37.6 -121.     97    -8 A     America/Los_A…
-    ## 3 DPA   Dupage                      41.9  -88.2   758    -6 A     America/Chica…
+    ##   faa   name                     lat    lon   alt    tz dst   tzone             
+    ##   <chr> <chr>                  <dbl>  <dbl> <dbl> <dbl> <chr> <chr>             
+    ## 1 99N   Bamberg County Airport  33.3  -81.1   231    -5 A     America/New_York  
+    ## 2 FSD   Sioux Falls             43.6  -96.7  1429    -6 A     America/Chicago   
+    ## 3 RNM   Ramona Airport          33.0 -117.   1395    -8 A     America/Los_Angel…
 
 ``` r
 # first, get the lat and lon for the airports:
@@ -191,7 +213,7 @@ p + geom_point(data = airport_dat, aes(x = lon, y = lat,
   scale_color_gradient2(low = "red", high = "blue", mid = "white")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
 
 Here `pc_1` should align with larger and smaller airports (bigger
 airports \<-\> more flights throughout the year). `pc_2` is negative on
@@ -376,7 +398,7 @@ or column.
 diagnose(formula, flights)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
     ## # A tibble: 6 × 3
     ##   measurement      dest `month & day`
@@ -410,7 +432,7 @@ cv_eigs = pick_dim(formula, flights, dimMax = 10,num_bootstraps = 5)
 plot(cv_eigs)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 ``` r
 cv_eigs
@@ -424,16 +446,16 @@ cv_eigs
     ## 
     ##  ------------ Summary of Tests ------------
     ##   k           z        pvals         padj
-    ##   1 166.1385360 0.000000e+00 0.000000e+00
-    ##   2  11.7516618 3.462177e-32 3.462177e-32
-    ##   3   8.5639578 5.452888e-18 5.452888e-18
-    ##   4   3.6748036 1.190162e-04 1.190162e-04
-    ##   5  -0.2729057 6.075372e-01 6.075372e-01
-    ##   6  -2.9539874 9.984315e-01 9.984315e-01
-    ##   7  -5.0404237 9.999998e-01 9.999998e-01
-    ##   8  -5.9030871 1.000000e+00 1.000000e+00
-    ##   9  -7.8965717 1.000000e+00 1.000000e+00
-    ##  10  -8.0343301 1.000000e+00 1.000000e+00
+    ##   1 165.5550526 0.000000e+00 0.000000e+00
+    ##   2  12.6618879 4.807934e-37 4.807934e-37
+    ##   3   8.0171763 5.410190e-16 5.410190e-16
+    ##   4   4.3858322 5.777157e-06 5.777157e-06
+    ##   5   0.9516043 1.706488e-01 1.706488e-01
+    ##   6  -2.9938074 9.986224e-01 9.986224e-01
+    ##   7  -5.7625322 1.000000e+00 1.000000e+00
+    ##   8  -5.6018706 1.000000e+00 1.000000e+00
+    ##   9  -8.0374641 1.000000e+00 1.000000e+00
+    ##  10  -7.5687326 1.000000e+00 1.000000e+00
 
 Notice that the top-line of the printout says that the estimated graph
 dimension is 4. So, we will use `k=6` and see that in this example they
@@ -479,9 +501,9 @@ sample_n(pcs$row_features, size = 3)
     ## # A tibble: 3 × 11
     ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
     ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1     9    25    360     86             976      1.03     1.16     -0.647
-    ## 2    11    19     81     83             973      1.04     0.758    -0.527
-    ## 3     4     1    183     86             970      1.03    -1.11     -0.946
+    ## 1    11    12     74     82             973      1.04    -0.728     0.540
+    ## 2    11    18     80     83             985      1.04    -0.738     0.479
+    ## 3     3     5    156     83             965      1.03     1.35      1.18 
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -491,9 +513,9 @@ sample_n(pcs$column_features, size=3)
     ## # A tibble: 3 × 10
     ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
     ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 SAT       74    365             686       0.464        0.0988       -0.141
-    ## 2 CVG       67    365            3941       1.11         0.561        -1.77 
-    ## 3 EYW       93     17              17       0.0215      -0.423         0.774
+    ## 1 MIA        2    365           11728        1.92         0.744       -1.40 
+    ## 2 MEM       38    365            1789        0.743       -0.472        1.54 
+    ## 3 MSP       16    365            7185        1.50        -0.528        0.278
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -510,25 +532,25 @@ plots are displayed.
 plot(pcs) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
     ## `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-3.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-17-4.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-4.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-17-5.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-19-5.png)<!-- -->
 
 These are the five plots:
 

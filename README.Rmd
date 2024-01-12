@@ -41,9 +41,22 @@ pcs = pca_count(~ (month & day)*(dest),
                        k = 6)
 ```
 
-This performs PCA.  The key innovation is the "formula": `1 ~ (month & day)*(dest)`. 
+This performs PCA.  The key innovation is the "formula": 
 
-This specifies the model that we want (i.e. the matrix for PCA). In particular, it will perform PCA on a matrix where the rows are indexed by `(month & day)`, two variables of the `flights` data.  There are 365 unique values of these.  And the columns of the matrix are indexed by destinations `dest`, another variable in `flights`.  There are about 100 different destinations.  There are multiple rows of `flights` with identical values of `month & day` and `dest` (e.g. lots of flights from LGA -> LAX every day). So, the values of the matrix are a sum over the variable on the left side of the formula.  Here, the variable is just `1`... so, the matrix counts the number of flights to that destination on that day.  
+`~ (month & day)*(dest)`,
+
+which specifies the model that we want (i.e. the matrix for PCA). In particular, it will perform PCA on a matrix where the rows are indexed by `(month & day)`, two variables of the `flights` data.  There are 365 unique values of these.  And the columns of the matrix are indexed by destinations `dest`, another variable in `flights`.  There are about 100 different destinations.  There are multiple rows of `flights` with identical values of `month & day` and `dest` (e.g. lots of flights from LGA -> LAX every day); the function `pca_count` fills the elements of the matrix by counting the number of flights on each day to each destination. 
+
+A similar function `pca_sum` allows for a variable on the left hand side of the formula and it populates the elements of the matrix by summing up the values.  For example, `nycflights13` has the number of seats available in each plane.  We can join this data to the flights to find the number of seats available on each flight.  
+```{r, cache=TRUE}
+dat = flights %>% 
+  select(month, day, dest, tailnum) %>% 
+  left_join(planes %>% select(tailnum, seats))
+```
+If we use the formula `seats ~(month & day)*dest` inside `pca_sum`, then it will perform PCA on a matrix where the elements correspond to the total number of seats that flew to each destination, on each day.  
+```{r, cache=TRUE}
+pcs_seats = pca_sum(seats ~(month & day)*dest, dat, 6)
+```
 
 The output contains the pc's and their loadings in a tidy format:
 
