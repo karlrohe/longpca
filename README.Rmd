@@ -16,13 +16,21 @@ This document gives an illustration with a data analysis of the popular `nycflig
 
 (Disclaimer: this is very early in this project.  So, the syntax and the code is likely to change a great deal. Input is very welcome about ways to improve it.)
 
-```{r, echo=FALSE,include=FALSE}
-library(devtools)
-library(tidyverse)
-load_all()
+#### Install 
+
+The functions for PCA for the People are contained in an R package `longpca`.  If you do not already have `devtools` installed, you will first need to install that:
+```{r, eval = FALSE}
+install.packages("devtools")
+devtools::install_github("karlrohe/longpca")
 ```
 
+
 ### PCA the nycflights.
+```{r, echo=FALSE,include=FALSE}
+library(tidyverse)
+library(longpca)
+```
+
 The code is fast and nimble:
 ```{r, cache=TRUE}
 library(nycflights13)

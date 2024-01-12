@@ -26,6 +26,17 @@ die \<3 much love to my midwest fam). Code details follow this analysis.
 code is likely to change a great deal. Input is very welcome about ways
 to improve it.)
 
+#### Install
+
+The functions for PCA for the People are contained in an R package
+`longpca`. If you do not already have `devtools` installed, you will
+first need to install that:
+
+``` r
+install.packages("devtools")
+devtools::install_github("karlrohe/longpca")
+```
+
 ### PCA the nycflights.
 
 The code is fast and nimble:
@@ -61,9 +72,9 @@ embeddings$row_features %>% sample_n(size = 3)
     ## # A tibble: 3 × 11
     ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
     ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1     3     6    157     83             972      1.03    -1.35      1.17 
-    ## 2     4     5    187     85             981      1.04    -0.775     0.837
-    ## 3     5    30    242     90             989      1.03     0.507     0.483
+    ## 1     6    14    257     89             989      1.03     0.702   -0.113 
+    ## 2     8    12    316     86            1001      1.04     0.946   -0.0395
+    ## 3     4     4    186     87             985      1.03    -0.988    0.925 
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -73,9 +84,9 @@ embeddings$column_features %>% sample_n(size = 3)
     ## # A tibble: 3 × 10
     ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
     ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 HOU       59    365            2115       0.812        0.733        -0.238
-    ## 2 TYS       83    322             631       0.438        0.455         1.97 
-    ## 3 ANC      104      8               8       0.0100       0.0744       -0.509
+    ## 1 ROC       31    365            2416        0.868       -0.192       -0.524
+    ## 2 EGE       53    110             213        0.178       -3.63         0.610
+    ## 3 SRQ       33    365            1211        0.615       -0.740       -0.383
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -99,7 +110,7 @@ embeddings$row_features %>%
 
     ## `geom_smooth()` using method = 'loess' and formula = 'y ~ x'
 
-![](README_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
 I always think of the first pc as the “mean”. What we see is that
 flights are more or less constant throughout the year (see y-axis). I
@@ -126,11 +137,11 @@ airports %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 8
-    ##   faa   name                          lat    lon   alt    tz dst   tzone        
-    ##   <chr> <chr>                       <dbl>  <dbl> <dbl> <dbl> <chr> <chr>        
-    ## 1 BXK   Buckeye Municipal Airport    33.4 -113.   1033    -7 U     America/Phoe…
-    ## 2 ERV   Kerrville Municipal Airport  30.0  -99.1  1617    -6 A     America/Chic…
-    ## 3 EAA   Eagle Airport                64.8 -141.    908    -9 A     America/Anch…
+    ##   faa   name              lat   lon   alt    tz dst   tzone           
+    ##   <chr> <chr>           <dbl> <dbl> <dbl> <dbl> <chr> <chr>           
+    ## 1 DRI   Beauregard Rgnl  30.8 -93.3   202    -6 A     America/Chicago 
+    ## 2 OAJ   Albert J Ellis   34.8 -77.6    94    -5 A     America/New_York
+    ## 3 MGE   Dobbins Arb      33.9 -84.5  1068    -5 A     America/New_York
 
 ``` r
 # first, get the lat and lon for the airports:
@@ -146,16 +157,6 @@ airport_dat = embeddings$column_features %>%
 
 ``` r
 library(maps)
-```
-
-    ## 
-    ## Attaching package: 'maps'
-    ## 
-    ## The following object is masked from 'package:purrr':
-    ## 
-    ##     map
-
-``` r
 usa_map <- map_data("state")
 p <- ggplot() + 
   geom_polygon(data = usa_map, aes(x = long, y = lat, group = group), 
@@ -170,7 +171,7 @@ p + geom_point(data = airport_dat, aes(x = lon, y = lat,
   scale_color_gradient2(low = "red", high = "blue", mid = "white")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 Here `pc_1` should align with larger and smaller airports (bigger
 airports \<-\> more flights throughout the year). `pc_2` is negative on
@@ -355,7 +356,7 @@ or column.
 diagnose(formula, flights)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
     ## # A tibble: 6 × 3
     ##   measurement      dest `month & day`
@@ -389,7 +390,7 @@ cv_eigs = pick_dim(formula, flights, dimMax = 10,num_bootstraps = 5)
 plot(cv_eigs)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 cv_eigs
@@ -402,17 +403,17 @@ cv_eigs
     ## Significance level:       0.05
     ## 
     ##  ------------ Summary of Tests ------------
-    ##   k          z        pvals         padj
-    ##   1 166.103603 0.000000e+00 0.000000e+00
-    ##   2  12.553631 1.898456e-36 1.898456e-36
-    ##   3   8.575757 4.921878e-18 4.921878e-18
-    ##   4   4.373871 6.103122e-06 6.103122e-06
-    ##   5   1.357798 8.726386e-02 8.726386e-02
-    ##   6  -2.797204 9.974226e-01 9.974226e-01
-    ##   7  -4.968961 9.999997e-01 9.999997e-01
-    ##   8  -5.727550 1.000000e+00 1.000000e+00
-    ##   9  -6.076831 1.000000e+00 1.000000e+00
-    ##  10  -8.826106 1.000000e+00 1.000000e+00
+    ##   k           z        pvals         padj
+    ##   1 166.1385360 0.000000e+00 0.000000e+00
+    ##   2  11.7516618 3.462177e-32 3.462177e-32
+    ##   3   8.5639578 5.452888e-18 5.452888e-18
+    ##   4   3.6748036 1.190162e-04 1.190162e-04
+    ##   5  -0.2729057 6.075372e-01 6.075372e-01
+    ##   6  -2.9539874 9.984315e-01 9.984315e-01
+    ##   7  -5.0404237 9.999998e-01 9.999998e-01
+    ##   8  -5.9030871 1.000000e+00 1.000000e+00
+    ##   9  -7.8965717 1.000000e+00 1.000000e+00
+    ##  10  -8.0343301 1.000000e+00 1.000000e+00
 
 Notice that the top-line of the printout says that the estimated graph
 dimension is 4. So, we will use `k=6` and see that in this example they
@@ -458,9 +459,9 @@ sample_n(embeddings$row_features, size = 3)
     ## # A tibble: 3 × 11
     ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
     ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1    10     3     34     87             995     1.04     -1.27      0.383
-    ## 2     3    27    178     86             977     1.03      1.18      1.04 
-    ## 3     8    11    315     90             929     0.992    -0.723    -1.16 
+    ## 1     9    25    360     86             976      1.03     1.16     -0.647
+    ## 2    11    19     81     83             973      1.04     0.758    -0.527
+    ## 3     4     1    183     86             970      1.03    -1.11     -0.946
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -470,9 +471,9 @@ sample_n(embeddings$column_features, size=3)
     ## # A tibble: 3 × 10
     ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
     ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 PSP       94     19              19       0.0233       0.698       -1.02  
-    ## 2 IAD        7    365            5700       1.34        -0.0600       0.0941
-    ## 3 CLE       42    365            4573       1.20         0.657       -0.0288
+    ## 1 SAT       74    365             686       0.464        0.0988       -0.141
+    ## 2 CVG       67    365            3941       1.11         0.561        -1.77 
+    ## 3 EYW       93     17              17       0.0215      -0.423         0.774
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -489,25 +490,25 @@ after all plots are displayed.
 plot(embeddings) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
     ## `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-16-4.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-4.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-16-5.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-5.png)<!-- -->
 
 These are the five plots:
 
