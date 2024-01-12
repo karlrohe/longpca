@@ -1,12 +1,10 @@
 Package: longpca
-Title: What the Package Does (One Line, Title Case)
+Title: A formula interface for agile PCA
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Rohe", "Karl", , "karlrohe@stat.wisc.edu", role = c("aut", "cre"))
+Description: This package introduces a novel formula syntax for PCA. In modern applications (where data is often in “long format”),  this helps users fluidly imagine PCA without thinking about matrices. In other words, it provides a layer of abstraction above matrices. With this formula, the package transforms your data into a proper format for fast PCA via sparse linear algebra. The package also provides code to 1) help pick the number of dimensions to compute, 2) diagnose the suitability of PCA (both pre and post PCA), 3) rotate the PCs with varimax, 4) visualize and interpret the dimensions uncovered, and (not yet) 5) make predictions. This package uses “PCA” as a broad term for computing the leading singular vectors of a normalized (sometimes incomplete) matrix. Some might refer to specific instances as factor analysis, correspondence analysis, latent symantic analysis, social network analysis, or low-rank matrix completion, among other possible terms. This is big-tent PCA. This package is currently being developed.  Functions and syntax are likely to change during this stretch of unknown duration. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
