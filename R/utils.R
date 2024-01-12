@@ -35,17 +35,28 @@ s_2_pc = function(sparse_matrix_data, s, dimension_prefix){
   colnames(v) = generate_colnames(v, dimension_prefix)
   colnames(v) = paste0(colnames(v), "_columns")
 
-
-  keep_these_rows = Matrix::rowSums(abs(A))>0
   row_features = dplyr::bind_cols(row_universe,
-                           degree= Matrix::rowSums(A!=0)[keep_these_rows],
-                           weighted_degree = Matrix::rowSums(abs(A))[keep_these_rows],
-                           tibble::as_tibble(u[keep_these_rows,]))
-  keep_these_cols = Matrix::colSums(abs(A))>0
+                                  degree= Matrix::rowSums(A!=0),
+                                  weighted_degree = Matrix::rowSums(abs(A)),
+                                  tibble::as_tibble(u))
+
   column_features = dplyr::bind_cols(column_universe,
-                              degree= Matrix::colSums(A!=0)[keep_these_cols],
-                              weighted_degree = Matrix::colSums(abs(A))[keep_these_cols],
-                              tibble::as_tibble(v[keep_these_cols,]))
+                                     degree= Matrix::colSums(A!=0),
+                                     weighted_degree = Matrix::colSums(abs(A)),
+                                     tibble::as_tibble(v))
+
+
+
+  # keep_these_rows = Matrix::rowSums(abs(A))>0
+  # row_features = dplyr::bind_cols(row_universe,
+  #                          degree= Matrix::rowSums(A!=0)[keep_these_rows],
+  #                          weighted_degree = Matrix::rowSums(abs(A))[keep_these_rows],
+  #                          tibble::as_tibble(u[keep_these_rows,]))
+  # keep_these_cols = Matrix::colSums(abs(A))>0
+  # column_features = dplyr::bind_cols(column_universe,
+  #                             degree= Matrix::colSums(A!=0)[keep_these_cols],
+  #                             weighted_degree = Matrix::colSums(abs(A))[keep_these_cols],
+  #                             tibble::as_tibble(v[keep_these_cols,]))
 
   middle_B = make_middle_B_tibble(B_matrix = diag(s$d / (sqrt(nrow(A)*ncol(A)))), dimension_prefix = dimension_prefix)
   # middle_B= dplyr::bind_cols(row_factors = colnames(u),
