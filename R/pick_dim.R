@@ -39,6 +39,6 @@ pick_dim = function(fo, tib, dimMax=20, num_bootstraps=2){
 #'
 #' @examples
 pick_dim_text= function(fo, tib, dimMax=20, num_bootstraps=2, ...){
-  A = make_sparse_text_matrix_raw(fo, tib, dropNA=TRUE, ...)$A
+  A = text2sparse(fo, tib, dropNA=TRUE, ...)$A
   gdim::eigcv(A = A, k_max = dimMax, laplacian= TRUE,num_bootstraps = num_bootstraps)
 }

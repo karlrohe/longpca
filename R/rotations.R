@@ -124,11 +124,13 @@ rotate = function(pcs){
   }
   row_features = bind_cols(
     pcs$row_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
-    row_output$sparse_tib)
+    row_output$sparse_tib %>% rename_with(~paste0(., "_rows"), everything())
+    )
 
   column_features = bind_cols(
     pcs$column_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
-    column_output$sparse_tib)
+    column_output$sparse_tib %>% rename_with(~paste0(., "_columns"), everything())
+    )
 
 
   # construct the new middle B matrix by passing through rotations from:
