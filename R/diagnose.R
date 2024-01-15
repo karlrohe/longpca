@@ -112,8 +112,8 @@ transpose_tibble <- function(data) {
 diagnose = function(fo, tib, is_text = FALSE, make_plot = TRUE){
 
 
-  if(!is_text) sparse_matrix_data = make_sparse_matrix_raw(fo, tib)
-  if(is_text)  sparse_matrix_data = make_sparse_text_matrix_raw(fo, tib)
+  if(!is_text) sparse_matrix_data = interaction2sparse(fo, tib)
+  if(is_text)  sparse_matrix_data = text2sparse(fo, tib)
 
   row_degrees = tibble(row_id = 1:nrow(sparse_matrix_data$A), degree = Matrix::rowSums(sparse_matrix_data$A!=0))
   col_degrees = tibble(col_id = 1:ncol(sparse_matrix_data$A), degree = Matrix::colSums(sparse_matrix_data$A!=0))

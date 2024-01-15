@@ -68,7 +68,7 @@ s_2_pc = function(sparse_matrix_data, s, dimension_prefix){
 
 get_middle_matrix = function(pcs){
   b_el = pcs$middle_B
-  B_list = make_sparse_matrix_raw(value~row_factors*column_factors, tib = b_el)
+  B_list = interaction2sparse(value~row_factors*column_factors, tib = b_el)
   B_matrix = B_list$A
   rownames(B_matrix) = B_list$row_universe$row_factors
   colnames(B_matrix) = B_list$column_universe$column_factors
@@ -84,3 +84,27 @@ make_middle_B_tibble = function(B_matrix, dimension_prefix){
   return(B_tib)
 
 }
+
+
+
+select_universe = function(pcs, mode = c("rows","columns"), any_dims = NA){
+
+
+  if(mode[1] =="rows") tidy_features = pcs$row_features
+  if(mode[1] =="columns") tidy_features = pcs$column_features
+
+  universe = tidy_features %>% select(-contains(pcs$settings$prefix_for_dimensions))
+
+  if(!is.null(any_dims)){
+    # any_dims = NA
+    # any_dims = 1
+    # any_dims = c(2,4)
+    dim_string= paste0(pcs$settings$prefix_for_dimensions, "0*",any_dims,"_")
+    # dim_string
+    features = tidy_features %>% dplyr::select(pc=dplyr::matches(dim_string))
+    universe = bind_cols(universe, features)
+  }
+
+  universe
+}
+

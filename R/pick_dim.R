@@ -19,7 +19,7 @@ pick_dim = function(fo, tib, dimMax=20, num_bootstraps=2){
   }
 
 
-  A = make_sparse_matrix_raw(fo, tib)$A
+  A = interaction2sparse(fo, tib)$A
   gdim::eigcv(A = A, k_max = dimMax, laplacian= TRUE,num_bootstraps = num_bootstraps)
 }
 

@@ -95,31 +95,37 @@ pca_count = function(fo, tib, k){
 #'
 #' @examples
 pca_sum = function(fo, tib, k){
-  sp_A_dat = make_sparse_matrix_raw(fo, tib)
+  sp_A_dat = interaction2sparse(fo, tib)
+  pca_direct(sp_A_dat, k)
+}
+
+pca_direct = function(sp_A_dat,k, method_prefix = "pc"){
   A = sp_A_dat$A
   A@x = sqrt(A@x)
   L = glaplacian(A)
   s_svd = irlba::irlba(L,nu = k, nv = k)
-  dimension_prefix = "pc"
+
+  dimension_prefix = paste0(sp_A_dat$settings$data_prefix, method_prefix)
+
   pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
 
-  parsed_model =  parse_variables(fo, tib)
+  # parsed_model =  parse_variables(fo, tib)
   settings = list(fit_method = "pca_sum",
                   prefix_for_dimensions = stringr::str_glue(dimension_prefix, "_"),
+                  prefix_for_data = sp_A_dat$settings$data_prefix,
+                  prefix_for_method = method_prefix,
                   k = k,
                   normalized = TRUE,
                   reguarlized = TRUE,
-                  outcome_variables = parsed_model[[1]],
-                  row_variables  = parsed_model[[2]],
-                  column_variables  = parsed_model[[3]])
+                  outcome_variables = sp_A_dat$settings$outcome_variables,
+                  row_variables  = sp_A_dat$settings$row_variables,
+                  column_variables  = sp_A_dat$settings$column_variables)
 
   pcs[[4]] = settings
   names(pcs)[4] = "settings"
   class(pcs) = "pc"
   pcs
 }
-
-
 
 
 
@@ -143,30 +149,30 @@ pca_sum = function(fo, tib, k){
 pca_text = function(fo, tib, k, ...){
 
 
-  sp_A_dat = make_sparse_text_matrix_raw(fo, tib, ...)
+  sp_A_dat = text2sparse(fo, tib, ...)
+  pca_direct(sp_A_dat, k)
 
-
-  A = sp_A_dat$A
-  A@x = sqrt(A@x)
-  L = glaplacian(A)
-  s_svd = irlba::irlba(L,nu = k, nv = k)
-  dimension_prefix = "pctext"
-  pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
-
-  parsed_model =  parse_variables(fo, tib)
-  settings = list(fit_method = "pca_sum",
-                  prefix_for_dimensions = stringr::str_glue(dimension_prefix, "_"),
-                  k = k,
-                  normalized = TRUE,
-                  reguarlized = TRUE,
-                  outcome_variables = parsed_model[[1]],
-                  row_variables  = parsed_model[[2]],
-                  column_variables  = parsed_model[[3]])
-
-  pcs[[4]] = settings
-  names(pcs)[4] = "settings"
-  class(pcs) = "pc"
-  pcs
+  # A = sp_A_dat$A
+  # A@x = sqrt(A@x)
+  # L = glaplacian(A)
+  # s_svd = irlba::irlba(L,nu = k, nv = k)
+  #
+  # pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
+  #
+  #
+  # settings = list(fit_method = "pca_sum",
+  #                 prefix_for_dimensions = stringr::str_glue(dimension_prefix, "_"),
+  #                 k = k,
+  #                 normalized = TRUE,
+  #                 reguarlized = TRUE,
+  #                 outcome_variables = parsed_model[[1]],
+  #                 row_variables  = parsed_model[[2]],
+  #                 column_variables  = parsed_model[[3]])
+  #
+  # pcs[[4]] = settings
+  # names(pcs)[4] = "settings"
+  # class(pcs) = "pc"
+  # pcs
 }
 
 

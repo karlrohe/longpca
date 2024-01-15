@@ -157,7 +157,7 @@ make_edge_tib = function(fo, tib){
 
 
 
-#' make_sparse_text_matrix_raw
+#' text2sparse
 #'
 #' @param fo
 #' @param tib
@@ -173,7 +173,7 @@ make_edge_tib = function(fo, tib){
 #' @importFrom tidytext unnest_tokens
 #' @export
 #' @examples
-make_sparse_text_matrix_raw = function(fo, tib, dropNA = TRUE, ...){
+text2sparse = function(fo, tib, dropNA = TRUE, ...){
 
   fo = update_lhs_to_1(fo)
   vars=parse_variables(fo, tib)
@@ -202,16 +202,23 @@ make_sparse_text_matrix_raw = function(fo, tib, dropNA = TRUE, ...){
     dims = c(nrow(row_universe), nrow(column_universe)))
 
 
+  if(outcome_column == "outcome_unweighted_1") outcome_column = "count"
   sp_A_dat = list(A=A,
                   row_universe=row_universe,
-                  column_universe = column_universe)
+                  column_universe = column_universe,
+                  fo = fo,
+                  data_prefix = "text",
+                  settings = list(outcome_variables = outcome_column,
+                                  row_variables = row_column,
+                                  column_variables = column_column))
+  class(sp_A_dat) = "spmtu" # sparse matrix tidy universe
   return(sp_A_dat)
 
 }
 
 
 
-#' get_edge_tib_from_variables (internal to make_edge_tib and make_sparse_text_matrix_raw)
+#' get_edge_tib_from_variables (internal to make_edge_tib and text2sparse)
 #'
 #' @param tib
 #' @param row_column
@@ -262,18 +269,18 @@ get_edge_tib_from_variables = function(tib, row_column, column_column, outcome_c
 }
 
 
-#' make_sparse_matrix_raw
+#' interaction2sparse
 #'
 #' @param fo a formula, like outcome ~ (row_ids & context) * measurement_type.
 #' @param tib a tibble that contains the variables in the formula. The only exception is that the left-hand-side can be 1 and this does not need to be in tib.
 #' @param dropNA recommended.  This drops rows of tib if there are any NA's among the essential variables.
 #'
-#' @return a list with three elements.  First, the sparse Matrix A. Second, row_universe which is akin to the row names of A, but in a tidy form.  Thir, column_universe which is like row_universe.
+#' @return a list with four elements.  First, the sparse Matrix A. Second, row_universe which is akin to the row names of A, but in a tidy form.  Thir, column_universe which is like row_universe. Fourth, some settings.
 #' @export
 #'
 #' @examples
 #' @importFrom magrittr %>%
-make_sparse_matrix_raw = function(fo, tib, dropNA = TRUE){
+interaction2sparse = function(fo, tib, dropNA = TRUE, data_prefix = NULL){
   # This returns a list with elements
   #  A: sparse matrix for formula fo on tibble tib.
   #  row_universe: a tibble of distinct row-variable values, with the row_id (i.e. corresponding row number in A)
@@ -297,15 +304,22 @@ make_sparse_matrix_raw = function(fo, tib, dropNA = TRUE){
     dims = c(nrow(row_universe), nrow(column_universe)))
 
 
+  if(outcome_column == "outcome_unweighted_1") outcome_column = "count"
   sp_A_dat = list(A=A,
                   row_universe=row_universe,
-                  column_universe = column_universe)
+                  column_universe = column_universe,
+                  fo = fo,
+                  data_prefix = data_prefix,
+                  settings = list(outcome_variables = outcome_column,
+                                  row_variables = row_column,
+                                  column_variables = column_column))
+  class(sp_A_dat) = "spmtu" # sparse matrix tidy universe
   return(sp_A_dat)
 }
 
-#' make_incomplete_matrix_raw
+#' interaction2incomplete
 #'
-#' This is like make_sparse_matrix_raw, but for softImpute.
+#' This is like interaction2sparse, but for softImpute.
 #'
 #' @param fo
 #' @param tib
@@ -316,7 +330,7 @@ make_sparse_matrix_raw = function(fo, tib, dropNA = TRUE){
 #' @examples
 #' @importFrom magrittr %>%
 #' @importFrom dplyr group_by summarize left_join mutate select distinct
-make_incomplete_matrix_raw = function(fo, tib){
+interaction2incomplete = function(fo, tib){
 
   vars = parse_variables(fo, tib)
   outcome_column = vars[[1]]
@@ -357,6 +371,12 @@ make_incomplete_matrix_raw = function(fo, tib){
 
   incomplete_A_dat = list(A=Imat,
                           row_universe=row_universe,
-                          column_universe = column_universe)
+                          column_universe = column_universe,
+                          fo= fo,
+                          data_prefix = NULL,
+                          settings = list(outcome_variables = outcome_column,
+                                          row_variables = row_column,
+                                          column_variables = column_column))
+  class(incomplete_A_dat) = "imtu" # incomplete matrix tidy universe
   return(incomplete_A_dat)
 }

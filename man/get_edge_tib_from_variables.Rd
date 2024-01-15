@@ -2,7 +2,7 @@
 % Please edit documentation in R/make_sparse_matrix.R
 \name{get_edge_tib_from_variables}
 \alias{get_edge_tib_from_variables}
-\title{get_edge_tib_from_variables (internal to make_edge_tib and make_sparse_text_matrix_raw)}
+\title{get_edge_tib_from_variables (internal to make_edge_tib and text2sparse)}
 \usage{
 get_edge_tib_from_variables(
   tib,
@@ -16,5 +16,5 @@ get_edge_tib_from_variables(
 \item{outcome_column}{}
 }
 \description{
-get_edge_tib_from_variables (internal to make_edge_tib and make_sparse_text_matrix_raw)
+get_edge_tib_from_variables (internal to make_edge_tib and text2sparse)
 }
