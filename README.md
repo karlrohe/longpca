@@ -112,11 +112,11 @@ pcs$row_features %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 11
-    ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
-    ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1     3    10    161     88             908     0.985    -1.42      0.305
-    ## 2     3     9    160     82             765     0.906    -2.08     -2.18 
-    ## 3     5    19    231     89             911     0.987     0.285    -0.160
+    ##   month   day row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
+    ##   <int> <int>   <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
+    ## 1     8     2     306     85             999      1.04    -1.09      0.586
+    ## 2     3    11     162     85             980      1.03     1.24     -1.00 
+    ## 3    12    27     119     90             963      1.01     0.440     0.955
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -124,11 +124,11 @@ pcs$column_features %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 10
-    ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
-    ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 MSY       26    365            3799       1.09         0.433        -0.555
-    ## 2 ANC      104      8               8       0.0100       0.0744       -0.509
-    ## 3 TPA       10    365            7466       1.53        -0.524        -1.07 
+    ##   dest  col_num degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
+    ##   <chr>   <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
+    ## 1 MHT        64    364            1009        0.551       0.240       -0.0287
+    ## 2 MCI        72    365            2008        0.791      -0.326       -0.481 
+    ## 3 CAK        58    365             864        0.519      -0.0962      -0.0434
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -179,11 +179,11 @@ airports %>% sample_n(size = 3)
 ```
 
     ## # A tibble: 3 × 8
-    ##   faa   name                     lat    lon   alt    tz dst   tzone             
-    ##   <chr> <chr>                  <dbl>  <dbl> <dbl> <dbl> <chr> <chr>             
-    ## 1 99N   Bamberg County Airport  33.3  -81.1   231    -5 A     America/New_York  
-    ## 2 FSD   Sioux Falls             43.6  -96.7  1429    -6 A     America/Chicago   
-    ## 3 RNM   Ramona Airport          33.0 -117.   1395    -8 A     America/Los_Angel…
+    ##   faa   name                             lat    lon   alt    tz dst   tzone     
+    ##   <chr> <chr>                          <dbl>  <dbl> <dbl> <dbl> <chr> <chr>     
+    ## 1 AKB   Atka Airport                    52.2 -174.     56    -9 A     America/A…
+    ## 2 ORV   Robert Curtis Memorial Airport  66.8 -161.     55    -9 A     America/A…
+    ## 3 RCZ   Richmond County Airport         34.9  -79.8   358    -5 A     America/N…
 
 ``` r
 # first, get the lat and lon for the airports:
@@ -199,6 +199,16 @@ airport_dat = pcs$column_features %>%
 
 ``` r
 library(maps)
+```
+
+    ## 
+    ## Attaching package: 'maps'
+    ## 
+    ## The following object is masked from 'package:purrr':
+    ## 
+    ##     map
+
+``` r
 usa_map <- map_data("state")
 p <- ggplot() + 
   geom_polygon(data = usa_map, aes(x = long, y = lat, group = group), 
@@ -462,16 +472,16 @@ cv_eigs
     ## 
     ##  ------------ Summary of Tests ------------
     ##   k           z        pvals         padj
-    ##   1 165.5550526 0.000000e+00 0.000000e+00
-    ##   2  12.6618879 4.807934e-37 4.807934e-37
-    ##   3   8.0171763 5.410190e-16 5.410190e-16
-    ##   4   4.3858322 5.777157e-06 5.777157e-06
-    ##   5   0.9516043 1.706488e-01 1.706488e-01
-    ##   6  -2.9938074 9.986224e-01 9.986224e-01
-    ##   7  -5.7625322 1.000000e+00 1.000000e+00
-    ##   8  -5.6018706 1.000000e+00 1.000000e+00
-    ##   9  -8.0374641 1.000000e+00 1.000000e+00
-    ##  10  -7.5687326 1.000000e+00 1.000000e+00
+    ##   1 167.0166239 0.000000e+00 0.000000e+00
+    ##   2  12.5243728 2.746190e-36 2.746190e-36
+    ##   3   8.5710569 5.126980e-18 5.126980e-18
+    ##   4   3.8470263 5.978007e-05 5.978007e-05
+    ##   5   0.7031481 2.409817e-01 2.409817e-01
+    ##   6  -2.8736978 9.979715e-01 9.979715e-01
+    ##   7  -5.7475578 1.000000e+00 1.000000e+00
+    ##   8  -6.2275474 1.000000e+00 1.000000e+00
+    ##   9  -7.6475778 1.000000e+00 1.000000e+00
+    ##  10  -7.9602840 1.000000e+00 1.000000e+00
 
 Notice that the top-line of the printout says that the estimated graph
 dimension is 4. So, we will use `k=6` and see that in this example they
@@ -520,9 +530,9 @@ sample_n(pcs$row_features, size = 3)
     ## # A tibble: 3 × 11
     ##   month   day row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
     ##   <int> <int>   <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1     8    30     334     88             965      1.02    -1.14    -0.0330
-    ## 2     5    29     241     89             974      1.02    -0.517    0.606 
-    ## 3    10    23      54     84             975      1.03    -1.02     0.684 
+    ## 1     6    21     264     89             993     1.03      0.822     0.269
+    ## 2     7    25     298     86            1003     1.04      1.04      0.118
+    ## 3     7    28     301     90             930     0.993     0.763     1.11 
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -532,9 +542,9 @@ sample_n(pcs$column_features, size=3)
     ## # A tibble: 3 × 10
     ##   dest  col_num degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
     ##   <chr>   <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 MIA         2    365           11728        1.92         0.744       -1.40 
-    ## 2 DCA        41    365            9705        1.74         0.338        2.51 
-    ## 3 BDL        63    251             443        0.335        1.43         0.743
+    ## 1 SJU        19    365            5819        1.35        -0.737        1.68 
+    ## 2 DFW        13    365            8738        1.66        -0.483       -1.23 
+    ## 3 ORF        73    365            1536        0.689       -0.855        0.108
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
