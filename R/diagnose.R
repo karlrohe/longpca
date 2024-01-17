@@ -94,7 +94,7 @@ transpose_tibble <- function(data) {
 }
 
 
-#' diagnose
+#' diagnose_formula
 #'
 #' This function helps to see that there is "enough data" for the pca to return reliable results. In particular, it examine the degree distribution with both a printout and a plot. Perhaps run this function before running pca.
 #'
@@ -106,24 +106,29 @@ transpose_tibble <- function(data) {
 #' @export
 #'
 #' @examples
+#' library(nycflights13)
+#' im = make_interaction_model(~(month&day)*dest, flights)
+#' diagnose(im)
 #' @importFrom ggplot2 ggplot geom_histogram scale_x_log10 scale_y_log10 facet_wrap aes
 #' @importFrom dplyr group_by summarize n tibble
 #' @importFrom magrittr %>%
-diagnose = function(fo, tib, is_text = FALSE, make_plot = TRUE){
+diagnose = function(im, make_plot = TRUE){
 
+  A = get_Matrix(im)
 
-  if(!is_text) sparse_matrix_data = interaction2sparse(fo, tib)
-  if(is_text)  sparse_matrix_data = text2sparse(fo, tib)
-
-  row_degrees = tibble(row_id = 1:nrow(sparse_matrix_data$A), degree = Matrix::rowSums(sparse_matrix_data$A!=0))
-  col_degrees = tibble(col_id = 1:ncol(sparse_matrix_data$A), degree = Matrix::colSums(sparse_matrix_data$A!=0))
+  row_degrees = tibble(row_id = 1:nrow(A), degree = Matrix::rowSums(A!=0))
+  col_degrees = tibble(col_id = 1:ncol(A), degree = Matrix::colSums(A!=0))
 
   degrees_data = bind_rows(itty_pivot(row_degrees), itty_pivot(col_degrees))
 
   # model_variables = parse_variables(fo,tib) %>% lapply(function(x) str_glue(x,sep = " & "))
-  model_variables = parse_variables(fo,tib) %>% lapply(function(x) paste0(x,collapse = " & "))
+  # model_variables = parse_formula(fo,tib) %>% lapply(function(x) paste0(x,collapse = " & "))
+  # degrees_data = degrees_data %>% left_join(tibble(type=c("row_id", "col_id"),
+  #                                                  type_label = c(model_variables[[2]],model_variables[[3]]))) %>%
+  #   select(-type)
+
   degrees_data = degrees_data %>% left_join(tibble(type=c("row_id", "col_id"),
-                                                   type_label = c(model_variables[[2]],model_variables[[3]]))) %>%
+                                                   type_label = c(paste(im$settings$row_variables, collapse = " & "),im$settings$column_variables))) %>%
     select(-type)
 
   if (make_plot) {
@@ -155,6 +160,6 @@ diagnose = function(fo, tib, is_text = FALSE, make_plot = TRUE){
 }
 
 
-diagnose_text = function(fo, tib, make_plot = TRUE){
-  diagnose(fo, tib, is_text = TRUE, make_plot = make_plot)
-}
+# diagnose_text = function(fo, tib, make_plot = TRUE){
+#   diagnose(fo, tib, is_text = TRUE, make_plot = make_plot)
+# }

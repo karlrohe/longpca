@@ -6,11 +6,11 @@ generate_colnames <- function(matrix_data, prefix) {
   return(formatted_colnames)
 }
 
-s_2_pc = function(sparse_matrix_data, s, dimension_prefix){
-  # sparse_matrix_data is a list with:
-  A = sparse_matrix_data$A
-  row_universe = sparse_matrix_data$row_universe
-  column_universe = sparse_matrix_data$column_universe
+s_2_pc = function(interaction_model, s, dimension_prefix){
+  # interaction_model is a list with all the good stuff...
+  A = get_Matrix(interaction_model)
+  row_universe = interaction_model$row_universe
+  column_universe = interaction_model$column_universe
 
   #  s is output of svd with s$u, s$d, s$v.
   # dimension_prefix is a character string that will be put at the front (e.g. "pc" for pc_1,...)
@@ -68,8 +68,8 @@ s_2_pc = function(sparse_matrix_data, s, dimension_prefix){
 
 get_middle_matrix = function(pcs){
   b_el = pcs$middle_B
-  B_list = interaction2sparse(value~row_factors*column_factors, tib = b_el)
-  B_matrix = B_list$A
+  B_list = make_interaction_model(value~row_factors*column_factors, tib = b_el)
+  B_matrix = get_Matrix(B_list)
   rownames(B_matrix) = B_list$row_universe$row_factors
   colnames(B_matrix) = B_list$column_universe$column_factors
   return(B_matrix)

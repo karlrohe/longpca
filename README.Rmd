@@ -143,24 +143,17 @@ This formula and the flights data will make a sparse matrix. The left-hand side 
 
 All suggestions welcome for the formula syntax.  Maybe it should also allow `(month & day) ~ dest`?  Maybe the ampersand `&` is confusing and another symbol would be better? Other thoughts?  Relevant footnote: the syntax should also allow low-rank matrix completion, e.g. predicting arrival delay: `arr_delay ~ (month & day)*(dest)`.  
 
-#### Technical detail here. You can skip to "Let's do the analysis" without missing anything.
+# Model first, not matrix first. 
 
-Hopefully, you rarely need to access the actual sparse matrix. But perhaps it is instructive to see it anyways:
+To make maximum use of this package, it is helpful to think about *models*, not *matrices*.  This will become clearer as time goes on.  Each of the key functions in this package is handling a class `interaction_model`:
 
 ```{r, cache=TRUE}
-sparse_matrix_data = make_sparse_matrix_raw(formula, flights)
+im = make_interaction_model(formula, flights)
+im
 ```
-This creates a list of three elements.  First, the sparse matrix of counts `sparse_matrix_data$A`:
-```{r, cache=TRUE}
-dim(sparse_matrix_data$A)
-sparse_matrix_data$A[1:5,1:8]
-```
-Second and third, tibbles that give basic information about the row and column "universes"...
-```{r, cache=TRUE}
-sparse_matrix_data$row_universe
-sparse_matrix_data$column_universe
-```
-The universes give the "row names" and "column names," but in a tidy format that allows for things like multiple variables `(month & day)` indexing the rows.  Right now, the code recomputes this object for various different functions.  For bigger spreadsheets, that can be slow.  Future extensions should allow the argument `sparse_matrix_data` for more familiar users.  
+`im` is a list of four elements. First, `$interaction_tibble` which can be thought of as a sparse matrix in triplet form; `get_Matrix(im)` uses this to construct a sparse matrix. Then, `$row_universe` and `$column_universe` which can be thought of as holding the information corresponding to each row/column.  Finally, `$settings` contains various details about the construction. 
+
+This function has an argument `is_text` that uses `tidytext::unnest_tokens` to construct "document-term interaction models". More on this later. 
 
 # Let's do the analysis
 
@@ -169,7 +162,8 @@ The universes give the "row names" and "column names," but in a tidy format that
 The code inside `pca_4_the_people.R` contains a few helper functions. First, if lots of rows or columns have very few non-zero elements, this can cause "localization issues".  The matrix needs to be "dense enough" for the PCA to find good stuff.  So, `diagnose` prints some simple diagnostics and plots the "degree distribution" for the rows and columns. Here, "degree" is the number of non-zero elements in that row or column. 
 ```{r, cache=TRUE, message=FALSE, warning=FALSE}
 # inspect "degree distributions" with this funciton:
-diagnose(formula, flights)
+#  recall that im is the interaction_model defined above.
+diagnose(im)
 ```
 For example, if either average degree was less than 10, then I might be worried.  `percent_le_x` gives the percent of rows/columns that have row/col sums less than or equal to `x`.  If these values are large, then the matrix is very sparse and you might have trouble. Issues with sparsity will likely manifest in localization; something that will be evaluated in functions below.
 
@@ -179,7 +173,7 @@ For example, if either average degree was less than 10, then I might be worried.
 When doing a PCA, you need to pick the number of dimensions that you want.  The way that we do this in my lab is with cross-validated eigenvalues. It gives you a Z-score and a p-value. [Here is the arxiv paper](https://arxiv.org/abs/2108.03336).  Alex Hayes made it a proper R package on CRAN [gdim](https://cran.r-project.org/web/packages/gdim/gdim.pdf).  For this example, it picks `k=4`.
 
 ```{r, cache=TRUE}
-cv_eigs = pick_dim(formula, flights, dimMax = 10,num_bootstraps = 5) 
+cv_eigs = pick_dim(im, dimMax = 10,num_bootstraps = 5) 
 plot(cv_eigs)
 cv_eigs
 ```
@@ -191,8 +185,11 @@ For right now, I named the function `pca_count`, because if there are multiple r
 ```{r, cache=TRUE}
 
 pcs = pca_count(formula, tib = flights, k = 6)
-# In some settings, the verb "sum" is a more sensible than "count"... pca_sum is the identical function
-# pcs = pca_sum(formula, tib = flights, k = 6) 
+
+# There are two other ways to accomplish the same thing:
+pcs_with_sum = pca_sum(formula, tib = flights, k = 6)
+# or directly with the interaction_model object via the function pca:
+pcs_with_im = pca(im, k = 6)
 ```
 
 In particular, the code takes a square root of every count.  Then, computes the normalized and regularized Laplacian `L` (using the number of non-zero entries as the degree).  Then, computes the leading `k` singular vectors.  This is all done with sparse linear algebra via the packages `Matrix` and `irlba`. 

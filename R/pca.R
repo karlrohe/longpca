@@ -31,6 +31,24 @@ glaplacian <- function(A, regularize = TRUE) {
 
 
 
+get_Matrix = function(interaction_model){
+  Matrix::sparseMatrix(
+    i = interaction_model$interaction_tibble$row_num,
+    j = interaction_model$interaction_tibble$col_num,
+    x = interaction_model$interaction_tibble$outcome,
+    dims = c(nrow(interaction_model$row_universe), nrow(interaction_model$column_universe)))
+
+}
+
+get_Incomplete_Matrix = function(interaction_model){
+  softImpute::Incomplete(i = interaction_model$interaction_tibble$row_num,
+                         j = interaction_model$interaction_tibble$col_num,
+                         x = interaction_model$interaction_tibble$outcome)
+
+}
+
+
+
 
 
 #' update_lhs_to_1 (internal to pca_count)
@@ -40,14 +58,14 @@ glaplacian <- function(A, regularize = TRUE) {
 #' @return
 #'
 #' @examples
-update_lhs_to_1 <- function(formula) {
+update_lhs_to_1 <- function(formula, quiet = FALSE) {
   if (length(formula) == 3) {
     # If the formula has an LHS, replace it with "outcome"
 
     if(formula[[2]]!=1 ){
 
       formula[[2]] <- 1
-      warning("left hand side of formula has been updated to 1 because this is a call to pca_count which requires 1. The formula is now:\n\n", deparse(formula))
+      if(quiet) warning("left hand side of formula has been updated to 1 because this is a call to pca_count which requires 1. The formula is now:\n\n", deparse(formula))
       # print()
     }
   } else if (length(formula) == 2) {
@@ -95,31 +113,32 @@ pca_count = function(fo, tib, k){
 #'
 #' @examples
 pca_sum = function(fo, tib, k){
-  sp_A_dat = interaction2sparse(fo, tib)
-  pca_direct(sp_A_dat, k)
+  im = make_interaction_model(fo, tib)
+  pca(im, k)
 }
 
-pca_direct = function(sp_A_dat,k, method_prefix = "pc"){
-  A = sp_A_dat$A
+pca = function(im,k, method_prefix = "pc"){
+  A = get_Matrix(im)
+  # A = sp_A_dat$A
   A@x = sqrt(A@x)
   L = glaplacian(A)
   s_svd = irlba::irlba(L,nu = k, nv = k)
 
-  dimension_prefix = paste0(sp_A_dat$settings$data_prefix, method_prefix)
+  dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
 
-  pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
+  pcs = s_2_pc(interaction_model = im, s = s_svd, dimension_prefix=dimension_prefix)
 
   # parsed_model =  parse_variables(fo, tib)
   settings = list(fit_method = "pca_sum",
                   prefix_for_dimensions = stringr::str_glue(dimension_prefix, "_"),
-                  prefix_for_data = sp_A_dat$settings$data_prefix,
+                  prefix_for_data = im$settings$data_prefix,
                   prefix_for_method = method_prefix,
                   k = k,
                   normalized = TRUE,
                   reguarlized = TRUE,
-                  outcome_variables = sp_A_dat$settings$outcome_variables,
-                  row_variables  = sp_A_dat$settings$row_variables,
-                  column_variables  = sp_A_dat$settings$column_variables)
+                  outcome_variables = im$settings$outcome_variables,
+                  row_variables  = im$settings$row_variables,
+                  column_variables  = im$settings$column_variables)
 
   pcs[[4]] = settings
   names(pcs)[4] = "settings"
@@ -149,8 +168,8 @@ pca_direct = function(sp_A_dat,k, method_prefix = "pc"){
 pca_text = function(fo, tib, k, ...){
 
 
-  sp_A_dat = text2sparse(fo, tib, ...)
-  pca_direct(sp_A_dat, k)
+  im = make_interaction_model(fo, tib, is_text = TRUE, ...)
+  pca(im, k)
 
   # A = sp_A_dat$A
   # A@x = sqrt(A@x)
@@ -251,8 +270,10 @@ pca_average = function(fo, tib, k){
   # settings (this is a list of details)
 
 
-  sp_A_dat = make_incomplete_matrix_raw(fo, tib)
-  A = sp_A_dat$A
+  im = make_interaction_model(fo, tib, duplicates= "average")
+  # sp_A_dat = make_incomplete_matrix_raw(fo, tib)
+  A = get_Incomplete_Matrix(im)
+  # A = sp_A_dat$A
   L = glaplacian(A)
   s_svd = softImpute::softImpute(L,rank.max = k)
   s_svd = remove_L_normalization(s_svd,A)
@@ -262,7 +283,7 @@ pca_average = function(fo, tib, k){
   pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
 
 
-  parsed_model =  parse_variables(fo, tib)
+  parsed_model =  parse_formula(fo, tib)
 
   settings = list(fit_method = "pca_average",
                   prefix_for_dimensions = stringr::str_glue(dimension_prefix, "_"),

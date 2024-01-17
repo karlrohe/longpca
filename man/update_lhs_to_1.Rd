@@ -4,7 +4,7 @@
 \alias{update_lhs_to_1}
 \title{update_lhs_to_1 (internal to pca_count)}
 \usage{
-update_lhs_to_1(formula)
+update_lhs_to_1(formula, quiet = FALSE)
 }
 \arguments{
 \item{formula}{}

@@ -1,0 +1,30 @@
+---
+title: "PCA R Packages"
+author: "Karl Rohe"
+date: "2024-01-15"
+output: html_document
+---
+
+```{r, include=FALSE}
+r = getOption("repos")
+r["CRAN"] = "http://cran.us.r-project.org"
+options(repos = r)
+```
+
+```{r, cache=TRUE}
+library(tidyverse)
+library(longpca)
+all_packages = available.packages() %>% as_tibble()
+```
+
+```{r}
+sptext = text2sparse(~Package*Imports, all_packages)
+```
+
+```{r, cache = TRUE}
+diagnose(1~Package*Imports, all_packages,is_text = TRUE)
+pcs = pca_text(1~Package*Imports, all_packages, k = 10)
+spcs = rotate(pcs)
+top(pcs,1)
+top(spcs,1)
+```
