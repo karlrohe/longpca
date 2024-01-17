@@ -1,5 +1,5 @@
 Package: longpca
-Title: Agile PCA via a formula interface
+Title: A formula interface for model-first PCA; PCA for the people!
 Version: 0.0.0.9000
 Authors@R: 
     person("Rohe", "Karl", , "karlrohe@stat.wisc.edu", role = c("aut", "cre"))
