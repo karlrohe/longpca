@@ -303,83 +303,99 @@ another symbol would be better? Other thoughts? Relevant footnote: the
 syntax should also allow low-rank matrix completion, e.g. predicting
 arrival delay: `arr_delay ~ (month & day)*(dest)`.
 
-#### Technical detail here. You can skip to “Let’s do the analysis” without missing anything.
+# Model first, not matrix first.
 
-Hopefully, you rarely need to access the actual sparse matrix. But
-perhaps it is instructive to see it anyways:
-
-``` r
-sparse_matrix_data = make_sparse_matrix_raw(formula, flights)
-```
-
-This creates a list of three elements. First, the sparse matrix of
-counts `sparse_matrix_data$A`:
+To make maximum use of this package, it is helpful to think about
+*models*, not *matrices*. This will become clearer as time goes on. Each
+of the key functions in this package is handling a class
+`interaction_model`:
 
 ``` r
-dim(sparse_matrix_data$A)
+im = make_interaction_model(formula, flights)
+im
 ```
 
-    ## [1] 365 105
-
-``` r
-sparse_matrix_data$A[1:5,1:8]
-```
-
-    ## 5 x 8 sparse Matrix of class "dgCMatrix"
-    ##                            
-    ## [1,] 20 31 3 40 47 39 14 39
-    ## [2,] 20 31 3 51 45 41 14 43
-    ## [3,] 19 32 3 49 46 40 17 41
-    ## [4,] 20 32 3 48 46 40 17 42
-    ## [5,] 13 33 3 35 26 38 11 39
-
-Second and third, tibbles that give basic information about the row and
-column “universes”…
-
-``` r
-sparse_matrix_data$row_universe
-```
-
+    ## $interaction_tibble
+    ## # A tibble: 31,229 × 3
+    ##    row_num col_num outcome
+    ##      <int>   <int>   <dbl>
+    ##  1       1       1      20
+    ##  2       1       2      31
+    ##  3       1       3       3
+    ##  4       1       4      40
+    ##  5       1       5      47
+    ##  6       1       6      39
+    ##  7       1       7      14
+    ##  8       1       8      39
+    ##  9       1       9      24
+    ## 10       1      10      20
+    ## # ℹ 31,219 more rows
+    ## 
+    ## $row_universe
     ## # A tibble: 365 × 3
-    ##    month   day row_id
-    ##    <int> <int>  <int>
-    ##  1     1     1      1
-    ##  2     1     2      2
-    ##  3     1     3      3
-    ##  4     1     4      4
-    ##  5     1     5      5
-    ##  6     1     6      6
-    ##  7     1     7      7
-    ##  8     1     8      8
-    ##  9     1     9      9
-    ## 10     1    10     10
+    ##    month   day row_num
+    ##    <int> <int>   <int>
+    ##  1     1     1       1
+    ##  2     1     2       2
+    ##  3     1     3       3
+    ##  4     1     4       4
+    ##  5     1     5       5
+    ##  6     1     6       6
+    ##  7     1     7       7
+    ##  8     1     8       8
+    ##  9     1     9       9
+    ## 10     1    10      10
     ## # ℹ 355 more rows
-
-``` r
-sparse_matrix_data$column_universe
-```
-
+    ## 
+    ## $column_universe
     ## # A tibble: 105 × 2
-    ##    dest  col_id
-    ##    <chr>  <int>
-    ##  1 IAH        1
-    ##  2 MIA        2
-    ##  3 BQN        3
-    ##  4 ATL        4
-    ##  5 ORD        5
-    ##  6 FLL        6
-    ##  7 IAD        7
-    ##  8 MCO        8
-    ##  9 PBI        9
-    ## 10 TPA       10
+    ##    dest  col_num
+    ##    <chr>   <int>
+    ##  1 IAH         1
+    ##  2 MIA         2
+    ##  3 BQN         3
+    ##  4 ATL         4
+    ##  5 ORD         5
+    ##  6 FLL         6
+    ##  7 IAD         7
+    ##  8 MCO         8
+    ##  9 PBI         9
+    ## 10 TPA        10
     ## # ℹ 95 more rows
+    ## 
+    ## $settings
+    ## $settings$fo
+    ## 1 ~ (month & day) * (dest)
+    ## 
+    ## $settings$data_prefix
+    ## NULL
+    ## 
+    ## $settings$outcome_aggregation
+    ## [1] "count"
+    ## 
+    ## $settings$outcome_variables
+    ## [1] "outcome_unweighted_1"
+    ## 
+    ## $settings$row_variables
+    ## [1] "month" "day"  
+    ## 
+    ## $settings$column_variables
+    ## [1] "dest"
+    ## 
+    ## 
+    ## attr(,"class")
+    ## [1] "interaction_model"
 
-The universes give the “row names” and “column names,” but in a tidy
-format that allows for things like multiple variables `(month & day)`
-indexing the rows. Right now, the code recomputes this object for
-various different functions. For bigger spreadsheets, that can be slow.
-Future extensions should allow the argument `sparse_matrix_data` for
-more familiar users.
+`im` is a list of four elements. First, `$interaction_tibble` which can
+be thought of as a sparse matrix in triplet form; `get_Matrix(im)` uses
+this to construct a sparse matrix. Then, `$row_universe` and
+`$column_universe` which can be thought of as holding the information
+corresponding to each row/column. Finally, `$settings` contains various
+details about the construction.
+
+This function has an argument `is_text` that uses
+`tidytext::unnest_tokens` to construct “document-term interaction
+models”. More on this later.
 
 # Let’s do the analysis
 
@@ -395,10 +411,11 @@ or column.
 
 ``` r
 # inspect "degree distributions" with this funciton:
-diagnose(formula, flights)
+#  recall that im is the interaction_model defined above.
+diagnose(im)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
     ## # A tibble: 6 × 3
     ##   measurement      dest `month & day`
@@ -428,11 +445,11 @@ package on CRAN
 example, it picks `k=4`.
 
 ``` r
-cv_eigs = pick_dim(formula, flights, dimMax = 10,num_bootstraps = 5) 
+cv_eigs = pick_dim(im, dimMax = 10,num_bootstraps = 5) 
 plot(cv_eigs)
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
 cv_eigs
@@ -474,8 +491,11 @@ of counts, some folks call that Correspondence Analysis.
 
 ``` r
 pcs = pca_count(formula, tib = flights, k = 6)
-# In some settings, the verb "sum" is a more sensible than "count"... pca_sum is the identical function
-# pcs = pca_sum(formula, tib = flights, k = 6) 
+
+# There are two other ways to accomplish the same thing:
+pcs_with_sum = pca_sum(formula, tib = flights, k = 6)
+# or directly with the interaction_model object via the function pca:
+pcs_with_im = pca(im, k = 6)
 ```
 
 In particular, the code takes a square root of every count. Then,
@@ -499,11 +519,11 @@ sample_n(pcs$row_features, size = 3)
 ```
 
     ## # A tibble: 3 × 11
-    ##   month   day row_id degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
-    ##   <int> <int>  <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
-    ## 1    11    12     74     82             973      1.04    -0.728     0.540
-    ## 2    11    18     80     83             985      1.04    -0.738     0.479
-    ## 3     3     5    156     83             965      1.03     1.35      1.18 
+    ##   month   day row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows
+    ##   <int> <int>   <int>  <int>           <dbl>     <dbl>     <dbl>     <dbl>
+    ## 1     8    30     334     88             965      1.02    -1.14    -0.0330
+    ## 2     5    29     241     89             974      1.02    -0.517    0.606 
+    ## 3    10    23      54     84             975      1.03    -1.02     0.684 
     ## # ℹ 3 more variables: pc_4_rows <dbl>, pc_5_rows <dbl>, pc_6_rows <dbl>
 
 ``` r
@@ -511,11 +531,11 @@ sample_n(pcs$column_features, size=3)
 ```
 
     ## # A tibble: 3 × 10
-    ##   dest  col_id degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
-    ##   <chr>  <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
-    ## 1 MIA        2    365           11728        1.92         0.744       -1.40 
-    ## 2 MEM       38    365            1789        0.743       -0.472        1.54 
-    ## 3 MSP       16    365            7185        1.50        -0.528        0.278
+    ##   dest  col_num degree weighted_degree pc_1_columns pc_2_columns pc_3_columns
+    ##   <chr>   <int>  <int>           <dbl>        <dbl>        <dbl>        <dbl>
+    ## 1 MIA         2    365           11728        1.92         0.744       -1.40 
+    ## 2 DCA        41    365            9705        1.74         0.338        2.51 
+    ## 3 BDL        63    251             443        0.335        1.43         0.743
     ## # ℹ 3 more variables: pc_4_columns <dbl>, pc_5_columns <dbl>,
     ## #   pc_6_columns <dbl>
 
@@ -532,25 +552,25 @@ plots are displayed.
 plot(pcs) 
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-19-2.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
     ## `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
 
-![](README_files/figure-gfm/unnamed-chunk-19-3.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-19-4.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-4.png)<!-- -->
 
     ## Press [Enter] to continue to the next plot...
 
-![](README_files/figure-gfm/unnamed-chunk-19-5.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-17-5.png)<!-- -->
 
 These are the five plots:
 
