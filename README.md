@@ -401,13 +401,12 @@ models”. More on this later.
 
 ### Examining the matrix sparsity
 
-The code inside `pca_4_the_people.R` contains a few helper functions.
-First, if lots of rows or columns have very few non-zero elements, this
-can cause “localization issues”. The matrix needs to be “dense enough”
-for the PCA to find good stuff. So, `diagnose` prints some simple
-diagnostics and plots the “degree distribution” for the rows and
-columns. Here, “degree” is the number of non-zero elements in that row
-or column.
+This package contains a few helper functions. First, if lots of rows or
+columns have very few non-zero elements, this can cause “localization
+issues”. The matrix needs to be “dense enough” for the PCA to find good
+stuff. So, `diagnose` prints some simple diagnostics and plots the
+“degree distribution” for the rows and columns. Here, “degree” is the
+number of non-zero elements in that row or column.
 
 ``` r
 # inspect "degree distributions" with this funciton:
