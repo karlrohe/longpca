@@ -43,9 +43,9 @@ make_interaction_model = function(fo, tib, duplicates = "add", is_text= FALSE, d
 
   if(is_text){
     tib = tib %>%
-      dplyr::select(all_of(row_column), text = all_of(column_column)) %>%
+      dplyr::select(all_of(row_column), text = tidyselect::all_of(column_column)) %>%
       tidytext::unnest_tokens(!!column_column, text,...) %>%
-      mutate(outcome_unweighted_1 = 1)
+      dplyr::mutate(outcome_unweighted_1 = 1)
 
     data_prefix= "text"
   }
@@ -93,7 +93,8 @@ make_interaction_model = function(fo, tib, duplicates = "add", is_text= FALSE, d
 #' @return
 #' @export
 #' @importFrom magrittr %>%
-#' @importFrom dplyr mutate select distinct row_number left_join
+#' @importFrom dplyr mutate select distinct row_number left_join group_by ungroup summarize n
+#' @importFrom stats sd
 #' @importFrom tidyr drop_na
 #' @importFrom tidyselect all_of
 #'

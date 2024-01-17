@@ -4,11 +4,18 @@
 \alias{pick_dim}
 \title{pick_dim}
 \usage{
-pick_dim(fo, tib, dimMax = 20, num_bootstraps = 2)
+pick_dim(im, dimMax = 20, num_bootstraps = 2)
 }
 \arguments{
 \item{num_bootstraps}{}
 }
 \description{
 This computes the Z-scores from cross-validated eigenvalues
+}
+\examples{
+library(nycflights13)
+im = make_interaction_model(~(month&day)*dest, flights)
+cveig = pick_dim(im, dimMax = 7)
+plot(cveig)
+cveig
 }
