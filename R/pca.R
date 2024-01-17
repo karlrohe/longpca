@@ -117,6 +117,16 @@ pca_sum = function(fo, tib, k){
   pca(im, k)
 }
 
+#' pca
+#'
+#' @param im
+#' @param k
+#' @param method_prefix
+#'
+#' @return
+#' @export
+#'
+#' @examples
 pca = function(im,k, method_prefix = "pc"){
   A = get_Matrix(im)
   # A = sp_A_dat$A
