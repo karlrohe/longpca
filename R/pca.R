@@ -127,12 +127,12 @@ pca_sum = function(fo, tib, k){
 #' @export
 #'
 #' @examples
-pca = function(im,k, method_prefix = "pc"){
+pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE){
   A = get_Matrix(im)
   # A = sp_A_dat$A
-  A@x = sqrt(A@x)
-  L = glaplacian(A)
-  s_svd = irlba::irlba(L,nu = k, nv = k)
+  if(sqrt_counts) A@x = sqrt(A@x)
+  if(regularize) A = glaplacian(A)
+  s_svd = irlba::irlba(A,nu = k, nv = k)
 
   dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
 

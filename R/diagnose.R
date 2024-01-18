@@ -112,7 +112,7 @@ transpose_tibble <- function(data) {
 #' @importFrom ggplot2 ggplot geom_histogram scale_x_log10 scale_y_log10 facet_wrap aes
 #' @importFrom dplyr group_by summarize n tibble
 #' @importFrom magrittr %>%
-diagnose = function(im, make_plot = TRUE){
+diagnose = function(im, make_plot = TRUE, nbins = 30){
 
   A = get_Matrix(im)
 
@@ -128,12 +128,15 @@ diagnose = function(im, make_plot = TRUE){
   #   select(-type)
 
   degrees_data = degrees_data %>% left_join(tibble(type=c("row_id", "col_id"),
-                                                   type_label = c(paste(im$settings$row_variables, collapse = " & "),im$settings$column_variables))) %>%
+                                                   type_label = c(paste(im$settings$row_variables, collapse = " & "),
+                                                                  im$settings$column_variables)), by = "type") %>%
     select(-type)
 
+
+
   if (make_plot) {
-    p =  ggplot(degrees_data, aes(x = degree)) +
-      geom_histogram()+
+    p =  ggplot(degrees_data %>% dplyr::filter(degree>0), aes(x = degree)) +
+      geom_histogram(bins = nbins)+
       # geom_density(aes(y = after_stat(count))) +
       scale_x_log10()+
       scale_y_log10()+

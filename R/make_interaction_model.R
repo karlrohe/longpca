@@ -47,6 +47,7 @@ make_interaction_model = function(fo, tib, duplicates = "add", parse_text= FALSE
       tidytext::unnest_tokens(!!column_column, text,...) %>%
       dplyr::mutate(outcome_unweighted_1 = 1)
 
+    # print(tib)
     data_prefix= "text"
   }
 
