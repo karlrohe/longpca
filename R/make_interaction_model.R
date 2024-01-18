@@ -9,14 +9,14 @@
 #'
 #' @examples
 #' @importFrom magrittr %>%
-make_interaction_model = function(fo, tib, duplicates = "add", is_text= FALSE, dropNA = TRUE, data_prefix = NULL,...){
+make_interaction_model = function(fo, tib, duplicates = "add", parse_text= FALSE, dropNA = TRUE, data_prefix = NULL,...){
   # This returns a list with elements
   #  interaction_tibble: sparse matrix for formula fo on tibble tib.
   #  row_universe: a tibble of distinct row-variable values, with the row_num (i.e. corresponding row number in A)
   #  column_universe: a tibble of distinct column-variable values, with the col_num (i.e. corresponding column number in A)
   #  settings: a bunch of stuff.
 
-  if(is_text & (duplicates != "add")){
+  if(parse_text & (duplicates != "add")){
     duplicates = "add"
     warning("duplicates set to `add` because this is text and that's what we do.  ")
   }
@@ -41,7 +41,7 @@ make_interaction_model = function(fo, tib, duplicates = "add", is_text= FALSE, d
   row_column = vars[[2]]
   column_column = vars[[3]]
 
-  if(is_text){
+  if(parse_text){
     tib = tib %>%
       dplyr::select(all_of(row_column), text = tidyselect::all_of(column_column)) %>%
       tidytext::unnest_tokens(!!column_column, text,...) %>%

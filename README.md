@@ -403,7 +403,7 @@ this to construct a sparse matrix. Then, `$row_universe` and
 corresponding to each row/column. Finally, `$settings` contains various
 details about the construction.
 
-This function has an argument `is_text` that uses
+This function has an argument `parse_text` that uses
 `tidytext::unnest_tokens` to construct “document-term interaction
 models”. More on this later.
 

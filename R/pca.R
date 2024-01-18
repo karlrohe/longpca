@@ -178,7 +178,7 @@ pca = function(im,k, method_prefix = "pc"){
 pca_text = function(fo, tib, k, ...){
 
 
-  im = make_interaction_model(fo, tib, is_text = TRUE, ...)
+  im = make_interaction_model(fo, tib, parse_text = TRUE, ...)
   pca(im, k)
 
   # A = sp_A_dat$A

@@ -8,7 +8,7 @@ make_interaction_model(
   fo,
   tib,
   duplicates = "add",
-  is_text = FALSE,
+  parse_text = FALSE,
   dropNA = TRUE,
   data_prefix = NULL,
   ...

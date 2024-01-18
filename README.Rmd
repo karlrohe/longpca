@@ -153,7 +153,7 @@ im
 ```
 `im` is a list of four elements. First, `$interaction_tibble` which can be thought of as a sparse matrix in triplet form; `get_Matrix(im)` uses this to construct a sparse matrix. Then, `$row_universe` and `$column_universe` which can be thought of as holding the information corresponding to each row/column.  Finally, `$settings` contains various details about the construction. 
 
-This function has an argument `is_text` that uses `tidytext::unnest_tokens` to construct "document-term interaction models". More on this later. 
+This function has an argument `parse_text` that uses `tidytext::unnest_tokens` to construct "document-term interaction models". More on this later. 
 
 # Let's do the analysis
 
