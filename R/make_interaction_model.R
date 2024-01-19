@@ -41,13 +41,26 @@ make_interaction_model = function(fo, tib, duplicates = "add", parse_text= FALSE
   row_column = vars[[2]]
   column_column = vars[[3]]
 
+  # print(column_column)
   if(parse_text){
-    tib = tib %>%
-      dplyr::select(all_of(row_column), text = tidyselect::all_of(column_column)) %>%
-      tidytext::unnest_tokens(!!column_column, text,...) %>%
-      dplyr::mutate(outcome_unweighted_1 = 1)
+    # tib =
+    if(length(column_column)>1){
+      tib = tib %>%
+        dplyr::select(all_of(row_column), tidyselect::all_of(column_column)) %>%
+        pivot_longer(-all_of(row_column), names_to = "from_text", values_to = "text") %>%
+        tidytext::unnest_tokens("token", text) %>%
+        dplyr::mutate(outcome_unweighted_1 = 1)
+      column_column=c("from_text", "token")
+    }
+    if(length(column_column)==1){
+      tib = tib %>%
+        dplyr::select(all_of(row_column), text = tidyselect::all_of(column_column)) %>%
+        # pivot_longer(-all_of(row_column), names_to = "from_text", values_to = "text") %>%
+        tidytext::unnest_tokens("token", text) %>%
+        dplyr::mutate(outcome_unweighted_1 = 1)
+      column_column="token"
+    }
 
-    # print(tib)
     data_prefix= "text"
   }
 
