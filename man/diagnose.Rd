@@ -4,7 +4,7 @@
 \alias{diagnose}
 \title{diagnose_formula}
 \usage{
-diagnose(im, make_plot = TRUE)
+diagnose(im, make_plot = TRUE, nbins = 30)
 }
 \arguments{
 \item{make_plot}{}

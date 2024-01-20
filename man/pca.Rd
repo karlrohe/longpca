@@ -4,7 +4,7 @@
 \alias{pca}
 \title{pca}
 \usage{
-pca(im, k, method_prefix = "pc")
+pca(im, k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE)
 }
 \arguments{
 \item{method_prefix}{}
