@@ -134,7 +134,11 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
   if(regularize) A = glaplacian(A)
   s_svd = irlba::irlba(A,nu = k, nv = k)
 
-  dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
+  # dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
+  # print(length(dimension_prefix))
+  # print(str(im$settings$data_prefix))
+
+  dimension_prefix = method_prefix
 
   pcs = s_2_pc(interaction_model = im, s = s_svd, dimension_prefix=dimension_prefix)
 

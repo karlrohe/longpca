@@ -124,12 +124,12 @@ rotate = function(pcs){
   }
   row_features = bind_cols(
     pcs$row_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
-    row_output$sparse_tib %>% rename_with(~paste0(., "_rows"), everything())
+    row_output$sparse_tib %>% dplyr::rename_with(~paste0(., "_rows"), everything())
     )
 
   column_features = bind_cols(
     pcs$column_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
-    column_output$sparse_tib %>% rename_with(~paste0(., "_columns"), everything())
+    column_output$sparse_tib %>% dplyr::rename_with(~paste0(., "_columns"), everything())
     )
 
 
