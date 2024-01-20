@@ -18,11 +18,11 @@ all_packages = available.packages() %>% as_tibble()
 ```
 
 ```{r}
-sptext = text2sparse(~Package*Imports, all_packages)
+sptext = make_interaction_model(~Package*Imports, all_packages, parse_text = TRUE)
 ```
 
 ```{r, cache = TRUE}
-diagnose(1~Package*Imports, all_packages,parse_text = TRUE)
+diagnose(sptext)
 pcs = pca_text(1~Package*Imports, all_packages, k = 10)
 spcs = rotate(pcs)
 top(pcs,1)

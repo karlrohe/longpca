@@ -19,7 +19,7 @@ top = function(pcs, this_dim){
     select_universe(mode = "columns", any_dims = this_dim)
 
   top_columns = top_features(tidy_column_features, dim_string)
-  list(top_rows = top_rows %>% filter(abs(pc)>3), top_columns= top_columns%>% filter(abs(pc)>3))
+  list(top_rows = top_rows %>% dplyr::filter(abs(pc)>3), top_columns= top_columns%>% dplyr::filter(abs(pc)>3))
 }
 
 #' Title
