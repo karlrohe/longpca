@@ -58,7 +58,7 @@ s_2_pc = function(interaction_model, s, dimension_prefix){
   #                             weighted_degree = Matrix::colSums(abs(A))[keep_these_cols],
   #                             tibble::as_tibble(v[keep_these_cols,]))
 
-  middle_B = make_middle_B_tibble(B_matrix = diag(s$d / (sqrt(nrow(A)*ncol(A)))), dimension_prefix = dimension_prefix)
+  middle_B = make_middle_B_tibble(B_matrix = diag(s$d / (sqrt(nrow(A))*sqrt(ncol(A)))), dimension_prefix = dimension_prefix)
   # middle_B= dplyr::bind_cols(row_factors = colnames(u),
   #                     column_factors = colnames(v),
   #                     value = s$d / (sqrt(nrow(A)*ncol(A))))
