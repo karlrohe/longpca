@@ -17,6 +17,7 @@ Imports:
     Matrix,
     nycflights13,
     rlang,
+    RSpectra,
     stringr,
     tidyr,
     tidyselect,
