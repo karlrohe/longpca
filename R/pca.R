@@ -132,7 +132,8 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
   # A = sp_A_dat$A
   if(sqrt_counts) A@x = sqrt(A@x)
   if(regularize) A = glaplacian(A)
-  s_svd = irlba::irlba(A,nu = k, nv = k)
+  # s_svd = irlba::irlba(A,nu = k, nv = k)
+  s_svd = RSpectra::svds(A, k)
 
   # dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
   # print(length(dimension_prefix))
@@ -306,7 +307,7 @@ pca_average = function(fo, tib, k){
 
   dimension_prefix = "na_pc"
 
-  pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
+  pcs = s_2_pc(sparse_matrix_data = A, s = s_svd, dimension_prefix=dimension_prefix)
 
 
   parsed_model =  parse_formula(fo, tib)
