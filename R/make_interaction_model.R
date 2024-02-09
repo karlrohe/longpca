@@ -44,22 +44,27 @@ make_interaction_model = function(fo, tib, duplicates = "add", parse_text= FALSE
   # print(column_column)
   if(parse_text){
     # tib =
-    if(length(column_column)>1){
-      tib = tib %>%
-        dplyr::select(all_of(row_column), tidyselect::all_of(column_column)) %>%
-        pivot_longer(-all_of(row_column), names_to = "from_text", values_to = "text") %>%
-        tidytext::unnest_tokens("token", text) %>%
-        dplyr::mutate(outcome_unweighted_1 = 1)
-      column_column=c("from_text", "token")
-    }
-    if(length(column_column)==1){
-      tib = tib %>%
-        dplyr::select(all_of(row_column), text = tidyselect::all_of(column_column)) %>%
-        # pivot_longer(-all_of(row_column), names_to = "from_text", values_to = "text") %>%
-        tidytext::unnest_tokens("token", text) %>%
-        dplyr::mutate(outcome_unweighted_1 = 1)
-      column_column="token"
-    }
+    # if(length(column_column)>1){
+    tib = tib %>%
+      dplyr::select(all_of(row_column), tidyselect::all_of(column_column)) %>%
+      pivot_longer(-all_of(row_column), names_to = "from_text", values_to = "text") %>%
+      tidytext::unnest_tokens("token", text,...) %>%
+      dplyr::mutate(outcome_unweighted_1 = 1)
+    column_column=c("from_text", "token")
+    # }
+    # if(length(column_column)==1){
+    #   # new_column_name = "token"
+    #   new_column_name = paste0(column_column,"_token")
+    #
+    #   tib = tib %>%
+    #     dplyr::select(all_of(row_column), text = tidyselect::all_of(column_column)) %>%
+    #     # pivot_longer(-all_of(row_column), names_to = "from_text", values_to = "text") %>%
+    #     # tidytext::unnest_tokens("token", text) %>%
+    #     # tidytext::unnest_tokens(!!column_column, text) %>%
+    #     tidytext::unnest_tokens(!!new_column_name, text) %>%
+    #     dplyr::mutate(outcome_unweighted_1 = 1)
+    #   column_column = new_column_name
+    # }
 
     data_prefix= "text"
   }
@@ -94,7 +99,31 @@ make_interaction_model = function(fo, tib, duplicates = "add", parse_text= FALSE
 }
 
 
+#' print interaction model
+#'
+#' @param im
+#'
+#' @return
+#' @export
+#'
+#' @examples
+print.interaction_model = function(im){
+  print(im[-c(1,4)])
+}
 
+
+
+#' summary interaction model
+#'
+#' @param im
+#'
+#' @return
+#' @export
+#'
+#' @examples
+summary.interaction_model = function(im){
+  diagnose(im,make_plot = FALSE)
+}
 
 
 #' make_interaction_model_from_variables (internal to make_interaction_tibble and text2sparse)

@@ -1,0 +1,183 @@
+---
+title: "Analyzing the CRAN Dependency Graph with longpca"
+output: rmarkdown::html_vignette
+author: "Karl Rohe"
+vignette: >
+  %\VignetteIndexEntry{bff}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r, include=FALSE}
+#>r = getOption("repos")
+#>r["CRAN"] = "http://cran.us.r-project.org"
+#>options(repos = r)
+```
+
+
+
+```{r setup}
+library(tidyverse)
+library(longpca)
+# This data on CRAN packages is pre-loaded in longpca. It was downloaded in February 2024.  
+all_packages
+
+# You can download the most recent version in this fashion:
+# all_packages = available.packages() |> as_tibble()
+# if you download fresh data, the specific interpretations below are likely to not be sensible.  
+
+all_packages |> select(Package, Imports)
+```
+
+In particular, `all_packages` contains the "Imports-dependency-graph" (idg) as a comma separated string.  The key function `make_interaction_model` has an argument `parse_text` that is built for studying document-term interactions and can easily extract this information:
+
+
+```{r}
+# in make_interaction_model, the ... arguments go to tidytext::unnest_tokens for the text parsing.  In this case, we do not want to make the words lower case (because package names are case sensitive and that might be important later)
+idg = make_interaction_model(~Package*Imports,
+                             all_packages,
+                             parse_text = TRUE, 
+                             to_lower = FALSE)
+idg
+```
+
+The `$column_universe` illustrate how `make_interaction_model` has parsed the variable `Imports`.  There are `r nrow(idg$row_universe)` "rows" and `r nrow(idg$column_universe)` "columns".  The `diagnose` and `pick_dim` functions help us understand how `pca` might perform:
+
+```{r}
+diagnose(idg)
+```
+
+Recall that "degree" is the number of interactions a row or column has. Above, `diagnose` shows that this graph is very sparse; the median degrees are in the low single digits.  However, we still expect to be able to detect some signal because in the plots we see that there are lots of Packages with degree over 10 (i.e. more than dependencies).  The other histogram illustrates the power law degree (the top of the bins roughly follow a straight line down on the log-log scale).  So, there are lots of packages being imported by over 100 other packages, and a handful of packages being imported by over 1000. 
+
+How many dimensions/PCs should we compute? This number is often denoted by k.  I have multiple competing thoughts/heuristics that might be useful for you.  I think...
+
+1) there is very rarely a "true value" of k and so, typically, discussions that presume a true value fruitless. 
+2) the true value of k could be considered as n (the number of rows or columns) and also, past a certain point, the dimensions cannot be recovered because they are overcome by noise. So, there might be a reasonable discussion of "the largest reasonable choice of k".  
+3) you do not need to set k to be the largest reasonable choice of k. Some contexts might warrent this, but without more context, there is nothing bad about picking a smaller k that makes your interpretation tasks easier.  Alternatively, maybe you are looking for a specific signal and it happens to be one of the first few PCs.  All of this is very reasonable.  
+4) folks might try picking a larger dimension that they would typically consider... there are often interesting dimensions past the first "gap" or "elbow".  
+
+
+Built around the intuition in 2) above, we made "cross-validated eigenvalues" that you can access with the function `pick_dim`.  Essentially, for each PC dimension, we test the null hypothesis that the uncovered PC is uncorrelated with any underlying signal.  This requires "post-selection inference" for which we utilize cross-validation to get Z-scores and p-values for each dimension:
+
+```{r}
+set.seed(1)
+# eicv = pick_dim(idg, dimMax = 100)
+# plot(eicv)
+# eicv$estimated_dimension
+```
+
+The first insignificant p-value is the 64th.  So, the code gives `$estimated_dimension` to be 63.  However, even after 64, there are some significant p-values.  The first negative Z-score happens at the 90th dimension. So, the decay to insignificance is slow and I am certain that there is signal after the 63rd dimension. 
+
+For ease of illustration, will proceed with `k=11` dimensions. The first 10 Z-scores in `eicv` seem to be a bit larger than the rest.  
+
+```{r}
+pcs = pca(idg, k = 11)
+pcs
+```
+
+```{r}
+streaks(pcs,mode = "rows",plot_columns = 1:11)
+# streaks(pcs,mode = "columns",plot_columns = 1:11)
+```
+The function `streaks` makes a pairs plot of the `pcs`.  Notice that these panels display ["radial streaks"](https://academic.oup.com/jrsssb/article/85/4/1037/7221295). If we rotate these PCs with Varimax, then perhaps these streaks will align with the coordinate axes.  The function `rotate` will rotate both the rows and the column and return an object that is the same class as `pcs` (i.e. the class is `pc`). 
+
+```{r}
+spcs = rotate(pcs)
+streaks(spcs, mode = "rows", plot_columns = 1:11)
+streaks(spcs, mode = "cols", plot_columns = 1:11)
+```
+
+Indeed, `rotate` roughly aligns the streaks to the axes. So we expect each dimension to align with a meaningful concept or community within CRAN packages.  The alignment isn't perfect; some streaks are close to an axis, but not perfecty aligned.  This is often a hint that k could/should be a bigger (something we already know from `pick_dim` above).  
+
+The `row_features` and `column_features` are scaled within each feature so that the *average* squared value is 1; the standard linear algebra custom is to define these so that their *sum* of squared values is 1.  The benefit of the average is that you can imagine each axis above has a marginal SD of 1. So, the `column_features` have much much larger "outliers"; we will see below that these outliers are packages that are imported by hundreds or thousands of other packages.  The maximum number of packages imported by another package is 64 by Seurat; tidyverse is second with 58 imports.  This type of asymmetry (row vs column) is common and we will delve more into the meaning of this asymmetry below. 
+
+There are two things that we might do at this point.  First, we could try to interpret what the 11 dimensions (on each `row_feature` and `column_feature`) "represents"... that is, we could try to interpret them.  Alternatively, we might simply use them to start predicting something of interest.  For example, we might see if these community labels are predictive/associated with the type of License that a package uses.  
+
+If the data source is familiar to you, then the simplest way to interpret each factor is to examine the largest element.  The function `top` in `longpca` makes this easy.  The first argument is your `pc` object; in this case we will use `spcs`.  The second argument is the dimension that you wish to inspect.  Let's inspect the first dimension:
+
+```{r}
+top(spcs, this_dim = 1)
+```
+
+When interpreting any dimension for this data, we expect that the `top_columns` will be far more coherent because the outliers are (1) very popular packages that are (2) often imported together.  Roughly speaking, the `top_rows` are the packages that import a large number of the `top_columns` (you could Import 300 different packages and not be popular, but have a very large `row_feature`).  
+
+For the first dimension, many folks will notice that the positive elements in the `top_columns` correspond to some core packages of the tidyverse; they are all imported by thousands of other packages. There are also some negative pc values at the bottom.  However, an important clue is that the positive `pc` outliers are far more substaintial than the negative `pc` outliers; so, we might say it is a *one-sided factor*. In my experience, one-sided factors are (1) easier to interpret and (2) more common when you choose a larger value of `k` and `rotate` your `pca` output. In one-sided factors, `rotate` should make the larger dimension the "positive" dimension.  
+
+In one-sided factors, I would not say that the negative elements "define" this dimension. Instead, they give some contextual clues about what the very large and positive elements are picking up.  In this case, the negative `pc` values in `$top_columns` correspond to packages that are *unlikely to be imported with tidyverse packages*.  So, if a package is importing a large number of tidyverse packages, it does not tend to call `graphics` or `Rcpp` or`R6`.  There are loads of reasons why! Perhaps there are tidyverse alternatives (`ggplot2`) or they solve problems that folks in the tidyverse do not tend to emphasize (fast low level computation with `Rcpp`) or they correspond to stylistic coding choices that are not as popular within the tidyverse (`R6`).  Whatever the reason, in one-sided factors, the negative elements do not tend to provide coherent additional meaning.  Instead, they tell you about what folks in this community do not tend to use.  
+
+To my eye, the `top_rows` do not add to this interpretation.  Instead, I would say that the large and positive elements build on a great number of tidyverse packages and the large negative elements are more "programming heavy packages" relying on packages outside the tidyverse; there is a very clear vibe (to me) and if this is also apparent to you as well, "Harvest the vibes, yo!" Of course, you do not need to believe my interpretation to use these dimensions in your workflow; "it is what it is" (i.e. no interpretation) can get you a long ways. 
+
+Interpreting the first dimension was relatively easy because the packages are so well know.  In some sense, we didn't need `pca` to tell us that the tidyverse is a thing.  In my experience, we tend to learn more from dimensions that are harder to interpret. For these dimensions, we might need more tools to interpret them; these tools will help us (1) contextualize the dimension with additional data and (2) reveal how the dimension is related to the other dimensions. 
+
+
+
+```{r}
+top(spcs, 9)
+```
+
+```{r}
+all_packages |> count(License) |> arrange(desc(n))
+```
+
+I'm going to presume that there are roughly 6 types of Licenses: GPL, MIT, CC, Apache, GNU, Other.  
+
+```{r}
+all_packages <- all_packages %>%
+  mutate(
+    GPL = ifelse(str_detect(License, "(GPL|GNU General Public License)"), TRUE, FALSE),
+    MIT = ifelse(str_detect(License, "MIT"), TRUE, FALSE),
+    CC = ifelse(str_detect(License, "CC BY"), TRUE, FALSE),
+    Apache = ifelse(str_detect(License, "Apache"), TRUE, FALSE),
+    GNU = ifelse(str_detect(License, "GNU"), TRUE, FALSE),
+    # Assuming 'Other' should be TRUE if none of the above conditions are met
+    Other = ifelse(!(GPL | MIT | CC | Apache | GNU), TRUE, FALSE)
+  )
+```
+
+We could use a packages `spcs$row_features` or `spcs$column_features` to predict the type of license that it uses.  In this setting, a package's `row_features` describes how a package chooses to Import other packages and the package's `column_features` describes how other packages choose to Import it.  Said another way, `row_features` depend upon things the package gets to choose and `column_features` are in some sense a measure of popularity.  
+
+
+```{r}
+data_selected = all_packages |> 
+  left_join(spcs$column_features |>
+              rename(Package = token) , by = "Package") |>
+  left_join(spcs$row_features, by = "Package") |> 
+  select(response = MIT, contains("vpc_"))
+
+logistic_model <- glm(response ~ .-1, data = data_selected, family = binomial())
+broom::tidy(logistic_model)
+
+```
+all_packages |> count(License) |> arrange(desc(n))
+all_packages |> select(License)
+
+I want to mutate 5 new columns in `all_packages` (a boolean for each one)
+
+
+
+
+
+```{r}
+
+# # bff should take two objects: (pcs, im)
+# #  the rows of im should align with the rows or columns of pcs.
+# text_im = make_interaction_model(~Imports * (Title & Description & License & Author),
+#                                  tib = top_packages |> mutate(Imports = Package),
+#                                  parse_text = TRUE)
+# text_im2 = make_interaction_model(~Package * (Title & Description & License & Author),
+#                                   tib = top_packages,
+#                                   parse_text = TRUE)
+# bb = bff(spcs, text_im) # defined below.
+# bbb = bff(spcs, text_im2)
+# View(bb)
+# View(bbb)
+
+```

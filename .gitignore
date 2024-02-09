@@ -6,3 +6,5 @@
 .quarto
 climate_data.R
 README_cache/
+inst/doc
+vignettes/bff_cache/

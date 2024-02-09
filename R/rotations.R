@@ -19,6 +19,8 @@ make_sparse_output = function(sparse_pc_mat, rot_mat, new_prefix){
   # 3) make it a tibble
   # 4) output the rotation matrix (that make it skew positive)
 
+  # sparse_pc_mat has already been rotated by rot_mat.
+
   # get columns skew sign:
   skew_sign = apply(sparse_pc_mat, 2, function(x) sign(sum(x^3)))
   #  multiply each column of sparse_pc_mat by corresponding skew_sign element.
@@ -68,20 +70,31 @@ varimax_with_pre_rotation = function(matrix_to_rotate, pre_rotation){
 #' @importFrom stringr str_glue
 #'
 #' @examples
-rotate = function(pcs){
+rotate = function(pcs, mode = NULL){
   # rotate both modes with variamax.  return a pc object.
   #  we want the axes for rows and columns to roughly align with each other
   #    (makes other interpretation easier... tends to make B have strong diagonal).
   #  so, rotate the smaller one first... then use that rotation to pre-rotate the bigger one...
   #           .... then take that rotation back to pre-rotate the smaller one.
   #
-  if(nrow(pcs[[1]]) < nrow(pcs[[2]])) mode_order_vector = c(1,2)
-  if(nrow(pcs[[1]]) > nrow(pcs[[2]])) mode_order_vector = c(2,1)
+  if(is.null(mode)){
+    only_rotate_one = FALSE
+    if(nrow(pcs[[1]]) < nrow(pcs[[2]])) mode_order_vector = c(1,2)
+    if(nrow(pcs[[1]]) > nrow(pcs[[2]])) mode_order_vector = c(2,1)
+  }else{
+    only_rotate_one = TRUE
+    if(mode %in% c("r","row","rows")){
+      mode_order_vector = c(1, 2)
+    }
+    if(mode %in% c("c","col","cols", "columns")){
+      mode_order_vector = c(2, 1)
+    }
+  }
 
   old_prefix = pcs$settings$prefix_for_dimensions %>% stringr::str_remove("_")
   new_prefix = str_glue("v",old_prefix)
 
-  # rotate the smaller one...
+  # rotate the first one (which is the smaller one if we haven't specified a mode)
 
   pc_mat_mode1 = pcs[[mode_order_vector[1]]] %>%
     select(starts_with(pcs$settings$prefix_for_dimensions)) %>%
@@ -89,29 +102,47 @@ rotate = function(pcs){
 
   varimax_rotation_mode1 = varimax(pc_mat_mode1,normalize = F)$rot
 
-  # pre-rotate the bigger one...
 
   pc_mat_mode2 = pcs[[mode_order_vector[2]]] %>%
     select(starts_with(pcs$settings$prefix_for_dimensions)) %>%
     as.matrix()
 
 
-  # # pre-rotate with last varimax rotation:
-  v_mode_2 = varimax_with_pre_rotation(pc_mat_mode2, varimax_rotation_mode1)
-  sparse_pc_mat_mode2 = v_mode_2$data_after_rotation
 
-  # pre-rotate first mode with both of the previous varimax rotations.
-  v_mode_1 = varimax_with_pre_rotation(pc_mat_mode1, v_mode_2$varimax_rotation)
-  sparse_pc_mat_mode1 = v_mode_1$data_after_rotation
+  # if this is true: we need to rotate mode1 pcs and output data.
+  #  otherwise, we will rotate twice more...
+  if(only_rotate_one){
+
+    sparse_pc_mat_mode1 = pc_mat_mode1%*%varimax_rotation_mode1
+    sparse_pc_mat_mode2 = pc_mat_mode2
+    null_rotation = diag(rep(1, ncol(pc_mat_mode2)))
+    mode1_output = make_sparse_output(sparse_pc_mat_mode1,
+                                      varimax_rotation_mode1,
+                                      new_prefix = new_prefix)
+    mode2_output = make_sparse_output(sparse_pc_mat_mode2,
+                                      null_rotation,
+                                      new_prefix = new_prefix)
+  }
+  if(!only_rotate_one){
+    # pre-rotate the bigger one...
+
+    # # pre-rotate with last varimax rotation:
+    v_mode_2 = varimax_with_pre_rotation(pc_mat_mode2, varimax_rotation_mode1)
+    sparse_pc_mat_mode2 = v_mode_2$data_after_rotation
+
+    # pre-rotate first mode with both of the previous varimax rotations.
+    v_mode_1 = varimax_with_pre_rotation(pc_mat_mode1, v_mode_2$varimax_rotation)
+    sparse_pc_mat_mode1 = v_mode_1$data_after_rotation
 
 
-  mode1_output = make_sparse_output(sparse_pc_mat_mode1,
-                                    v_mode_1$varimax_rotation,
-                                    new_prefix = new_prefix)
-  mode2_output = make_sparse_output(sparse_pc_mat_mode2,
-                                    v_mode_2$varimax_rotation,
-                                    new_prefix = new_prefix)
+    mode1_output = make_sparse_output(sparse_pc_mat_mode1,
+                                      v_mode_1$varimax_rotation,
+                                      new_prefix = new_prefix)
+    mode2_output = make_sparse_output(sparse_pc_mat_mode2,
+                                      v_mode_2$varimax_rotation,
+                                      new_prefix = new_prefix)
 
+  }
 
   #if we did 2 first, then 1... then we need to flop mode1_output and mode2_output.
   if(mode_order_vector[1] == 2){
@@ -125,12 +156,12 @@ rotate = function(pcs){
   row_features = bind_cols(
     pcs$row_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
     row_output$sparse_tib %>% dplyr::rename_with(~paste0(., "_rows"), everything())
-    )
+  )
 
   column_features = bind_cols(
     pcs$column_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
     column_output$sparse_tib %>% dplyr::rename_with(~paste0(., "_columns"), everything())
-    )
+  )
 
 
   # construct the new middle B matrix by passing through rotations from:
@@ -151,9 +182,15 @@ rotate = function(pcs){
 
   B_tib= make_middle_B_tibble(new_B, dimension_prefix = new_prefix)
 
+
+  if(!only_rotate_one) fit_method = str_glue(pcs$settings$fit_method, "varimax (both)",.sep = " + ")
+  if(only_rotate_one & mode_order_vector[1]==1) fit_method = str_glue(pcs$settings$fit_method, "varimax (rows)",.sep = " + ")
+  if(only_rotate_one & mode_order_vector[1]==2) fit_method = str_glue(pcs$settings$fit_method, "varimax (columns)",.sep = " + ")
+
+
   new_settings = c(
     list(
-      fit_method = str_glue(pcs$settings$fit_method, "varimax",.sep = " + "),
+      fit_method = fit_method,
       prefix_for_dimensions = str_glue(new_prefix,"_")
     ),
     pcs$settings[-(1:2)])

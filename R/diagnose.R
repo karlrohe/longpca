@@ -129,7 +129,9 @@ diagnose = function(im, make_plot = TRUE, nbins = 30){
 
   degrees_data = degrees_data %>% left_join(tibble(type=c("row_id", "col_id"),
                                                    type_label = c(paste(im$settings$row_variables, collapse = " & "),
-                                                                  im$settings$column_variables)), by = "type") %>%
+                                                                  paste(im$settings$column_variables, collapse = " & ")
+                                                                  # im$settings$column_variables)
+                                                   )), by = "type") %>%
     select(-type)
 
 

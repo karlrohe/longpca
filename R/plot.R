@@ -152,7 +152,7 @@ streaks = function(pcs, mode = "rows",plot_columns= NULL){
   # Instead, you need to pick either $row_features or $column_features.
   # ")
   #   }
-  if(mode == "rows"){
+  if(mode %in% c("row","r","rows")){
     pc = pcs$row_features %>% select(starts_with(pcs$settings$prefix_for_dimensions))
   }else{
     pc = pcs$column_features %>% select(starts_with(pcs$settings$prefix_for_dimensions))

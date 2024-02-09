@@ -72,7 +72,7 @@ get_middle_matrix = function(pcs){
   B_matrix = get_Matrix(B_list)
   rownames(B_matrix) = B_list$row_universe$row_factors
   colnames(B_matrix) = B_list$column_universe$column_factors
-  return(B_matrix)
+  return(Matrix::as.matrix(B_matrix))
 }
 make_middle_B_tibble = function(B_matrix, dimension_prefix){
   colnames(B_matrix) = paste(dimension_prefix,1:ncol(B_matrix), "columns", sep = "_")
@@ -87,24 +87,85 @@ make_middle_B_tibble = function(B_matrix, dimension_prefix){
 
 
 
+#' select_universe
+#'
+#' @param pcs
+#' @param mode
+#' @param any_dims
+#'
+#' @return
+#' @export
+#'
+#' @examples
 select_universe = function(pcs, mode = c("rows","columns"), any_dims = NA){
-
-
-  if(mode[1] =="rows") tidy_features = pcs$row_features
-  if(mode[1] =="columns") tidy_features = pcs$column_features
-
-  universe = tidy_features %>% select(-contains(pcs$settings$prefix_for_dimensions))
-
-  if(!is.null(any_dims)){
-    # any_dims = NA
-    # any_dims = 1
-    # any_dims = c(2,4)
-    dim_string= paste0(pcs$settings$prefix_for_dimensions, "0*",any_dims,"_")
-    # dim_string
-    features = tidy_features %>% dplyr::select(pc=dplyr::matches(dim_string))
-    universe = bind_cols(universe, features)
+  if(class(pcs) == "interaction_model"){
+    if(mode[1] =="rows") return(pcs$row_universe)
+    if(mode[1] =="columns") return(pcs$column_universe)
   }
 
-  universe
+  dim_string= paste0(pcs$settings$prefix_for_dimensions, "0*",any_dims,"_")
+
+  if(mode[1] =="rows"){
+    tidy_universe =
+      pcs$row_features |>
+      dplyr::select(tidyselect::all_of(pcs$settings$row_variables),
+                    "row_num",
+                    dplyr::matches(dim_string))
+  }
+  if(mode[1] =="columns"){
+    tidy_universe =
+      pcs$column_features |>
+      dplyr::select(tidyselect::all_of(pcs$settings$column_variables),
+                    "col_num",
+                    dplyr::matches(dim_string))
+  }
+
+  tidy_universe
 }
+
+join_features <- function(x, ...) {
+  UseMethod("join_features")
+}
+join_features.interaction_model <- function(x, ...) {
+  # Your code for handling interaction_model objects goes here
+  cat("This function hasn't been built for interaction_models yet.  first compute pca and then, try joining to that pc object.\n")
+}
+
+
+join_features.pc = function(pcs, feature_tib, mode = c("rows","columns"), by){
+
+}
+
+
+
+join_features.pc <- function(pcs, weather) {
+  # Extracting row and column variable names from pcs settings
+  row_vars <- pcs$settings$row_variables
+  column_vars <- pcs$settings$column_variables
+
+  # Checking for common variables in row features and weather
+  common_row_vars <- intersect(row_vars, names(weather))
+
+  # Checking for common variables in column features and weather
+  common_column_vars <- intersect(column_vars, names(weather))
+
+  # If common variables are found in row variables, perform a left join on those
+  if (length(common_row_vars) > 0) {
+    return(left_join(pcs$row_features, weather, by = common_row_vars))
+  }
+
+  # If common variables are found in column variables, perform a left join on those
+  else if (length(common_column_vars) > 0) {
+    return(left_join(pcs$column_features, weather, by = common_column_vars))
+  }
+
+  # If there are no common variables, return a message indicating no join was performed
+  else {
+    message("No common variables found for joining.")
+    return(NULL)
+  }
+}
+
+
+
 

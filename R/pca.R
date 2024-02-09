@@ -160,7 +160,19 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
   pcs
 }
 
-
+#' print pcs
+#'
+#' @param pcs
+#'
+#' @return
+#' @export
+#'
+#' @examples
+print.pc = function(pcs){
+  pcs[[1]] = pcs[[1]] |> select(-row_num, -weighted_degree)
+  pcs[[2]] = pcs[[2]] |> select(-col_num, -weighted_degree)
+  print(pcs[1:2])
+}
 
 #' pca_text
 #'
