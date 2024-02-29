@@ -1,0 +1,159 @@
+
+R version 4.3.2 (2023-10-31) -- "Eye Holes"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin20 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "longpca"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> base::assign(".ExTimings", "longpca-Ex.timings", pos = 'CheckExEnv')
+> base::cat("name\tuser\tsystem\telapsed\n", file=base::get(".ExTimings", pos = 'CheckExEnv'))
+> base::assign(".format_ptime",
++ function(x) {
++   if(!is.na(x[4L])) x[1L] <- x[1L] + x[4L]
++   if(!is.na(x[5L])) x[2L] <- x[2L] + x[5L]
++   options(OutDec = '.')
++   format(x[1L:3L], digits = 7L)
++ },
++ pos = 'CheckExEnv')
+> 
+> ### * </HEADER>
+> library('longpca')
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> base::assign(".old_wd", base::getwd(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("diagnose")
+> ### * diagnose
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: diagnose
+> ### Title: diagnose_formula
+> ### Aliases: diagnose
+> 
+> ### ** Examples
+> 
+> library(nycflights13)
+> im = make_interaction_model(~(month&day)*dest, flights)
+> diagnose(im)
+Warning: Transformation introduced infinite values in continuous y-axis
+Warning: Removed 28 rows containing missing values (`geom_bar()`).
+# A tibble: 6 × 3
+  measurement      dest `month & day`
+  <chr>           <dbl>         <dbl>
+1 number_of_items   105           365
+2 average_degree    297            86
+3 median_degree     365            86
+4 percent_le_1        2             0
+5 percent_le_2        2             0
+6 percent_le_3        2             0
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("diagnose", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+
+detaching ‘package:nycflights13’
+
+> nameEx("pick_dim")
+> ### * pick_dim
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: pick_dim
+> ### Title: pick_dim
+> ### Aliases: pick_dim
+> 
+> ### ** Examples
+> 
+> library(nycflights13)
+> im = make_interaction_model(~(month&day)*dest, flights)
+> cveig = pick_dim(im, dimMax = 7)
+> plot(cveig)
+> cveig
+Estimated graph dimension:	 4
+
+Number of bootstraps:		 2
+Edge splitting probabaility:	 0.1
+Significance level:		 0.05
+
+ ------------ Summary of Tests ------------
+ k           z        pvals         padj
+ 1 166.7491123 0.000000e+00 0.000000e+00
+ 2  12.6008905 1.043869e-36 1.043869e-36
+ 3   7.2246222 2.512485e-13 2.512485e-13
+ 4   4.7031158 1.281105e-06 1.281105e-06
+ 5   0.3923683 3.473930e-01 3.473930e-01
+ 6  -2.5168770 9.940800e-01 9.940800e-01
+ 7  -6.2279950 1.000000e+00 1.000000e+00
+
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("pick_dim", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> cleanEx()
+
+detaching ‘package:nycflights13’
+
+> nameEx("plot.pc")
+> ### * plot.pc
+> 
+> flush(stderr()); flush(stdout())
+> 
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plot.pc
+> ### Title: plot.pc
+> ### Aliases: plot.pc
+> 
+> ### ** Examples
+> 
+> library(nycflights13)
+> pcs = pca_count(1 ~ (month & day)*(dest), flights, k = 6)
+> plot(pcs)
+Press [Enter] to continue to the next plot...
+Press [Enter] to continue to the next plot...
+`geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
+Press [Enter] to continue to the next plot...
+Press [Enter] to continue to the next plot...
+> 
+> 
+> 
+> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
+> base::cat("plot.pc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> ### * <FOOTER>
+> ###
+> cleanEx()
+
+detaching ‘package:nycflights13’
+
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  4.932 0.383 5.817 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')

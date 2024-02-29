@@ -1,0 +1,11 @@
+1) class for sparse matrix with universes: dti io im lrim si (sparse interaction)
+2) integrate select_universe(mode = rows/columns)
+3) make pkgdown website
+4) figure out which functions most desperately need documentation
+5) integrate the classes: pc, spmtu, imtu
+6) test pca text
+7) allow rotation of rows/cols only.
+8) `top(pcs, mode = c("both","rows","cols"))``
+9) `core(spmtu, degree)` compute the k-core
+10) `diagnose` accept smptu
+11) how to help pick_dim accept spmtu? 

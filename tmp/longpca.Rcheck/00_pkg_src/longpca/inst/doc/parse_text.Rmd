@@ -1,0 +1,114 @@
+---
+title: "parse_text inside longpca"
+output: rmarkdown::html_vignette
+editor_options: 
+  chunk_output_type: console
+vignette: >
+  %\VignetteIndexEntry{parse_text}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(dplyr)
+library(longpca)
+```
+
+
+This document shows how you can use `parse_text` inside the function `make_interaction_model`.  Recall that the basic use of `make_interaction_model` in the flights data:
+
+```{r}
+library(nycflights13)
+formula =  ~ (month & day)*(dest)
+im = make_interaction_model(formula, flights)
+# pcs = pca(im, k = 6)
+```
+
+
+In this example, the formula is `~ (month & day)*(dest)`.  So, the rows are indexed by the unique values of `month` and `day` and the columns are indexed by the unique values of `dest`. 
+
+```{r}
+im$row_universe
+im$column_universe
+```
+
+
+If our data contains sentences, then the "unique values" need to first be parsed/extracted.  For example, loaded into `longpca` is a toy data set `all_packages`.  It is about 20000 rows.  Each row gives information about one R package.
+
+```{r}
+# you can get a fresh version here:
+# all_packages = available.packages() %>% as_tibble()
+all_packages |> select(Package,  Imports)
+```
+
+Notice how the column `Imports` gives a "csv" of other packages. We can "extract" these values with `parse_text = TRUE`:
+```{r}
+im_imports = make_interaction_model(~Package*Imports, tib = all_packages, parse_text= TRUE)
+im_imports$row_universe
+im_imports$column_universe
+```
+Under the hood, this calls `tidytext::unnest_tokens` to convert `Imports` into a "bag-of-words".  So, the columns are now indexed by the unique packages that are imported.  There are  20,319 total `Packages` in `all_packages` and each one forms a row in `im_imports`.  Only 6,230 of these packages have been imported by another package.  Each of these forms a column in `im_imports`.  
+
+Additional arguments to `make_interaction_model` are passed off to `tidytext::unest_tokens`.  For example, by default it puts the imported packages into lower case. We can turn that off... 
+```{r}
+im_imports = make_interaction_model(~Package*Imports, tib = all_packages, parse_text= TRUE, to_lower = FALSE)
+im_imports$column_universe
+```
+
+Notice how `Rcpp` in row 6 of the `$column_universe` was previously `rcpp` (lower case). You could parse a different variable instead.  For example,
+
+```{r}
+im_description = make_interaction_model(~Package*Description, top_packages, parse_text = TRUE, to_lower= TRUE)
+diagnose(im_description)
+im_description$column_universe
+```
+
+Here we see the stopwords.  These will form high degree nodes in your `interaction_model` graph.  A factor that loads heavily on these is often a factor that indicates "document length". 
+
+You can also parse multiple columns with the `&`:
+
+```{r}
+im_imports_authors = make_interaction_model(~Package*(Imports&Author&Description&Title), tib = top_packages, parse_text = TRUE)
+im_imports_authors$row_universe
+im_imports_authors$column_universe
+
+```
+
+
+So, let's do a quick analysis. We see that the tokens are very very sparse, with 64% of tokens appearing only once! We will want to keep an eye out for localization in the `streaks` plot.
+
+```{r}
+diagnose(im_imports_authors)
+```
+
+Because it is so sparse, I'm going to use more bootstraps than default in `pick_dim`; 20 should be enough.
+```{r}
+eigcv = pick_dim(im_imports_authors, num_bootstraps = 20)
+plot(eigcv)
+eigcv
+```
+I'm going to pick 10 for convenience. 
+
+```{r}
+pcs = pca(im_imports_authors, k = 10)
+streaks(pcs)
+streaks(pcs, "columns")
+```
+
+```{r}
+spcs = rotate(pcs)
+streaks(spcs)
+streaks(spcs, "columns")
+```
+
+For example, the second rotated component looks to pick up the cluster of r packages for making html things:
+```{r}
+top(spcs, 2,keep_how_many = 15)
+```

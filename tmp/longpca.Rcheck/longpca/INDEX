@@ -1,0 +1,45 @@
+diagnose                diagnose_formula
+extract_interaction     extract_interaction (internal)
+extract_variables       extract_variables (internal)
+glaplacian              glaplacian
+itty_pivot              itty_pivot (internal)
+localization            localization
+make_deg_lev_resid      make_deg_lev_resid (Internal)
+make_interaction_model
+                        make_interaction_model
+make_interaction_model_from_variables
+                        make_interaction_model_from_variables (internal
+                        to make_interaction_tibble and text2sparse)
+make_leverage           make_leverage (internal for localization)
+make_sparse_output      make_sparse_output (internal to rotate)
+pair                    Internal
+parse_formula           parse_variables (internal)
+pca                     pca
+pca_average             pca_average
+pca_count               pca_count
+pca_sum                 pca_sum
+pca_text                pca_text
+pick_dim                pick_dim
+plot.pc                 plot.pc
+print.interaction_model
+                        print interaction model
+print.pc                print.pc
+remove_L_normalization
+                        remove_L_normalization (internal to
+                        pca_mean/pca_average)
+rotate                  rotate
+select_universe         select_universe
+streaks                 streaks
+summary.interaction_model
+                        summary interaction model
+top                     Title
+top_features            top_features
+transpose_tibble        #' list_2_tib (internal) #' #' used for
+                        diagnose #' #' @param list_of_data #' #'
+                        @return #' #' @examples list_2_tib =
+                        function(list_of_data)
+                        dplyr::bind_rows(lapply(list_of_data,
+                        itty_pivot))
+update_lhs_to_1         update_lhs_to_1 (internal to pca_count)
+varimax_with_pre_rotation
+                        varimax_with_pre_rotation (internal to rotate)

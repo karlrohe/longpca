@@ -1,0 +1,3992 @@
+* using log directory ‘/Users/karlrohe/R_packages/longpca/tmp/longpca.Rcheck’
+* using R version 4.3.2 (2023-10-31)
+* using platform: x86_64-apple-darwin20 (64-bit)
+* R was compiled by
+    Apple clang version 14.0.0 (clang-1400.0.29.202)
+    GNU Fortran (GCC) 12.2.0
+* running under: macOS Ventura 13.4.1
+* using session charset: UTF-8
+* using options ‘--no-manual --as-cran’
+* checking for file ‘longpca/DESCRIPTION’ ... OK
+* this is package ‘longpca’ version ‘0.0.0.9000’
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... OK
+* checking for sufficient/correct file permissions ... OK
+* checking whether package ‘longpca’ can be installed ... WARNING
+Found the following significant warnings:
+  Note: possible error in 's_2_pc(sparse_matrix_data = sp_A_dat, ': unused argument (sparse_matrix_data = sp_A_dat) 
+See ‘/Users/karlrohe/R_packages/longpca/tmp/longpca.Rcheck/00install.out’ for details.
+Information on the location(s) of code generating the ‘Note’s can be
+obtained by re-running with environment variable R_KEEP_PKG_SOURCE set
+to ‘yes’.
+* checking installed package size ... OK
+* checking package directory ... OK
+* checking for future file timestamps ... OK
+* checking ‘build’ directory ... OK
+* checking DESCRIPTION meta-information ... OK
+* checking top-level files ... NOTE
+Non-standard files/directories found at top level:
+  ‘README.R’ ‘README.Rmd’ ‘README_cache’ ‘README_files’ ‘TODO.txt’
+  ‘climate_data.R’ ‘images’ ‘my_profile.out’ ‘notes.R’
+  ‘pca_text_example.Rmd’ ‘pca_text_example_cache’ ‘tmp’
+* checking for left-over files ... OK
+* checking index information ... OK
+* checking package subdirectories ... OK
+* checking R files for non-ASCII characters ... OK
+* checking R files for syntax errors ... OK
+* checking whether the package can be loaded ... OK
+* checking whether the package can be loaded with stated dependencies ... OK
+* checking whether the package can be unloaded cleanly ... OK
+* checking whether the namespace can be loaded with stated dependencies ... OK
+* checking whether the namespace can be unloaded cleanly ... OK
+* checking dependencies in R code ... WARNING
+'::' or ':::' imports not declared from:
+  ‘softImpute’ ‘tibble’
+Namespaces in Imports field not imported from:
+  ‘RSpectra’ ‘nycflights13’
+  All declared Imports should be used.
+* checking S3 generic/method consistency ... WARNING
+print:
+  function(x, ...)
+print.interaction_model:
+  function(im)
+
+print:
+  function(x, ...)
+print.pc:
+  function(pcs)
+
+summary:
+  function(object, ...)
+summary.interaction_model:
+  function(im)
+
+plot:
+  function(x, ...)
+plot.pc:
+  function(pcs)
+See section ‘Generic functions and methods’ in the ‘Writing R
+Extensions’ manual.
+* checking replacement functions ... OK
+* checking foreign function calls ... OK
+* checking R code for possible problems ... NOTE
+diagnose: no visible binding for global variable ‘type’
+diagnose: no visible binding for global variable ‘degree’
+diagnose: no visible binding for global variable ‘type_label’
+diagnose: no visible global function definition for ‘median’
+itty_pivot: no visible binding for global variable ‘type’
+itty_pivot: no visible binding for global variable ‘id’
+localization: no visible binding for global variable ‘degree’
+localization: no visible binding for global variable ‘leverage’
+localization: no visible binding for global variable ‘residuals’
+make_interaction_model: no visible binding for global variable ‘text’
+make_interaction_model_from_variables: no visible global function
+  definition for ‘across’
+make_interaction_model_from_variables: no visible global function
+  definition for ‘desc’
+make_interaction_model_from_variables: no visible binding for global
+  variable ‘.data’
+make_interaction_model_from_variables: no visible binding for global
+  variable ‘row_num’
+make_interaction_model_from_variables: no visible binding for global
+  variable ‘col_num’
+make_interaction_model_from_variables: no visible binding for global
+  variable ‘outcome’
+make_interaction_model_from_variables: no visible global function
+  definition for ‘if_else’
+make_middle_B_tibble: no visible binding for global variable
+  ‘row_factors’
+make_middle_B_tibble: no visible binding for global variable ‘value’
+pair: no visible global function definition for ‘pairs’
+pca_average: possible error in s_2_pc(sparse_matrix_data = sp_A_dat, s
+  = s_svd, dimension_prefix = dimension_prefix): unused argument
+  (sparse_matrix_data = sp_A_dat)
+pca_average: no visible binding for global variable ‘sp_A_dat’
+pca_mean: possible error in s_2_pc(sparse_matrix_data = sp_A_dat, s =
+  s_svd, dimension_prefix = dimension_prefix): unused argument
+  (sparse_matrix_data = sp_A_dat)
+pca_mean: no visible binding for global variable ‘sp_A_dat’
+rotate: no visible global function definition for ‘everything’
+top: no visible global function definition for ‘any_of’
+top: no visible global function definition for ‘matches’
+top: no visible global function definition for ‘sym’
+Undefined global functions or variables:
+  .data across any_of col_num degree desc everything id if_else
+  leverage matches median outcome pairs residuals row_factors row_num
+  sp_A_dat sym text type type_label value
+Consider adding
+  importFrom("graphics", "pairs", "text")
+  importFrom("stats", "median", "residuals")
+to your NAMESPACE file.
+
+Found if() conditions comparing class() to string:
+File ‘longpca/R/utils.R’: if (class(pcs) == "interaction_model") ...
+Use inherits() (or maybe is()) instead.
+* checking Rd files ... NOTE
+prepare_Rd: transpose_tibble.Rd:42-44: Dropping empty section ‘edge_tib_list = make_edge_tib(fo,tib)’
+prepare_Rd: transpose_tibble.Rd:46-48: Dropping empty section ‘row_degrees = edge_tib_list$edge_tib %>% count(row_id) %>% rename(degree=n)’
+prepare_Rd: transpose_tibble.Rd:50-52: Dropping empty section ‘col_degrees = edge_tib_list$edge_tib %>% count(col_id) %>% rename(degree=n)’
+* checking Rd metadata ... OK
+* checking Rd line widths ... OK
+* checking Rd cross-references ... OK
+* checking for missing documentation entries ... WARNING
+Undocumented code objects:
+  ‘all_packages’ ‘top_packages’
+Undocumented data sets:
+  ‘all_packages’ ‘top_packages’
+All user-level objects in a package should have documentation entries.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking for code/documentation mismatches ... OK
+* checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'diagnose'
+  ‘im’ ‘nbins’
+
+Undocumented arguments in documentation object 'glaplacian'
+  ‘A’
+
+Undocumented arguments in documentation object 'make_interaction_model'
+  ‘duplicates’ ‘parse_text’ ‘data_prefix’ ‘...’
+
+Undocumented arguments in documentation object 'make_interaction_model_from_variables'
+  ‘tib’ ‘row_column’ ‘column_column’ ‘vars’ ‘dropNA’ ‘duplicates’
+
+Undocumented arguments in documentation object 'make_sparse_output'
+  ‘sparse_pc_mat’ ‘rot_mat’ ‘new_prefix’
+Documented arguments not in \usage in documentation object 'make_sparse_output':
+  ‘old_prefix’
+
+Undocumented arguments in documentation object 'pair'
+  ‘u’
+
+Undocumented arguments in documentation object 'parse_formula'
+  ‘fo’
+
+Undocumented arguments in documentation object 'pca'
+  ‘im’ ‘k’ ‘regularize’ ‘sqrt_counts’
+
+Undocumented arguments in documentation object 'pca_average'
+  ‘fo’ ‘tib’
+
+Undocumented arguments in documentation object 'pca_text'
+  ‘fo’ ‘tib’ ‘k’
+
+Undocumented arguments in documentation object 'pick_dim'
+  ‘im’ ‘dimMax’
+
+Undocumented arguments in documentation object 'remove_L_normalization'
+  ‘s_svd’ ‘A’
+
+Undocumented arguments in documentation object 'rotate'
+  ‘mode’
+
+Undocumented arguments in documentation object 'select_universe'
+  ‘pcs’ ‘mode’
+
+Undocumented arguments in documentation object 'streaks'
+  ‘pcs’ ‘mode’
+
+Undocumented arguments in documentation object 'top'
+  ‘pcs’ ‘this_dim’ ‘keep_how_many’ ‘abs_cut_off’
+Documented arguments not in \usage in documentation object 'top':
+  ‘dim’
+
+Undocumented arguments in documentation object 'top_features'
+  ‘tidy_features’ ‘pc_name_for_mode’ ‘keep_how_many’
+Documented arguments not in \usage in documentation object 'top_features':
+  ‘dim_string’
+
+Undocumented arguments in documentation object 'update_lhs_to_1'
+  ‘quiet’
+
+Undocumented arguments in documentation object 'varimax_with_pre_rotation'
+  ‘matrix_to_rotate’
+
+Functions with \usage entries need to have the appropriate \alias
+entries, and all their arguments documented.
+The \usage entries must correspond to syntactically valid R code.
+See chapter ‘Writing R documentation files’ in the ‘Writing R
+Extensions’ manual.
+* checking Rd contents ... WARNING
+Argument items with no description in Rd object 'diagnose':
+  ‘make_plot’
+
+Argument items with no description in Rd object 'extract_interaction':
+  ‘str’
+
+Argument items with no description in Rd object 'extract_variables':
+  ‘str’
+
+Argument items with no description in Rd object 'glaplacian':
+  ‘regularize’
+
+Argument items with no description in Rd object 'itty_pivot':
+  ‘itty_tibby’
+
+Argument items with no description in Rd object 'localization':
+  ‘pcs’
+
+Argument items with no description in Rd object 'make_deg_lev_resid':
+  ‘lev_tib’
+
+Argument items with no description in Rd object 'make_interaction_model_from_variables':
+  ‘outcome_column’
+
+Argument items with no description in Rd object 'make_leverage':
+  ‘pcs’
+
+Argument items with no description in Rd object 'make_sparse_output':
+  ‘old_prefix’
+
+Argument items with no description in Rd object 'pair':
+  ‘n’
+
+Argument items with no description in Rd object 'parse_formula':
+  ‘tib’
+
+Argument items with no description in Rd object 'pca':
+  ‘method_prefix’
+
+Argument items with no description in Rd object 'pca_average':
+  ‘k’
+
+Argument items with no description in Rd object 'pca_text':
+  ‘...’
+
+Argument items with no description in Rd object 'pick_dim':
+  ‘num_bootstraps’
+
+Argument items with no description in Rd object 'plot.pc':
+  ‘pcs’
+
+Argument items with no description in Rd object 'print.interaction_model':
+  ‘im’
+
+Argument items with no description in Rd object 'print.pc':
+  ‘pcs’
+
+Argument items with no description in Rd object 'remove_L_normalization':
+  ‘orthogonalize’
+
+Argument items with no description in Rd object 'rotate':
+  ‘pcs’
+
+Argument items with no description in Rd object 'select_universe':
+  ‘any_dims’
+
+Argument items with no description in Rd object 'streaks':
+  ‘plot_columns’
+
+Argument items with no description in Rd object 'summary.interaction_model':
+  ‘im’
+
+Argument items with no description in Rd object 'top':
+  ‘dim’
+
+Argument items with no description in Rd object 'top_features':
+  ‘dim_string’
+
+Argument items with no description in Rd object 'transpose_tibble':
+  ‘data’
+
+Argument items with no description in Rd object 'update_lhs_to_1':
+  ‘formula’
+
+Argument items with no description in Rd object 'varimax_with_pre_rotation':
+  ‘pre_rotation’
+
+* checking for unstated dependencies in examples ... OK
+* checking contents of ‘data’ directory ... OK
+* checking data for non-ASCII characters ... WARNING
+  Warning: found non-ASCII strings
+  'c(
+  person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0003-4757-117X")),
+  person("Romain", "Fran<c3><a7>ois", role = "aut",
+  comment = c(ORCID = "0000-0002-2444-4226")),
+  person("Lionel", "Henry", role = "aut"),
+  person("Kirill", "M<c3><bc>ller", role = "aut",
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person("Davis", "Vaughan", , "davis@posit.co", role = "aut",
+  comment = c(ORCID = "0000-0003-4777-038X")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", , "hadley@posit.co", role = "aut"),
+  person("Jim", "Hester", role = "aut"),
+  person("Romain", "Francois", role = "ctb"),
+  person("Jennifer", "Bryan", , "jenny@posit.co", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-6983-2759")),
+  person("Shelby", "Bearrows", role = "ctb"),
+  person("Posit Software, PBC", role = c("cph", "fnd")),
+  person("https://github.com/mandreyel/", role = "cph",
+  comment = "mio library"),
+  person("Jukka", "Jyl<c3><a4>nki", role = c("ctb", "cph"),
+  comment = "grisu3 implementation"),
+  person("Mikkel", "J<c3><b8>rgensen", role = c("ctb", "cph"),
+  comment = "grisu3 implementation")
+  )' in object 'top_packages'
+  'c(person("Douglas", "Bates", role = "aut",
+  comment = c(ORCID = "0000-0001-8316-9503")),
+  person("Martin", "Maechler", role = c("aut", "cre"),
+  email = "mmaechler+Matrix@gmail.com",
+  comment = c(ORCID = "0000-0002-8685-9910")),
+  person("Mikael", "Jagan", role = "aut",
+  comment = c(ORCID = "0000-0002-3542-2938")),
+  person("Timothy A.", "Davis", role = "ctb",
+  comment = c(ORCID = "0000-0001-7614-6899",
+  "SuiteSparse libraries, notably CHOLMOD and AMD",
+  "collaborators listed in dir(pattern=\"^[A-Z]+[.]txt$\", full.names=TRUE, system.file(\"doc\", \"SuiteSparse\", package=\"Matrix\"))")),
+  person("Jens", "Oehlschl<c3><a4>gel", role = "ctb",
+  comment = "initial nearPD()"),
+  person("Jason", "Riedy", role = "ctb",
+  comment = c(ORCID = "0000-0002-4345-4200",
+  "GNU Octave's condest() and onenormest()",
+  "Copyright: Regents of the University of California")),
+  person("R Core Team", role = "ctb",
+  comment = "base R's matrix implementation"))' in object 'top_packages'
+  'c(
+  person('Hao', 'Zhu', email = 'haozhu233@gmail.com', role = c('aut', 'cre'),
+  comment = c(ORCID = '0000-0002-3386-6076')),
+  person('Thomas', 'Travison', role = 'ctb'),
+  person('Timothy', 'Tsai', role = 'ctb'),
+  person('Will', 'Beasley', email = 'wibeasley@hotmail.com', role = 'ctb'),
+  person('Yihui', 'Xie', email = 'xie@yihui.name', role = 'ctb'),
+  person('GuangChuang', 'Yu', email = 'guangchuangyu@gmail.com', role = 'ctb'),
+  person('St<c3><a9>phane', 'Laurent', role = 'ctb'),
+  person('Rob', 'Shepherd', role = 'ctb'),
+  person('Yoni', 'Sidi', role = 'ctb'),
+  person('Brian', 'Salzer', role = 'ctb'),
+  person('George', 'Gui', role = 'ctb'),
+  person('Yeliang', 'Fan', role = 'ctb'),
+  person('Duncan', 'Murdoch', role = 'ctb'),
+  person('Bill', 'Evans',  role = 'ctb')
+  )' in object 'top_packages'
+  'c(person("Olaf", "Mersmann", role=c("aut", "cre"),
+  email="olafm@p-value.net"),
+  person("Heike", "Trautmann", role=c("aut")),
+  person("Detlef", "Steuer", role=c("aut")),
+  person("Bj<c3><b6>rn", "Bornkamp", role=c("aut")))' in object 'top_packages'
+  'c(
+  person("R Special Interest Group on Databases (R-SIG-DB)", role = "aut"),
+  person("Hadley", "Wickham", role = "aut"),
+  person("Kirill", "M<c3><bc>ller", , "kirill@cynkra.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person("R Consortium", role = "fnd")
+  )' in object 'top_packages'
+  'c(
+  person("Kirill", "M<c3><bc>ller", , "kirill@cynkra.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person("Hadley", "Wickham", role = "aut"),
+  person(c("David", "A."), "James", role = "aut"),
+  person("Seth", "Falcon", role = "aut"),
+  person("D. Richard", "Hipp", role = "ctb",
+  comment = "for the included SQLite sources"),
+  person("Dan", "Kennedy", role = "ctb",
+  comment = "for the included SQLite sources"),
+  person("Joe", "Mistachkin", role = "ctb",
+  comment = "for the included SQLite sources"),
+  person(, "SQLite Authors", role = "ctb",
+  comment = "for the included SQLite sources"),
+  person("Liam", "Healy", role = "ctb",
+  comment = "for the included SQLite sources"),
+  person("R Consortium", role = "fnd"),
+  person(, "RStudio", role = "cph")
+  )' in object 'top_packages'
+  'c(
+  person("Michel", "Lang", NULL, "michellang@gmail.com",
+  role = c("cre", "aut"), comment = c(ORCID = "0000-0001-9754-0393")),
+  person("Bernd", "Bischl", NULL, "bernd_bischl@gmx.net", role = "ctb"),
+  person("D<c3><a9>nes", "T<c3><b3>th", NULL, "toth.denes@kogentum.hu", role = "ctb",
+  comment = c(ORCID = "0000-0003-4262-3217"))
+  )' in object 'top_packages'
+  'c(
+  person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
+  person("Abhraneel", "Sarma", role = "ctb"),
+  person("Adam", "Vogt", role = "ctb"),
+  person("Alastair", "Andrew", role = "ctb"),
+  person("Alex", "Zvoleff", role = "ctb"),
+  person("Amar", "Al-Zubaidi", role = "ctb"),
+  person("Andre", "Simon", role = "ctb", comment = "the CSS files under inst/themes/ were derived from the Highlight package http://www.andre-simon.de"),
+  person("Aron", "Atkins", role = "ctb"),
+  person("Aaron", "Wolen", role = "ctb"),
+  person("Ashley", "Manton", role = "ctb"),
+  person("Atsushi", "Yasumoto", role = "ctb", comment = c(ORCID = "0000-0002-8335-495X")),
+  person("Ben", "Baumer", role = "ctb"),
+  person("Brian", "Diggs", role = "ctb"),
+  person("Brian", "Zhang", role = "ctb"),
+  person("Bulat", "Yapparov", role = "ctb"),
+  person("Cassio", "Pereira", role = "ctb"),
+  person("Christophe", "Dervieux", role = "ctb"),
+  person("David", "Hall", role = "ctb"),
+  person("David", "Hugh-Jones", role = "ctb"),
+  person("David", "Robinson", role = "ctb"),
+  person("Doug", "Hemken", role = "ctb"),
+  person("Duncan", "Murdoch", role = "ctb"),
+  person("Elio", "Campitelli", role = "ctb"),
+  person("Ellis", "Hughes", role = "ctb"),
+  person("Emily", "Riederer", role = "ctb"),
+  person("Fabian", "Hirschmann", role = "ctb"),
+  person("Fitch", "Simeon", role = "ctb"),
+  person("Forest", "Fang", role = "ctb"),
+  person(c("Frank", "E", "Harrell", "Jr"), role = "ctb", comment = "the Sweavel package at inst/misc/Sweavel.sty"),
+  person("Garrick", "Aden-Buie", role = "ctb"),
+  person("Gregoire", "Detrez", role = "ctb"),
+  person("Hadley", "Wickham", role = "ctb"),
+  person("Hao", "Zhu", role = "ctb"),
+  person("Heewon", "Jeon", role = "ctb"),
+  person("Henrik", "Bengtsson", role = "ctb"),
+  person("Hiroaki", "Yutani", role = "ctb"),
+  person("Ian", "Lyttle", role = "ctb"),
+  person("Hodges", "Daniel", role = "ctb"),
+  person("Jacob", "Bien", role = "ctb"),
+  person("Jake", "Burkhead", role = "ctb"),
+  person("James", "Manton", role = "ctb"),
+  person("Jared", "Lander", role = "ctb"),
+  person("Jason", "Punyon", role = "ctb"),
+  person("Javier", "Luraschi", role = "ctb"),
+  person("Jeff", "Arnold", role = "ctb"),
+  person("Jenny", "Bryan", role = "ctb"),
+  person("Jeremy", "Ashkenas", role = c("ctb", "cph"), comment = "the CSS file at inst/misc/docco-classic.css"),
+  person("Jeremy", "Stephens", role = "ctb"),
+  person("Jim", "Hester", role = "ctb"),
+  person("Joe", "Cheng", role = "ctb"),
+  person("Johannes", "Ranke", role = "ctb"),
+  person("John", "Honaker", role = "ctb"),
+  person("John", "Muschelli", role = "ctb"),
+  person("Jonathan", "Keane", role = "ctb"),
+  person("JJ", "Allaire", role = "ctb"),
+  person("Johan", "Toloe", role = "ctb"),
+  person("Jonathan", "Sidi", role = "ctb"),
+  person("Joseph", "Larmarange", role = "ctb"),
+  person("Julien", "Barnier", role = "ctb"),
+  person("Kaiyin", "Zhong", role = "ctb"),
+  person("Kamil", "Slowikowski", role = "ctb"),
+  person("Karl", "Forner", role = "ctb"),
+  person(c("Kevin", "K."), "Smith", role = "ctb"),
+  person("Kirill", "Mueller", role = "ctb"),
+  person("Kohske", "Takahashi", role = "ctb"),
+  person("Lorenz", "Walthert", role = "ctb"),
+  person("Lucas", "Gallindo", role = "ctb"),
+  person("Marius", "Hofert", role = "ctb"),
+  person("Martin", "Modr<c3><a1>k", role = "ctb"),
+  person("Michael", "Chirico", role = "ctb"),
+  person("Michael", "Friendly", role = "ctb"),
+  person("Michal", "Bojanowski", role = "ctb"),
+  person("Michel", "Kuhlmann", role = "ctb"),
+  person("Miller", "Patrick", role = "ctb"),
+  person("Nacho", "Caballero", role = "ctb"),
+  person("Nick", "Salkowski", role = "ctb"),
+  person("Niels Richard", "Hansen", role = "ctb"),
+  person("Noam", "Ross", role = "ctb"),
+  person("Obada", "Mahdi", role = "ctb"),
+  person("Pavel N.", "Krivitsky", role = "ctb", comment=c(ORCID = "0000-0002-9101-3362")),
+  person("Pedro", "Faria", role = "ctb"),
+  person("Qiang", "Li", role = "ctb"),
+  person("Ramnath", "Vaidyanathan", role = "ctb"),
+  person("Richard", "Cotton", role = "ctb"),
+  person("Robert", "Krzyzanowski", role = "ctb"),
+  person("Rodrigo", "Copetti", role = "ctb"),
+  person("Romain", "Francois", role = "ctb"),
+  person("Ruaridh", "Williamson", role = "ctb"),
+  person("Sagiru", "Mati", role = "ctb", comment = c(ORCID = "0000-0003-1413-3974")),
+  person("Scott", "Kostyshak", role = "ctb"),
+  person("Sebastian", "Meyer", role = "ctb"),
+  person("Sietse", "Brouwer", role = "ctb"),
+  person(c("Simon", "de"), "Bernard", role = "ctb"),
+  person("Sylvain", "Rousseau", role = "ctb"),
+  person("Taiyun", "Wei", role = "ctb"),
+  person("Thibaut", "Assus", role = "ctb"),
+  person("Thibaut", "Lamadon", role = "ctb"),
+  person("Thomas", "Leeper", role = "ctb"),
+  person("Tim", "Mastny", role = "ctb"),
+  person("Tom", "Torsney-Weir", role = "ctb"),
+  person("Trevor", "Davis", role = "ctb"),
+  person("Viktoras", "Veitas", role = "ctb"),
+  person("Weicheng", "Zhu", role = "ctb"),
+  person("Wush", "Wu", role = "ctb"),
+  person("Zachary", "Foster", role = "ctb"),
+  person("Zhian N.", "Kamvar", role = "ctb", comment = c(ORCID = "0000-0003-1458-7108")),
+  person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person("Uwe", "Ligges", email="ligges@statistik.tu-dortmund.de", role = c("aut", "cre", "cph"), comment = c(ORCID = "0000-0001-5875-6167")),
+  person("Sebastian", "Krey", role = c("aut", "cph")),
+  person("Olaf", "Mersmann", role = c("aut", "cph")),
+  person("Sarah", "Schnackenberg", role = c("aut", "cph")),
+  person("Guillaume", "Gu<c3><a9>nard", role = c("aut", "cph"), comment = "for the 'pulse' functionality"),
+  person("Daniel P. W.", "Ellis", role = c("aut", "cph"), comment = "functions ported from 'rastamat'"),
+  person("", "Underbit Technologies", role = c("aut", "cph"), comment = "for the included 'libmad MPEG audio decoder library'"),
+  person("Andrea", "Preusser", role = c("ctb")),
+  person("Anita", "Thieler", role = c("ctb")),
+  person("Johanna", "Mielke", role = c("ctb")),
+  person("Claus", "Weihs", role = c("ctb")),
+  person("Brian D.", "Ripley", role = c("ctb")),
+  person("Matthias", "Heymann", role = c("ctb"), comment = "for ideas from the former 'sound' package"))' in object 'top_packages'
+  'c(person("Jerome", "Sueur", role = c("aut", "cre"),
+  email = "sueur@mnhn.fr"),
+  person("Thierry", "Aubin", role = "aut"),
+  person("Caroline", "Simonis", role = "aut"),
+  person("Laurent", "Lellouch", role = "ctr"),
+  person("Pierre", "Aumond", role = "ctr"),
+  person("Ad<c3><a8>le", "de Baudouin", role = "ctr"),
+  person("Ethan C.", "Brown", role = "ctr"),
+  person("Guillaume", "Corbeau", role = "ctr"),
+  person("Marion", "Depraetere", role = "ctr"),
+  person("Camille", "Desjonqu<c3><a8>res", role = "ctr"),
+  person("Fran<c3><a7>ois", "Fabianek", role = "ctr"),
+  person("Amandine", "Gasc", role = "ctr"),
+  person("Sylvain", "Haupert", role = "ctr"),
+  person("Eric", "Kasten", role = "ctr"),
+  person("Jonathan", "Lees", role = "ctr"),
+  person("Jean", "Marchal", role = "ctr"),
+  person("Andre", "Mikulec", role = "ctr"),
+  person("Sandrine", "Pavoine", role = "ctr"),
+  person("David", "Pinaud", role = "ctr"),
+  person("Alicia", "Stotz", role = "ctr"),
+  person("Luis J.", "Villanueva-Rivera", role = "ctr"),
+  person("Zev", "Ross", role = "ctr"),
+  person("Carl G.", "Witthoft", role = "ctr"),
+  person("Hristo", "Zhivomirov", role = "ctr"))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Rich", "FitzJohn", role = "aut"),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Jeroen", "Ooms", , "jeroen@berkeley.edu", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-4035-0289")),
+  person("Salim", "Br<c3><bc>ggemann", , "salim-b@pm.me", role = c("ctb"),
+  comment = c(ORCID = "0000-0002-5329-5987")))' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", , "hadley@posit.co", role = "aut"),
+  person("Lionel", "Henry", , "lionel@posit.co", role = "aut"),
+  person("Thomas Lin", "Pedersen", , "thomas.pedersen@posit.co", role = c("cre", "aut"),
+  comment = c(ORCID = "0000-0002-5147-4711")),
+  person("T Jake", "Luciani", , "jake@apache.org", role = "aut"),
+  person("Matthieu", "Decorde", , "matthieu.decorde@ens-lyon.fr", role = "aut"),
+  person("Vaudor", "Lise", , "lise.vaudor@ens-lyon.fr", role = "aut"),
+  person("Tony", "Plate", role = "ctb",
+  comment = "Early line dashing code"),
+  person("David", "Gohel", role = "ctb",
+  comment = "Line dashing code and early raster code"),
+  person("Yixuan", "Qiu", role = "ctb",
+  comment = "Improved styles; polypath implementation"),
+  person("H<c3><a5>kon", "Malmedal", role = "ctb",
+  comment = "Opacity code"),
+  person("Posit, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("David", "Gohel", role = c("aut", "cre"),
+  email = "david.gohel@ardata.fr"),
+  person(given = "ArData", role = "cph"),
+  person("Clementine", "Jager", role = "ctb"),
+  person("Panagiotis", "Skintzos", role = "aut", email = "panagiotis.skintzos@ardata.fr"),
+  person("Quentin", "Fazilleau", role = "ctb"),
+  person("Maxim", "Nazarov", role = "ctb", comment = "rmarkdown for docx output"),
+  person("Titouan", "Robert", role = "ctb"),
+  person("Michael", "Barrowman", role = "ctb", comment = "inline footnotes"),
+  person("Atsushi", "Yasumoto", role = "ctb", comment = "support for bookdown cross reference"),
+  person("Paul", "Julian", role = "ctb", comment = "support for gam objects"),
+  person("Sean", "Browning", role = "ctb", comment = "work on footnote positioning system"),
+  person("R<c3><a9>mi", "Th<c3><a9>riault", role = "ctb", comment = c(ORCID = "0000-0003-4315-6788", ctb = "theme_apa")),
+  person("Samuel", "Jobert", role = "ctb", comment = "work on pagination")
+  )' in object 'top_packages'
+  'c(
+  person("Colin", "Fay", , "contact@colinfay.me", role = c("cre", "aut"),
+  comment = c(ORCID = "0000-0001-7343-1846")),
+  person("Vincent", "Guyader", , "vincent@thinkr.fr", role = "aut",
+  comment = c(ORCID = "0000-0003-0671-9270", "previous maintainer")),
+  person("S<c3><a9>bastien", "Rochette", , "sebastien@thinkr.fr", role = "aut",
+  comment = c(ORCID = "0000-0002-1565-9313")),
+  person("Cervan", "Girard", , "cervan@thinkr.fr", role = "aut",
+  comment = c(ORCID = "0000-0002-4816-4624")),
+  person("Novica", "Nakov", , "nnovica@gmail.com", role = "ctb"),
+  person("David", "Granjon", , "dgranjon@ymail.com", role = "ctb"),
+  person("Arthur", "Br<c3><a9>ant", , "arthur@thinkr.fr", role = "ctb"),
+  person("Antoine", "Languillaume", , "antoine@thinkr.fr", role = "ctb"),
+  person("ThinkR", role = "cph")
+  )' in object 'top_packages'
+  'c(
+  person("Kirill", "M<c3><bc>ller", role = c("aut", "cre"), email = "kirill@cynkra.com", comment = c(ORCID = "0000-0002-1416-3412")),
+  person("R Consortium", role = "fnd"),
+  person("RStudio", role = "fnd")
+  )' in object 'top_packages'
+  'c(person("Jos<c3><a9>", "Pinheiro", role = "aut", comment = "S version"),
+  person("Douglas", "Bates", role = "aut", comment = "up to 2007"),
+  person("Saikat", "DebRoy", role = "ctb", comment = "up to 2002"),
+  person("Deepayan", "Sarkar", role = "ctb", comment = "up to 2005"),
+  person("EISPACK authors", role = "ctb", comment = "src/rs.f"),
+  person("Siem", "Heisterkamp", role = "ctb", comment = "Author fixed sigma"),
+  person("Bert", "Van Willigen",role = "ctb", comment = "Programmer fixed sigma"),
+  person("Johannes", "Ranke", role = "ctb", comment = "varConstProp()"),
+  person("R Core Team", email = "R-core@R-project.org",
+  role = c("aut", "cre")))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com",
+  role = c("aut", "cre")),
+  person(
+  "Brodie", "Gaslam", email="brodie.gaslam@yahoo.com",
+  role=c("ctb"))
+  )' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Jim", "Hester", , "jim.hester@rstudio.com", role = "aut"),
+  person("Hadley", "Wickham", role = c("aut")),
+  person("Winston", "Chang", role = "aut"),
+  person("RStudio", role = "cph"),
+  person("Martin", "Morgan", role = "aut"),
+  person("Dan", "Tenenbaum", role = "aut"),
+  person("Mango Solutions", role = "cph")
+  )' in object 'top_packages'
+  'c(
+  person("Yihui", "Xie", email = "xie@yihui.name", role = c("aut", "cre")),
+  person("Joe", "Cheng", role = "aut"),
+  person("Xianying", "Tan", role = "aut"),
+  person("JJ", "Allaire", role = "ctb"),
+  person("Maximilian", "Girlich", role = "ctb"),
+  person("Greg", "Freedman Ellis", role = "ctb"),
+  person("Johannes", "Rauh", role = "ctb"),
+  person("SpryMedia Limited", role = c("ctb", "cph"), comment = "DataTables in htmlwidgets/lib"),
+  person("Brian", "Reavis", role = c("ctb", "cph"), comment = "selectize.js in htmlwidgets/lib"),
+  person("Leon", "Gersen", role = c("ctb", "cph"), comment = "noUiSlider in htmlwidgets/lib"),
+  person("Bartek", "Szopka", role = c("ctb", "cph"), comment = "jquery.highlight.js in htmlwidgets/lib"),
+  person("Alex", "Pickering", role = c("ctb")),
+  person("William", "Holmes", role = c("ctb")),
+  person("Mikko", "Marttila", role = c("ctb")),
+  person("Andres", "Quintero", role = c("ctb")),
+  person("St<c3><a9>phane", "Laurent", role = c("ctb")),
+  person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Jim", "Hester", role = "aut"),
+  person("Hadley", "Wickham", , "hadley@rstudio.com", role = "aut"),
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("libuv project contributors", role = "cph",
+  comment = "libuv library"),
+  person("Joyent, Inc. and other Node contributors", role = "cph",
+  comment = "libuv library"),
+  person("RStudio", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = "aut",
+  comment = c(ORCID = "0000-0001-7098-9676")),
+  person("Tam<c3><a1>s", "Nepusz", , "ntamas@gmail.com", role = "aut",
+  comment = c(ORCID = "0000-0002-1451-338X")),
+  person("Vincent", "Traag", role = "aut",
+  comment = c(ORCID = "0000-0003-3170-3879")),
+  person("Szabolcs", "Horv<c3><a1>t", , "szhorvat@gmail.com", role = "aut",
+  comment = c(ORCID = "0000-0002-3100-523X")),
+  person("Fabio", "Zanini", , "fabio.zanini@unsw.edu.au", role = "aut",
+  comment = c(ORCID = "0000-0001-7097-8539")),
+  person("Daniel", "Noom", role = "aut"),
+  person("Kirill", "M<c3><bc>ller", , "kirill@cynkra.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person("Ma<c3><ab>lle", "Salmon", role = "ctb"),
+  person("Chan Zuckerberg Initiative", role = "fnd")
+  )' in object 'top_packages'
+  'c(person("Delphine", "Charif", role = "aut"),
+  person("Olivier", "Clerc", role = "ctb"),
+  person("Carolin", "Frank", role = "ctb"),
+  person(c("Jean", "R."), "Lobry", role = c("aut", "cph")),
+  person("Anamaria", "Nec<c5><9f>ulea", role = "ctb"),
+  person("Leonor", "Palmeira", role = "ctb"),
+  person("Simon", "Penel", role = "cre", email = "simon.penel@univ-lyon1.fr"),
+  person("Guy", "Perri<c3><a8>re", role = "ctb"))' in object 'top_packages'
+  'c(person(given = "Thibaut",
+  family = "Jombart",
+  role = "aut",
+  comment = c(ORCID = "0000-0003-2226-8692")),
+  person(given = "Zhian N.",
+  family = "Kamvar",
+  role = c("aut", "cre"),
+  email = "zkamvar@gmail.com",
+  comment = c(ORCID = "0000-0003-1458-7108")),
+  person(given = "Caitlin",
+  family = "Collins",
+  role = "ctb"),
+  person(given = "Roman",
+  family = "Lustrik",
+  role = "ctb"),
+  person(given = "Marie-Pauline",
+  family = "Beugin",
+  role = "ctb"),
+  person(given = "Brian J.",
+  family = "Knaus",
+  role = "ctb"),
+  person(given = "Peter",
+  family = "Solymos",
+  role = "ctb"),
+  person(given = "Vladimir",
+  family = "Mikryukov",
+  role = "ctb"),
+  person(given = "Klaus",
+  family = "Schliep",
+  role = "ctb"),
+  person(given = "Tiago",
+  family = "Mai<c3><a9>",
+  role = "ctb"),
+  person(given = "Libor",
+  family = "Morkovsky",
+  role = "ctb"),
+  person(given = "Ismail",
+  family = "Ahmed",
+  role = "ctb"),
+  person(given = "Anne",
+  family = "Cori",
+  role = "ctb"),
+  person(given = "Federico",
+  family = "Calboli",
+  role = "ctb"),
+  person(given = "RJ",
+  family = "Ewing",
+  role = "ctb"),
+  person(given = "Fr<c3><a9>d<c3><a9>ric",
+  family = "Michaud",
+  role = "ctb"),
+  person(given = "Rebecca",
+  family = "DeCamp",
+  role = "ctb"),
+  person(given = "Alexandre",
+  family = "Courtiol",
+  role = "ctb",
+  comment = c(ORCID = "0000-0003-0637-2959")),
+  person(given = "Lindsay V.",
+  family = "Clark",
+  role = "ctb",
+  comment = c(ORCID = "0000-0002-3881-9252")),
+  person(given = "Pavel",
+  family = "Dimens",
+  role = "ctb",
+  comment = c(ORCID = "0000-0003-3823-0373"))
+  )' in object 'top_packages'
+  'c(person("Roger", "Bivand", role = c("cre", "aut"),
+  email = "Roger.Bivand@nhh.no",
+  comment=c(ORCID="0000-0003-2392-6140")),
+  person("Micah", "Altman", role = "ctb"),
+  person("Luc", "Anselin", role = "ctb"),
+  person("Renato", "Assun<c3><a7><c3><a3>o", role = "ctb"),
+  person("Olaf", "Berke", role = "ctb"),
+  person("F. Guillaume", "Blanchet", role = "ctb"),
+  person("Marilia", "Carvalho", role = "ctb"),
+  person("Bjarke", "Christensen", role = "ctb"),
+  person("Yongwan", "Chun", role = "ctb"),
+  person("Carsten", "Dormann", role = "ctb"),
+  person("St<c3><a9>phane", "Dray", role = "ctb"),
+  person("Dewey", "Dunnington", role = c("ctb"),
+  comment = c(ORCID = "0000-0002-9415-4582")),
+  person("Virgilio", "G<c3><b3>mez-Rubio", role = "ctb"),
+  person("Elias", "Krainski", role = "ctb"),
+  person("Pierre", "Legendre", role = "ctb"),
+  person("Nicholas", "Lewin-Koh", role = "ctb"),
+  person("Angela", "Li", role = "ctb"),
+  person("Giovanni", "Millo", role = "ctb"),
+  person("Werner", "Mueller", role = "ctb"),
+  person("Hisaji", "Ono", role = "ctb"),
+  person("Josiah", "Parry", role = "ctb",
+  comment = c(ORCID = "0000-0001-9910-865X")),
+  person("Pedro", "Peres-Neto", role = "ctb"),
+  person("Gianfranco", "Piras", role = "ctb"),
+  person("Markus", "Reder", role = "ctb"),
+  person("Jeff", "Sauer", role = "ctb"),
+  person("Michael", "Tiefelsdorf", role = "ctb"),
+  person("Ren<c3><a9>", "Westerholt", role="ctb"),
+  person("Levi", "Wolf", role = "ctb"),
+  person("Danlin", "Yu", role = "ctb"))' in object 'top_packages'
+  'c(person("Balasubramanian", "Narasimhan", role=c("aut", "cre"),
+  email = "naras@stat.stanford.edu"),
+  person("Manuel", "Koller", role=c("ctb"),
+  email = "koller.manuel@gmail.com"),
+  person(c("Steven", "G."), "Johnson", role=c("aut")),
+  person("Thomas", "Hahn", role=c("aut")),
+  person("Annie", "Bouvier", role=c("aut")),
+  person("Ki<c3><aa>n", "Ki<c3><aa>u", role=c("aut"), email = "Kien.Kieu@jouy.inra.fr"),
+  person("Simen", "Gaure", role=c("ctb"),
+  email = "simen.gaure@frisch.uio.no"))' in object 'top_packages'
+  'c(
+  person("Simon", "Garnier", email = "garnier@njit.edu", role = c("aut", "cre")),
+  person("Noam", "Ross", email = "noam.ross@gmail.com", role = c("ctb", "cph")),
+  person("Bob", "Rudis", email = "bob@rud.is", role = c("ctb", "cph")),
+  person("Marco", "Sciaini", email = "sciaini.marco@gmail.com", role = c("ctb", "cph")),
+  person("Ant<c3><b4>nio Pedro", "Camargo", role = c("ctb", "cph")),
+  person("C<c3><a9>dric", "Scherer", email = "scherer@izw-berlin.de", role = c("ctb", "cph"))
+  )' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi",, "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("R Consortium", role = c("fnd")))' in object 'top_packages'
+  'c(person(given = "Hadley",
+  family = "Wickham",
+  role = "aut",
+  email = "hadley@rstudio.com"),
+  person(given = "Jim",
+  family = "Hester",
+  role = "aut"),
+  person(given = "Winston",
+  family = "Chang",
+  role = c("aut", "cre"),
+  email = "winston@rstudio.com"),
+  person(given = "Kirill",
+  family = "M<c3><bc>ller",
+  role = "aut",
+  email = "krlmlr+r@mailbox.org"),
+  person(given = "Daniel",
+  family = "Cook",
+  role = "aut",
+  email = "danielecook@gmail.com"),
+  person(given = "Mark",
+  family = "Edmondson",
+  role = "ctb",
+  email = "r@sunholo.com"))' in object 'top_packages'
+  'c(person(given = "Jim",
+  family = "Hester",
+  role = "aut"),
+  person(given = "Lionel",
+  family = "Henry",
+  role = c("aut", "cre"),
+  email = "lionel@posit.co"),
+  person(given = "Kirill",
+  family = "M<c3><bc>ller",
+  role = "aut",
+  email = "krlmlr+r@mailbox.org"),
+  person(given = "Kevin",
+  family = "Ushey",
+  role = "aut",
+  email = "kevinushey@gmail.com"),
+  person(given = "Hadley",
+  family = "Wickham",
+  role = "aut",
+  email = "hadley@posit.co"),
+  person(given = "Winston",
+  family = "Chang",
+  role = "aut"),
+  person(given = "Jennifer",
+  family = "Bryan",
+  role = "ctb"),
+  person(given = "Richard",
+  family = "Cotton",
+  role = "ctb"),
+  person(given = "Posit Software, PBC",
+  role = c("cph", "fnd")))' in object 'top_packages'
+  'c(person("Carson", "Sievert", role = c("aut", "cre"),
+  email = "cpsievert1@gmail.com", comment = c(ORCID = "0000-0002-4958-2844")),
+  person("Chris", "Parmer", role = "aut",
+  email = "chris@plot.ly"),
+  person("Toby", "Hocking", role = "aut",
+  email = "tdhock5@gmail.com"),
+  person("Scott", "Chamberlain", role = "aut",
+  email = "myrmecocystus@gmail.com"),
+  person("Karthik", "Ram", role = "aut",
+  email = "karthik.ram@gmail.com"),
+  person("Marianne", "Corvellec", role = "aut",
+  email = "marianne.corvellec@igdore.org", comment = c(ORCID = "0000-0002-1994-3581")),
+  person("Pedro", "Despouy", role = "aut",
+  email = "pedro@plot.ly"),
+  person("Salim", "Br<c3><bc>ggemann", role = "ctb",
+  email = "salim-b@pm.me", comment = c(ORCID = "0000-0002-5329-5987")),
+  person("Plotly Technologies Inc.", role = "cph"))' in object 'top_packages'
+  'c(
+  person(given = "Ulrich", family = "Halekoh",
+  email = "uhalekoh@health.sdu.dk", role = c("aut", "cph")),
+  person(given = "S<c3><b8>ren", family = "H<c3><b8>jsgaard",
+  email = "sorenh@math.aau.dk", role = c("aut", "cre", "cph"))
+  )' in object 'top_packages'
+  'c(person("Alexandra", "Kuznetsova", role = c("aut")),
+  person("Per", "Bruun Brockhoff", role = c("aut", "ths"),
+  email = "perbb@dtu.dk"),
+  person("Rune", "Haubo Bojesen Christensen", role =  c("aut", "cre"),
+  email = "Rune.Haubo@gmail.com"),
+  person("Sofie", "P<c3><b8>denphant Jensen", role=c("ctb"), email="sofp@dtu.dk"))' in object 'top_packages'
+  'c(
+  person("Kamil", "Slowikowski", email = "kslowikowski@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-2843-6370")),
+  person("Alicia", "Schep", role = "ctb", comment = c(ORCID = "0000-0002-3915-0618")),
+  person("Sean", "Hughes", role = "ctb", comment = c(ORCID = "0000-0002-9409-9405")),
+  person("Trung Kien", "Dang", role = "ctb", comment = c(ORCID = "0000-0001-7562-6495")),
+  person("Saulius", "Lukauskas", role = "ctb"),
+  person("Jean-Olivier", "Irisson", role = "ctb", comment = c(ORCID = "0000-0003-4920-3880")),
+  person("Zhian N", "Kamvar", role = "ctb", comment = c(ORCID = "0000-0003-1458-7108")),
+  person("Thompson", "Ryan", role = "ctb", comment = c(ORCID = "0000-0002-0450-8181")),
+  person("Dervieux", "Christophe", role = "ctb", comment = c(ORCID = "0000-0003-4474-2498")),
+  person("Yutani", "Hiroaki", role = "ctb"),
+  person("Pierre", "Gramme", role = "ctb"),
+  person("Amir Masoud", "Abdol", role = "ctb"),
+  person("Malcolm", "Barrett", role = "ctb", comment = c(ORCID = "0000-0003-0299-5825")),
+  person("Robrecht", "Cannoodt", role = "ctb", comment = c(ORCID = "0000-0003-3641-729X")),
+  person("Micha<c5><82>", "Krassowski", role = "ctb", comment = c(ORCID = "0000-0002-9638-7785")),
+  person("Michael", "Chirico", role = "ctb", comment = c(ORCID = "0000-0003-0787-087X")),
+  person("Pedro", "Aphalo", role = "ctb", comment = c(ORCID = "0000-0003-3385-972X")),
+  person("Francis", "Barton", role = "ctb")
+  )' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Hadley", "Wickham", role = "ctb"),
+  person("Kirill", "M<c3><bc>ller", role = "ctb"),
+  person("Salim", "Br<c3><bc>ggemann", , "salim-b@pm.me", role = "ctb",
+  comment = c(ORCID = "0000-0002-5329-5987")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person(given = "S<c3><b8>ren", family = "H<c3><b8>jsgaard",
+  email = "sorenh@math.aau.dk", role = c("aut", "cre", "cph")),
+  person(given = "Ulrich", family = "Halekoh",
+  email = "uhalekoh@health.sdu.dk", role = c("aut", "cph")),
+  person(given = "Jun", family = "Yan",
+  email = "jun.yan@uconn.edu", role = c("aut", "cph")),
+  person(given = "Claus Thorn", family = "Ekstr<c3><b8>m",
+  email = "ekstrom@sund.ku.dk", role = c("ctb"))
+  )' in object 'top_packages'
+  'c(person("Mikis", "Stasinopoulos", role = c("aut", "cre", "cph"),
+  email = "d.stasinopoulos@gre.ac.uk", comment = c(ORCID = "0000-0003-2407-5704")),
+  person("Robert", "Rigby", role = "aut", email = "r.rigby@gre.ac.uk", comment = c(ORCID = "0000-0003-3853-1707")),
+  person("Calliope", "Akantziliotou", role = "ctb"),
+  person("Vlasios", "Voudouris", role = "ctb"),
+  person("Gillian", "Heller", role = "ctb", comment = c(ORCID = "0000-0003-1270-1499")),
+  person("Fernanda", "De Bastiani", role = "ctb", comment = c(ORCID = "0000-0001-8532-639X")),
+  person("Raydonal", "Ospina", role = "ctb", email= "rospina@ime.usp.br", comment = c(ORCID = "0000-0002-9884-9090")),
+  person("Nicoletta", "Motpan", role = "ctb"),
+  person("Fiona", "McElduff", role = "ctb"),
+  person("Majid", "Djennad", role = "ctb"),
+  person("Marco", "Enea", role = "ctb"),
+  person("Alexios", "Ghalanos", role = "ctb"),
+  person("Christos", "Argyropoulos", role = "ctb"),
+  person("Almond", "St<c3><b6>cker", role = "ctb", comment = c(ORCID = "0000-0001-9160-2397")),
+  person("Jens", "Lichter", role = "ctb"),
+  person("Stanislaus", "Stadlmann", role = "ctb", comment = c(ORCID = "0000-0001-6542-6342")),
+  person("Achim", "Zeileis", role = "ctb", email = "Achim.Zeileis@R-project.org", comment = c(ORCID = "0000-0003-0918-3766"))
+  )' in object 'top_packages'
+  'c(
+  person("Dewey", "Dunnington",
+  email = "dewey@fishandwhistle.net",
+  role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-9415-4582")
+  ),
+  person("Brent", "Thorne", role = "ctb", comment = c(ORCID = "0000-0002-1099-3857")),
+  person("Diego", "Hernang<c3><b3>mez", role = "ctb", comment = c(ORCID = "0000-0001-8457-4658"))
+  )' in object 'top_packages'
+  'c(person("Russell V.", "Lenth", role = c("aut", "cre", "cph"),
+  email = "russell-lenth@uiowa.edu"),
+  person("Ben", "Bolker", role = "ctb"),
+  person("Paul", "Buerkner", role = "ctb"),
+  person("Iago", "Gin<c3><a9>-V<c3><a1>zquez", role = "ctb"),
+  person("Maxime", "Herve", role = "ctb"),
+  person("Maarten", "Jung", role = "ctb"),
+  person("Jonathon", "Love", role = "ctb"),
+  person("Fernando", "Miguez", role = "ctb"),
+  person("Hannes", "Riebl", role = "ctb"),
+  person("Henrik", "Singmann", role = "ctb"))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Alec", "Wong", role = "ctb"),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person(given = "Scott",
+  family = "Chamberlain",
+  role = c("aut"),
+  email = "myrmecocystus@gmail.com",
+  comment = c(ORCID = "0000-0003-1444-9135")),
+  person(given = "Eduard",
+  family = "Szoecs",
+  role = "aut"),
+  person(given = "Zachary",
+  family = "Foster",
+  role = c("aut", "cre"),
+  email = "zacharyfoster1989@gmail.com"),
+  person(given = "Zebulun",
+  family = "Arendsee",
+  role = "aut"),
+  person(given = "Carl",
+  family = "Boettiger",
+  role = "ctb"),
+  person(given = "Karthik",
+  family = "Ram",
+  role = "ctb"),
+  person(given = "Ignasi",
+  family = "Bartomeus",
+  role = "ctb"),
+  person(given = "John",
+  family = "Baumgartner",
+  role = "ctb"),
+  person(given = "James",
+  family = "O'Donnell",
+  role = "ctb"),
+  person(given = "Jari",
+  family = "Oksanen",
+  role = "ctb"),
+  person(given = "Bastian Greshake",
+  family = "Tzovaras",
+  role = "ctb"),
+  person(given = "Philippe",
+  family = "Marchand",
+  role = "ctb"),
+  person(given = "Vinh",
+  family = "Tran",
+  role = "ctb"),
+  person(given = "Ma<c3><ab>lle",
+  family = "Salmon",
+  role = "ctb"),
+  person(given = "Gaopeng",
+  family = "Li",
+  role = "ctb"),
+  person(given = "Matthias",
+  family = "Greni<c3><a9>",
+  role = "ctb"),
+  person(given = "rOpenSci",
+  role = "fnd",
+  comment = "https://ropensci.org/"))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("cre", "ctb")),
+  person("Jennifer", "Bryan", role = "aut"),
+  person("Hadley", "Wickham", role = "aut"),
+  person("RStudio", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person(given = "G<c3><a1>bor",
+  family = "Cs<c3><a1>rdi",
+  role = "cre",
+  email = "csardi.gabor@gmail.com"),
+  person(given = "Hadley",
+  family = "Wickham",
+  role = "aut"),
+  person(given = "Winston",
+  family = "Chang",
+  role = "aut"),
+  person(given = "Robert",
+  family = "Flight",
+  role = "aut"),
+  person(given = "Kirill",
+  family = "M<c3><bc>ller",
+  role = "aut"),
+  person(given = "Jim",
+  family = "Hester",
+  role = "aut"),
+  person(given = "R Core team",
+  role = "ctb"))' in object 'top_packages'
+  'c(person("Edzer", "Pebesma", role = c("aut", "cre"), email = "edzer.pebesma@uni-muenster.de", comment = c(ORCID = "0000-0001-8049-7069")),
+  person("Thomas", "Mailund", role = "aut", email = "mailund@birc.au.dk"),
+  person("Tomasz", "Kalinowski", role = "aut"),
+  person("James", "Hiebert", role = "ctb"),
+  person("I<c3><b1>aki", "Ucar", role = "aut", email = "iucar@fedoraproject.org", comment = c(ORCID = "0000-0001-6403-5550")),
+  person("Thomas Lin", "Pedersen", role = "ctb")
+  )' in object 'top_packages'
+  'c(person("Kurt", "Hornik", role = c("aut", "cre"),
+  email = "Kurt.Hornik@R-project.org",
+  comment = c(ORCID = "0000-0003-4198-9911")),
+  person("Walter", "B<c3><b6>hm", role = "ctb"))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Kirill", "M<c3><bc>ller", role = "aut"),
+  person("Jim", "Hester", , "james.f.hester@gmail.com", role = "aut"),
+  person("Ma<c3><ab>lle", "Salmon", role = "ctb",
+  comment = c(ORCID = "0000-0002-2815-0399")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person("Daniel", "L<c3><bc>decke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
+  person("Iago", "Gin<c3><a9>-V<c3><a1>zquez", role = c("ctb"), email = "i.gine@pssjd.org"),
+  person("Alexander", "Bartel", role = "ctb", email = "alexander.bartel@fu-berlin.de", comment = c(ORCID = "0000-0002-1280-6138")))' in object 'top_packages'
+  'c(person("Kurt", "Hornik", role = c("aut", "cre"),
+  email = "Kurt.Hornik@R-project.org",
+  comment = c(ORCID = "0000-0003-4198-9911")),
+  person("Bettina", "Gr<c3><bc>n", role = "aut",
+  comment = c(ORCID = "0000-0001-7265-4773")))' in object 'top_packages'
+  'c(person("Jonah", "Gabry", role = c("aut", "cre"), email = "jsg2201@columbia.edu"),
+  person("Tristan", "Mahr", role = "aut"),
+  person("Paul-Christian", "B<c3><bc>rkner", role = "ctb"),
+  person("Martin", "Modr<c3><a1>k", role = "ctb"),
+  person("Malcolm", "Barrett", role = "ctb"),
+  person("Frank", "Weber", role = "ctb"),
+  person("Eduardo", "Coronado Sroka", role = "ctb"),
+  person("Teemu", "Sailynoja", role = "ctb"),
+  person("Aki", "Vehtari", role = "ctb"))' in object 'top_packages'
+  'c(
+  person("Tomasz", "Kalinowski", role = c("ctb", "cph", "cre"),
+  email = "tomasz@posit.co"),
+  person("Daniel", "Falbel", role = c("ctb", "cph"), email = "daniel@rstudio.com"),
+  person("JJ", "Allaire", role = c("aut", "cph")),
+  person("Fran<c3><a7>ois", "Chollet", role = c("aut", "cph")),
+  person("RStudio", role = c("ctb", "cph", "fnd")),
+  person("Google", role = c("ctb", "cph", "fnd")),
+  person("Yuan", "Tang", role = c("ctb", "cph"),
+  email = "terrytangyuan@gmail.com",
+  comment = c(ORCID = "0000-0001-5243-233X")),
+  person("Wouter", "Van Der Bijl", role = c("ctb", "cph")),
+  person("Martin", "Studer", role = c("ctb", "cph")),
+  person("Sigrid", "Keydana", role = c("ctb"))
+  )' in object 'top_packages'
+  'c(
+  person("Yihui", "Xie", role = c("aut", "cre", "cph"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
+  person("Wush", "Wu", role = "ctb"),
+  person("Daijiang", "Li", role = "ctb"),
+  person("Xianying", "Tan", role = "ctb"),
+  person("Salim", "Br<c3><bc>ggemann", role = "ctb", email = "salim-b@pm.me", comment = c(ORCID = "0000-0002-5329-5987")),
+  person("Christophe", "Dervieux", role = "ctb"),
+  person(given = "Posit Software, PBC", role = c("cph", "fnd")),
+  person()
+  )' in object 'top_packages'
+  'c(person("Vincent", "Goulet", role = c("cre", "aut"),
+  email = "vincent.goulet@act.ulaval.ca"),
+  person("S<c3><a9>bastien", "Auclair", role = "ctb"),
+  person("Christophe", "Dutang", role = "aut",
+  email = "dutang@ceremade.dauphine.fr"),
+  person("Walter", "Garcia-Fontes", role = "ctb",
+  email = "walter.garcia@upf.edu"),
+  person("Nicholas", "Langevin", role = "ctb"),
+  person("Xavier", "Milhaud", role = "ctb"),
+  person("Tommy", "Ouellet", role = "ctb"),
+  person("Alexandre", "Parent", role = "ctb"),
+  person("Mathieu", "Pigeon", role = "aut",
+  email = "pigeon.mathieu.2@uqam.ca"),
+  person("Louis-Philippe", "Pouliot", role = "ctb"),
+  person("Jeffrey A.", "Ryan", role = "aut",
+  email = "jeff.a.ryan@gmail.com",
+  comment = "Package API"),
+  person("Robert", "Gentleman", role = "aut",
+  comment = "Parts of the R to C interface"),
+  person("Ross", "Ihaka", role = "aut",
+  comment = "Parts of the R to C interface"),
+  person(family = "R Core Team", role = "aut",
+  comment = "Parts of the R to C interface"),
+  person(family = "R Foundation", role = "aut",
+  comment = "Parts of the R to C interface"))' in object 'top_packages'
+  'c(
+  person("Jonathan", "Owen", email = "jonathanro@gmail.com",
+  role = c("aut", "cre", "cph")),
+  person("Jeff", "Allen", role = c("ctb")),
+  person("Yihui", "Xie", role = c("ctb")),
+  person("Enzo", "Martoglio",
+  email = "enzo@smartinsightsfromdata.com", role = c("ctb")),
+  person("Inberg", "Ger", role = c("ctb")),
+  person("Warpechowski", "Marcin", role = c("ctb", "cph"), comment = "Handsontable.js library"),
+  person("Handsoncode sp. z o.o.", role = c("ctb", "cph"), comment = "Handsontable.js library"),
+  person("Aisch", "Gregor", role = c("ctb", "cph"), comment = "Chroma.js library"),
+  person("F<c3><b6>retagsplatsen", role = c("ctb", "cph"), comment = "Numbro.js library"),
+  person("Draper", "Adam", role = c("ctb", "cph"), comment = "Numeral.js library"),
+  person("Wood", "Tim", role = c("ctb", "cph"), comment = "Moment.js library"),
+  person("Chernev", "Iskren", role = c("ctb", "cph"), comment = "Moment.js library"),
+  person("Moment.js contributors", role = c("ctb", "cph"), comment = "Moment.js library"),
+  person("Bushell", "David", role = c("ctb", "cph"), comment = "Pikaday.js library"),
+  person("jQuery Foundation", role = c("ctb", "cph"), comment = "jQuery.js library"),
+  person("Splunk Inc", role = c("ctb", "cph"), comment = "Sparkline.js library"),
+  person("Russell", "Kent", role = c("ctb", "cph"), comment = "Sparkline.js library"),
+  person("Rohan", "Jon", role = c("ctb", "cph"), comment = "ZeroClipboard library"),
+  person("Greene", "James", role = c("ctb", "cph"), comment = "ZeroClipboard library"),
+  person("Hammill", "Dillon", role = c("ctb")))' in object 'top_packages'
+  'c(person("Jeroen", "Ooms", role = c("aut", "cre"),
+  email = "jeroen@berkeley.edu", comment = c(ORCID = "0000-0002-4035-0289")),
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = "ctb"))' in object 'top_packages'
+  'c(
+  person("Jim", "Hester", role = "aut",
+  comment = c(ORCID = "0000-0002-2739-7082")),
+  person("Hadley", "Wickham", , "hadley@posit.co", role = "aut",
+  comment = c(ORCID = "0000-0003-4757-117X")),
+  person("Jennifer", "Bryan", , "jenny@posit.co", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-6983-2759")),
+  person("Shelby", "Bearrows", role = "ctb"),
+  person("https://github.com/mandreyel/", role = "cph",
+  comment = "mio library"),
+  person("Jukka", "Jyl<c3><a4>nki", role = "cph",
+  comment = "grisu3 implementation"),
+  person("Mikkel", "J<c3><b8>rgensen", role = "cph",
+  comment = "grisu3 implementation"),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", , "hadley@posit.co", role = c("aut", "cre", "cph"),
+  comment = c(ORCID = "0000-0003-4757-117X")),
+  person("Peter", "Danenberg", , "pcd@roxygen.org", role = c("aut", "cph")),
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = "aut"),
+  person("Manuel", "Eugster", role = c("aut", "cph")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person("Kristian Hovde", "Liland", role = c("aut", "cre"),
+  email = "kristian.liland@nmbu.no"),
+  person("Bj<c3><b8>rn-Helge", "Mevik", role = "aut" ,
+  email = "b-h@mevik.net"),
+  person("Ron", "Wehrens", role = "aut"),
+  person("Paul",  "Hiemstra", role = "ctb"))' in object 'top_packages'
+  'c(
+  person("Thomas Lin", "Pedersen", , "thomasp85@gmail.com", role = c("cre", "aut"),
+  comment = c(ORCID = "0000-0002-5147-4711")),
+  person("Berendea", "Nicolae", role = "aut",
+  comment = "Author of the ColorSpace C++ library"),
+  person("Romain", "Fran<c3><a7>ois", , "romain@purrple.cat", role = "aut",
+  comment = c(ORCID = "0000-0002-2444-4226"))
+  )' in object 'top_packages'
+  'c(person(given = "Elin",
+  family = "Waring",
+  role = c("cre", "aut"),
+  email = "elin.waring@gmail.com"),
+  person(given = "Michael",
+  family = "Quinn",
+  role = "aut",
+  email = "msquinn@google.com"),
+  person(given = "Amelia",
+  family = "McNamara",
+  role = "aut",
+  email = "amcnamara@smith.edu"),
+  person(given = "Eduardo",
+  family = "Arino de la Rubia",
+  role = "aut",
+  email = "earino@gmail.com"),
+  person(given = "Hao",
+  family = "Zhu",
+  role = "aut",
+  email = "haozhu233@gmail.com"),
+  person(given = "Julia",
+  family = "Lowndes",
+  role = "ctb",
+  email = "lowndes@nceas.ucsb.edu"),
+  person(given = "Shannon",
+  family = "Ellis",
+  role = "aut",
+  email = "sellis18@jhmi.edu"),
+  person(given = "Hope",
+  family = "McLeod",
+  role = "ctb",
+  email = "hmgit2@gmail.com"),
+  person(given = "Hadley",
+  family = "Wickham",
+  role = "ctb",
+  email = "hadley@rstudio.com"),
+  person(given = "Kirill",
+  family = "M<c3><bc>ller",
+  role = "ctb",
+  email = "krlmlr+r@mailbox.org"),
+  person(family = "RStudio, Inc.",
+  role = "cph",
+  comment = "Spark functions"),
+  person(given = "Connor",
+  family = "Kirkpatrick",
+  role = "ctb",
+  email = "hello@connorkirkpatrick.com"),
+  person(given = "Scott",
+  family = "Brenstuhl",
+  role = "ctb",
+  email = "brenstsr@miamioh.edu"),
+  person(given = "Patrick",
+  family = "Schratz",
+  role = "ctb",
+  email = "patrick.schratz@gmail.com"),
+  person(given = "lbusett",
+  role = "ctb",
+  email = "lbusett@gmail.com"),
+  person(given = "Mikko",
+  family = "Korpela",
+  role = "ctb",
+  email = "mvkorpel@iki.fi"),
+  person(given = "Jennifer",
+  family = "Thompson",
+  role = "ctb",
+  email = "thompson.jennifer@gmail.com"),
+  person(given = "Harris",
+  family = "McGehee",
+  role = "ctb",
+  email = "mcgehee.harris@gmail.com"),
+  person(given = "Mark",
+  family = "Roepke",
+  role = "ctb",
+  email = "mroepke5@gmail.com"),
+  person(given = "Patrick",
+  family = "Kennedy",
+  role = "ctb",
+  email = "pkqstr@protonmail.com"),
+  person(given = "Daniel",
+  family = "Possenriede",
+  role = "ctb",
+  email = "possenriede@gmail.com"),
+  person(given = "David",
+  family = "Zimmermann",
+  role = "ctb",
+  email = "david_j_zimmermann@hotmail.com"),
+  person(given = "Kyle",
+  family = "Butts",
+  role ="ctb",
+  email = "buttskyle96@gmail.com"),
+  person(given = "Bastian",
+  family = "Torges",
+  role ="ctb",
+  email = "bastian.torges@gmail.com"),
+  person(given = "Rick",
+  family = "Saporta",
+  role = "ctb",
+  email = "Rick@TheFarmersDog.com"),
+  person(given = "Henry",
+  family = "Morgan Stewart",
+  role = "ctb",
+  email = "henry.morganstewart@gmail.com")
+  )' in object 'top_packages'
+  'c(
+  person("Jay", "Loden", role = "aut"),
+  person("Dave", "Daeschler", role = "aut"),
+  person("Giampaolo", "Rodola'", role = "aut"),
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Barret", "Schloerke", role = c("cre", "aut"), email = "barret@rstudio.com", comment = c(ORCID = "0000-0001-9986-114X")),
+  person("Jeff", "Allen", role = c("aut", "ccp"), email = "cran@trestletech.com"),
+  person("Bruno", "Tremblay", role = "ctb", email = "cran@neoxone.com"),
+  person("Frans", "van Dunn<c3><a9>", role = "ctb", email = "frans@ixpantia.com"),
+  person("Sebastiaan", "Vandewoude", role="ctb", email = "sebastiaanvandewoude@gmail.com"),
+  person(family = "RStudio", role = c("cph", "fnd")))' in object 'top_packages'
+  'c(person("Martin", "Maechler", role = c("aut","cre"),
+  email = "maechler@stat.math.ethz.ch",
+  comment = c(ORCID = "0000-0002-8685-9910"))
+  , person("Friedrich", "Leisch", role = "ctb",
+  comment = c("norMixEM()", ORCID = "0000-0001-7278-1983"))
+  , person("Erik", "J<c3><b8>rgensen", role = "ctb", comment = "pnorMix(), qnorMix()")
+  )' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre", "cph"),
+  comment = c(ORCID = "0000-0001-7098-9676")),
+  person("Winston", "Chang", role = "aut"),
+  person("Posit Software, PBC", role = c("cph", "fnd")),
+  person("Mango Solutions", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre", "cph"),
+  comment = c(ORCID = "0000-0001-7098-9676")),
+  person("Winston", "Chang", role = "aut"),
+  person("RStudio", role = c("cph", "fnd")),
+  person("Mango Solutions", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person("Andrew", "Finley", role=c("aut", "cre"), email="finleya@msu.edu"), person("Sudipto", "Banerjee", role="aut"), person("<c3><98>yvind", "Hjelle", role="aut"), person("Roger", "Bivand", role="ctb"))' in object 'top_packages'
+  'c(
+  person("Masaaki", "Horikoshi", role = c("aut"),
+  email = "sinhrks@gmail.com"),
+  person("Yuan", "Tang", role = c("aut", "cre"),
+  email = "terrytangyuan@gmail.com",
+  comment = c(ORCID = "0000-0001-5243-233X")),
+  person("Austin", "Dickey", role = c("ctb")),
+  person("Matthias", "Greni<c3><a9>", role = c("ctb")),
+  person("Ryan", "Thompson", role = c("ctb")),
+  person("Luciano", "Selzer", role = c("ctb")),
+  person("Dario", "Strbenac", role = c("ctb")),
+  person("Kirill", "Voronin", role = c("ctb")),
+  person("Damir", "Pulatov", role = c("ctb"))
+  )' in object 'top_packages'
+  'c(person("Xavier", "Robin", role = c("cre", "aut"),
+  email = "pROC-cran@xavier.robin.name",
+  comment = c(ORCID = "0000-0002-6813-3200")),
+  person("Natacha", "Turck", role = "aut"),
+  person("Alexandre", "Hainard", role = "aut"),
+  person("Natalia", "Tiberti", role = "aut"),
+  person("Fr<c3><a9>d<c3><a9>rique", "Lisacek", role = "aut"),
+  person("Jean-Charles", "Sanchez", role = "aut"),
+  person("Markus", "M<c3><bc>ller", role = "aut"),
+  person("Stefan", "Siegert", role = "ctb",
+  comment = "Fast DeLong code",
+  email = "stefan_siegert@gmx.de"),
+  person("Matthias", "Doering", role = "ctb",
+  comment = "Hand & Till Multiclass"),
+  person("Zane", "Billings", role = "ctb",
+  comment = "DeLong paired test CI"))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Sindre", "Sorhus", role = "aut")
+  )' in object 'top_packages'
+  'c(
+  person("Gergely", "Dar<c3><b3>czi", , "daroczig@rapporter.net", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3149-8537")),
+  person("System1", role = c("fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", role = "aut"),
+  person("Kirill", "M<c3><bc>ller", , "kirill@cynkra.com", role = "cre"),
+  person("RStudio", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Travers", "Ching", email = "traversc@gmail.com", role = c("aut", "cre", "cph")),
+  person("Yann", "Collet", role = c("ctb", "cph"), comment = "Yann Collet is the author of the bundled zstd, lz4 and xxHash code"),
+  person("Facebook, Inc.", role = "cph", comment = "Facebook is the copyright holder of the bundled zstd code"),
+  person("Reichardt", "Tino", role = c("ctb", "cph"), comment = "Contributor/copyright holder of zstd bundled code"),
+  person("Skibinski", "Przemyslaw", role = c("ctb", "cph"), comment = "Contributor/copyright holder of zstd bundled code"),
+  person("Mori", "Yuta", role = c("ctb", "cph"), comment = "Contributor/copyright holder of zstd bundled code"),
+  person("Romain", "Francois", role = c("ctb", "cph"), comment = "Derived example/tutorials for ALTREP structures"),
+  person("Francesc", "Alted", role = c("ctb", "cph"), comment = "Shuffling routines derived from Blosc library"),
+  person("Bryce", "Chamberlain", email = "superchordate@gmail.com", role = c("ctb"), comment = "qsavem and qload functions"),
+  person("Salim", "Br<c3><bc>ggemann", email = "salim-b@pm.me", role = c("ctb"), comment = c(ORCID = "0000-0002-5329-5987", contributions = "documentation")))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", email = "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Matthew", "Lincoln", email = "matthew.d.lincoln@gmail.com", role = c("ctb")))' in object 'top_packages'
+  'c(person("Aki", "Vehtari", email = "Aki.Vehtari@aalto.fi", role = c("aut")),
+  person("Jonah", "Gabry", email = "jsg2201@columbia.edu", role = c("cre", "aut")),
+  person("Mans", "Magnusson", role = c("aut")),
+  person("Yuling", "Yao", role = c("aut")),
+  person("Paul-Christian", "B<c3><bc>rkner", role = c("aut")),
+  person("Topi", "Paananen", role = c("aut")),
+  person("Andrew", "Gelman", role = c("aut")),
+  person("Ben", "Goodrich", role = c("ctb")),
+  person("Juho", "Piironen", role = c("ctb")),
+  person("Bruno", "Nicenboim", role = c("ctb")),
+  person("Leevi", "Lindgren", role = c("ctb")))' in object 'top_packages'
+  'c(
+  person("Carter T.", "Butts", role=c("aut","cre"), email="buttsc@uci.edu"),
+  person("David", "Hunter", role=c("ctb"), email="dhunter@stat.psu.edu"),
+  person("Mark", "Handcock", role=c("ctb"), email="handcock@stat.ucla.edu"),
+  person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@uw.edu"),
+  person("Jeffrey", "Horner", role=c("ctb"), email="jeffrey.horner@gmail.com"),
+  person("Li", "Wang", role=c("ctb"), email="lxwang@uw.edu"),
+  person("Pavel N.", "Krivitsky", role=c("ctb"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362")),
+  person("Brendan", "Knapp", role=c("ctb"), email="brendan.g.knapp@gmail.com", comment=c(ORCID="0000-0003-3284-4972")),
+  person("Micha<c5><82>", "Bojanowski", role=c("ctb"), email = "michal2992@gmail.com", comment = c(ORCID = "0000-0001-7503-852X")),
+  person("Chad", "Klumb", role=c("ctb"), email="cklumb@gmail.com"))' in object 'top_packages'
+  'c(
+  person("Fran<c3><a7>ois", "Briatte", email = "f.briatte@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-6494-9774")),
+  person("Micha<c5><82>", "Bojanowski", role = "ctb", comment = c(ORCID = "0000-0001-7503-852X")),
+  person("Micka<c3><ab>l", "Canouil", role = "ctb", comment = c(ORCID = "0000-0002-3396-4549")),
+  person("Zachary", "Charlop-Powers", role = "ctb", comment = c(ORCID = "0000-0001-8816-4680")),
+  person("Jacob C.", "Fisher", role = "ctb", comment = c(ORCID = "0000-0003-0299-0346")),
+  person("Kipp", "Johnson", role = "ctb", comment = c(ORCID = "0000-0002-5102-741X")),
+  person("Tyler", "Rinker", role = "ctb")
+  )' in object 'top_packages'
+  'c(
+  person("Jo<c3><ab>l", "Gombin", email="joel.gombin@gmail.com", role = c("cre", "aut")),
+  person("Ramnath", "Vaidyanathan", role = "aut"),
+  person("Vladimir", "Agafonkin", role = "aut"),
+  person("Mapbox", role = "cph")
+  )' in object 'top_packages'
+  'c(person("Paul-Christian", "B<c3><bc>rkner", email = "paul.buerkner@gmail.com", role = c("aut", "cre")),
+  person("Jonah", "Gabry", email = "jsg2201@columbia.edu", role = c("aut")),
+  person("Matthew", "Kay", email = "mjskay@northwestern.edu", role = c("aut")),
+  person("Aki", "Vehtari", email = "Aki.Vehtari@aalto.fi", role = c("aut")),
+  person("M<c3><a5>ns", "Magnusson", role = c("ctb")),
+  person("Rok", "<c4><8c>e<c5><a1>novar", role = c("ctb")),
+  person("Ben", "Lambert", role = c("ctb")),
+  person("Ozan", "Ad<c4><b1>g<c3><bc>zel", role = c("ctb")),
+  person("Jacob", "Socolar", role = c("ctb")))' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", role = "aut"),
+  person("Yihui", "Xie", role = c("aut", "cre"), email = "xie@yihui.name", comment = c(ORCID = "0000-0003-0645-5666")),
+  person("Michael", "Lawrence", role = "ctb"),
+  person("Thomas", "Kluyver", role = "ctb"),
+  person("Jeroen", "Ooms", role = "ctb"),
+  person("Barret", "Schloerke", role = "ctb"),
+  person("Adam", "Ryczkowski", role = "ctb"),
+  person("Hiroaki", "Yutani", role = "ctb"),
+  person("Michel", "Lang", role = "ctb"),
+  person("Karolis", "Koncevi<c4><8d>ius", role = "ctb"),
+  person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Joe", "Thorley", , "joe@poissonconsulting.ca", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-7683-4592")),
+  person("Kirill", "M<c3><bc>ller", role = "aut",
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person("Ayla", "Pearson", role = "aut",
+  comment = c(ORCID = "0000-0001-7388-1222")),
+  person("Nadine", "Hussein", , "nadine@poissonconsulting.ca", role = "ctb",
+  comment = c(ORCID = "0000-0003-4470-8361")),
+  person("Evan", "Amies-Galonski", , "evan@poissonconsulting.ca", role = "ctb",
+  comment = c(ORCID = "0000-0003-1096-2089")),
+  person("Poisson Consulting", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person("Markus", "Gesmann", role = c("aut", "cre"),
+  email = "markus.gesmann@googlemail.com"),
+  person("Diego", "de Castillo", role = "aut",
+  email = "decastillo@gmail.com"),
+  person("Joe", "Cheng", role = "ctb",
+  email = "joe@rstudio.com"),
+  person("Ashley", "Baldry", role = "ctb"),
+  person("Durey", "Ingenier<c3><ad>a", role = "ctb"))' in object 'top_packages'
+  'c(person("Paul-Christian", "B<c3><bc>rkner", email = "paul.buerkner@gmail.com",
+  role = c("aut", "cre")),
+  person("Jonah", "Gabry", role = c("ctb")),
+  person("Sebastian", "Weber", role = c("ctb")),
+  person("Andrew", "Johnson", role = c("ctb")),
+  person("Martin", "Modrak", role = c("ctb")),
+  person("Hamada S.", "Badr", role = c("ctb")),
+  person("Frank", "Weber", role = c("ctb")),
+  person("Mattan S.", "Ben-Shachar", role = c("ctb")),
+  person("Hayden", "Rabel", role = c("ctb")),
+  person("Simon C.", "Mills", role = c("ctb")),
+  person("Stephen", "Wild", role = c("ctb")))' in object 'top_packages'
+  'c(person(given = "Daniel",
+  family = "L<c3><bc>decke",
+  role = c("aut", "cre"),
+  email = "d.luedecke@uke.de",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person(given = "Dominique",
+  family = "Makowski",
+  role = c("aut", "ctb"),
+  email = "dom.makowski@gmail.com",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = c("aut", "ctb"),
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person(given = "Philip",
+  family = "Waggoner",
+  role = c("aut", "ctb"),
+  email = "philip.waggoner@gmail.com",
+  comment = c(ORCID = "0000-0002-7825-7573")),
+  person(given = "Mattan S.",
+  family = "Ben-Shachar",
+  role = c("aut", "ctb"),
+  email = "matanshm@post.bgu.ac.il",
+  comment = c(ORCID = "0000-0002-4287-4801")),
+  person(given = "Brenton M.",
+  family = "Wiernik",
+  role = c("aut", "ctb"),
+  email = "brenton@wiernik.org",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person(given = "Vincent",
+  family = "Arel-Bundock",
+  email = "vincent.arel-bundock@umontreal.ca",
+  role = c("aut", "ctb"),
+  comment = c(ORCID = "0000-0003-2042-7063")),
+  person(given = "Etienne",
+  family = "Bacher",
+  email = "etienne.bacher@protonmail.com",
+  role = c("aut", "ctb"),
+  comment = c(ORCID = "0000-0002-9271-5075")),
+  person(given = "Alex",
+  family = "Hayes",
+  role = c("rev"),
+  email = "alexpghayes@gmail.com",
+  comment = c(ORCID = "0000-0002-4985-5160")),
+  person(given = "Grant",
+  family = "McDermott",
+  role = c("ctb"),
+  email = "grantmcd@uoregon.edu",
+  comment = c(ORCID = "0000-0001-7883-8573")),
+  person(given = "R<c3><a9>mi",
+  family = "Th<c3><a9>riault",
+  role = "ctb",
+  email = "remi.theriault@mail.mcgill.ca",
+  comment = c(ORCID = "0000-0003-4315-6788", Twitter = "@rempsyc")),
+  person(given = "Alex",
+  family = "Reinhart",
+  role = "ctb",
+  email = "areinhar@stat.cmu.edu",
+  comment = c(ORCID = "0000-0002-6658-514X")))' in object 'top_packages'
+  'c(
+  person("Indrajeet", "Patil", , "patilindrajeet.science@gmail.com", role = "aut",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person("Etienne", "Bacher", , "etienne.bacher@protonmail.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-9271-5075")),
+  person("Dominique", "Makowski", , "dom.makowski@gmail.com", role = "aut",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person("Daniel", "L<c3><bc>decke", , "d.luedecke@uke.de", role = "aut",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person("Mattan S.", "Ben-Shachar", , "matanshm@post.bgu.ac.il", role = "aut",
+  comment = c(ORCID = "0000-0002-4287-4801")),
+  person("Brenton M.", "Wiernik", , "brenton@wiernik.org", role = "aut",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person("R<c3><a9>mi", "Th<c3><a9>riault", , "remi.theriault@mail.mcgill.ca", role = "ctb",
+  comment = c(ORCID = "0000-0003-4315-6788", Twitter = "@rempsyc")),
+  person("Thomas J.", "Faulkenberry", , "faulkenberry@tarleton.edu", role = "rev"),
+  person("Robert", "Garrett", , "rcg4@illinois.edu", role = "rev")
+  )' in object 'top_packages'
+  'c(
+  person("Gergely", "Dar<c3><b3>czi", , "daroczig@rapporter.net", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3149-8537")),
+  person("Roman", "Tsegelskyi", , "roman.tsegelskyi@gmail.com", role = c("aut")))' in object 'top_packages'
+  'c(
+  person("Bhaskar", "Karambelkar", email = "bhaskarvk@gmail.com", role = c("aut", "cre")),
+  person("Barret", "Schloerke", email = "barret@rstudio.com", role = c("aut")),
+  person("Bangyou", "Zheng", email= "Bangyou.Zheng@csiro.au", role = c("ctb"),
+  comment = "Leaflet-search and Leaflet-GPS plugin integration"),
+  person("Robin", "Cura", email= "robin@cura.info", role = c("ctb"),
+  comment = "Fixes for Draw Options"),
+  person("Markus", "Voge", email= "markus.voge@ea-aw.de", role = c("ctb"),
+  comment = "Enhancements for Draw Options"),
+  person("Markus", "Dumke", role = c("ctb"), comment = "Bounce Marker addition"),
+  person(family = "Mapbox", role = c("ctb", "cph"), comment = "leaflet-omnivore, csv2geojson, and togeojson libraries"),
+  person("Henry", "Thasler", role = c("ctb", "cph"), comment = "Leaflet.Geodesic library"),
+  person("Dennis", "Wilhelm", role = c("ctb", "cph"), comment = "Leaflet.StyleEditor library"),
+  person("Kirollos", "Risk", role = c("ctb", "cph"), comment = "fuse.js library"),
+  person("Tim", "Wisniewski", role = c("ctb", "cph"), comment = "leaflet-choropleth library"),
+  person(family = "Leaflet", role = c("ctb", "cph"), comment = "leaflet-draw library"),
+  person("Alexander", "Milevski", role = c("ctb", "cph"), comment = "leaflet-draw-drag library"),
+  person("John", "Firebaugh", role = c("ctb", "cph"), comment = "leaflet-fullscreen library"),
+  person("Stefano", "Cudini", role = c("ctb", "cph"), comment = "leaflet-gps library"),
+  person("Johannes", "Rudolph", role = c("ctb", "cph"), comment = "leaflet-hash library"),
+  person("Per", "Liedman", role = c("ctb", "cph"), comment = "leaflet-measure-path library"),
+  person("Pavel", "Shramov", role = c("ctb", "cph"), comment = "leaflet-plugins library"),
+  person("Filip", "Zavadil", role = c("ctb", "cph"), comment = "leaflet-pulse-icon library"),
+  person("Stefano", "Cudini", role = c("ctb", "cph"), comment = "leaflet-search library"),
+  person(family = "CliffCloud", role = c("ctb", "cph"), comment = "leaflet-sleep library"),
+  person(family = "Ursudio", role = c("ctb", "cph"), comment = "leaflet-webgl-heatmap library"),
+  person("Maxime", "Hadjinlian", role = c("ctb", "cph"), comment = "leaflet.BounceMarker library"),
+  person("Vladimir", "Agafonkin", role = c("ctb", "cph"), comment = "leaflet.heat library"),
+  person("Iv<c3><a1>n S<c3><a1>nchez", "Ortega", role = c("ctb", "cph"), comment = "leaflet.tilelayer.pouchdbcached library"),
+  person("Dale", "Harvey", role = c("ctb", "cph"), comment = "pouchdb-browser library"),
+  person("Mike", "Bostock", role = c("ctb", "cph"), comment = "topojson library")
+  )' in object 'top_packages'
+  'c(
+  person(c("Mark", "S."), "Handcock", role=c("aut"), email="handcock@stat.ucla.edu"),
+  person(c("David", "R."), "Hunter", role=c("aut"), email="dhunter@stat.psu.edu"),
+  person(c("Carter", "T."), "Butts", role=c("aut"), email="buttsc@uci.edu"),
+  person(c("Steven", "M."), "Goodreau", role=c("aut"), email="goodreau@u.washington.edu"),
+  person(c("Pavel", "N."), "Krivitsky", role=c("aut","cre"), email="pavel@statnet.org", comment=c(ORCID="0000-0002-9101-3362")),
+  person("Martina", "Morris", role=c("aut"), email="morrism@u.washington.edu"),
+  person("Li","Wang",role=c("ctb"),email="lxwang@gmail.com"),
+  person("Kirk","Li",role=c("ctb"),email="kirkli@u.washington.edu"),
+  person("Skye", "Bender-deMoll", role=c("ctb"), email="skyebend@u.washington.edu"),
+  person("Chad", "Klumb", role=c("ctb"), email="cklumb@gmail.com"),
+  person("Micha<c5><82>", " Bojanowski", role=c("ctb"), email="michal2992@gmail.com", comment=c(ORCID="0000-0001-7503-852X")),
+  person("Ben", "Bolker", role=c("ctb"), email="bbolker+lme4@gmail.com"),
+  person("Christian", "Schmid", role=c("ctb"), email="songhyo86@gmail.com"),
+  person("Joyce", "Cheng", role=c("ctb"), email="joyce.cheng@student.unsw.edu.au"),
+  person("Arya", "Karami", role=c("ctb"), email="a.karami@unsw.edu.au"))' in object 'top_packages'
+  'c(person("Roger", "Bivand", role = c("cre", "aut"), email = "Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
+  person(given = "Gianfranco", family = "Piras", role = c("aut"), email = "gpiras@mac.com"),
+  person("Luc", "Anselin", role = "ctb"),
+  person("Andrew", "Bernat", role = "ctb"),
+  person("Eric", "Blankmeyer", role = "ctb"),
+  person("Yongwan", "Chun", role = "ctb"),
+  person("Virgilio", "G<c3><b3>mez-Rubio", role = "ctb"),
+  person("Daniel", "Griffith", role = "ctb"),
+  person("Martin", "Gubri", role = "ctb"),
+  person("Rein", "Halbersma", role = "ctb"),
+  person("James", "LeSage", role = "ctb"),
+  person("Angela", "Li", role = "ctb"),
+  person("Hongfei", "Li", role = "ctb"),
+  person("Jielai", "Ma", role = "ctb"),
+  person("Abhirup", "Mallik", role = c("ctb", "trl")),
+  person("Giovanni", "Millo", role = "ctb"),
+  person("Kelley", "Pace", role = "ctb"),
+  person("Pedro", "Peres-Neto", role = "ctb"),
+  person("Tobias", "R<c3><bc>ttenauer", role = "ctb"),
+  person(given = "Mauricio", family = "Sarrias", role = c("ctb"), email = "mauricio.sarrias@ucn.cl"),
+  person(given = "JuanTomas", family = "Sayago", role = c("ctb"), email = "juantomas.sayago@gmail.com"),
+  person("Michael", "Tiefelsdorf", role = "ctb"))' in object 'top_packages'
+  'person(given = "Florian",
+  family = "Priv<c3><a9>",
+  role = c("aut", "cre"),
+  email = "florian.prive.21@gmail.com")' in object 'top_packages'
+  'c(
+  person("Jim", "Hester", role = "aut",
+  comment = c(ORCID = "0000-0002-2739-7082")),
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person(given = "Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(
+  person("Nan", "Xiao", email = "me@nanx.me", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-0250-5673")),
+  person("Joshua", "Cook", email = "joshuacook0023@gmail.com", role = "ctb"),
+  person("Clara", "J<c3><a9>gousse", email = "cat3@hi.is", role = "ctb"),
+  person("Miaozhu", "Li", email = "miaozhu.li@duke.edu", role = "ctb")
+  )' in object 'top_packages'
+  'person("Micha<c5><82>", "Bojanowski", role=c("aut", "cre"),
+  email="michal2992@gmail.com", comment=c(ORCID="0000-0001-7503-852X"))' in object 'top_packages'
+  'c(person("Daniel", "M<c3><bc>llner", email = "daniel@danifold.net", role = c("aut", "cph", "cre")),
+  person("Google Inc.", role="cph"))' in object 'top_packages'
+  'c(person(given="Henrik", family="Singmann", role=c("aut", "cre"),
+  email="singmann@gmail.com", comment=c(ORCID="0000-0002-4842-3657")),
+  person(given="Ben", family="Bolker", role=c("aut")),
+  person(given="Jake",family="Westfall", role=c("aut")),
+  person(given="Frederik", family="Aust", role=c("aut"),
+  comment = c(ORCID = "0000-0003-4900-788X")),
+  person(given="Mattan S.",family="Ben-Shachar", role=c("aut")),
+  person(given="S<c3><b8>ren", family="H<c3><b8>jsgaard", role=c("ctb")),
+  person(given="John", family="Fox", role=c("ctb")),
+  person(given="Michael A.", family="Lawrence", role=c("ctb")),
+  person(given="Ulf", family="Mertens", role=c("ctb")),
+  person(given="Jonathon", family="Love", role=c("ctb")),
+  person(given="Russell", family="Lenth", role=c("ctb")),
+  person(given="Rune", family="Haubo Bojesen Christensen", role=c("ctb")))' in object 'top_packages'
+  'c(
+  person("Roger", "Bivand", role=c("aut", "cre"), email="Roger.Bivand@nhh.no", comment=c(ORCID="0000-0003-2392-6140")),
+  person("Bill", "Denney", role="ctb", comment=c(ORCID="0000-0002-5759-428X")),
+  person("Richard", "Dunlap", role="ctb"),
+  person("Diego", "Hernang<c3><b3>mez", role="ctb", comment=c(ORCID="0000-0001-8457-4658")),
+  person("Hisaji", "Ono", role="ctb"),
+  person("Josiah", "Parry", role = "ctb", comment = c(ORCID = "0000-0001-9910-865X")),
+  person("Matthieu", "Stigler", role="ctb", comment =c(ORCID="0000-0002-6802-4290")))' in object 'top_packages'
+  'c(person("Ben","Bolker",email="bolker@mcmaster.ca",role=c("aut","cre"),
+  comment=c(ORCID="0000-0002-2127-0443")),
+  person("R Development Core Team",role=c("aut")),
+  person("Iago Gin<c3><a9>-V<c3><a1>zquez", role=c("ctb"))
+  )' in object 'top_packages'
+  'c(person("Marius", "Hofert", role = "aut", email = "marius.hofert@uwaterloo.ca",       comment = c(ORCID = "0000-0001-8009-4665"))
+  , person("Ivan", "Kojadinovic", role = "aut", email = "ivan.kojadinovic@univ-pau.fr",  comment = c(ORCID = "0000-0002-2903-1543"))
+  , person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch", comment = c(ORCID = "0000-0002-8685-9910"))
+  , person("Jun", "Yan", role = "aut", email = "jun.yan@uconn.edu",                      comment = c(ORCID = "0000-0003-4401-7296"))
+  , person(c("Johanna", "G."), "Ne<c5><a1>lehov<c3><a1>", role = "ctb", comment = c("evTestK()", ORCID = "0000-0001-9634-4796"))
+  , person("Rebecca", "Morger", role = "ctb", comment = "fitCopula.ml(): code for free mixCopula weight parameters")
+  )' in object 'top_packages'
+  'c(person(given = "Dominique",
+  family = "Makowski",
+  role = c("aut", "cre"),
+  email = "dom.makowski@gmail.com",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person(given = "Daniel",
+  family = "L<c3><bc>decke",
+  role = "aut",
+  email = "d.luedecke@uke.de",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person(given = "Mattan S.",
+  family = "Ben-Shachar",
+  role = "aut",
+  email = "matanshm@post.bgu.ac.il",
+  comment = c(ORCID = "0000-0002-4287-4801", Twitter = "@mattansb")),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = "aut",
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person(given = "Michael D.",
+  family = "Wilson",
+  role = "aut",
+  email = "michael.d.wilson@curtin.edu.au",
+  comment = c(ORCID = "0000-0003-4143-7308")),
+  person(given = "Brenton M.",
+  family = "Wiernik",
+  role = "aut",
+  email = "brenton@wiernik.org",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person(given = "Paul-Christian",
+  family = "B<c3><bc>rkner",
+  role = "rev",
+  email = "paul.buerkner@gmail.com"),
+  person(given = "Tristan",
+  family = "Mahr",
+  role = "rev",
+  email = "tristan.mahr@wisc.edu",
+  comment = c(ORCID = "0000-0002-8890-5116")),
+  person(given = "Henrik",
+  family = "Singmann",
+  role = "ctb",
+  email = "singmann@gmail.com",
+  comment = c(ORCID = "0000-0002-4842-3657")),
+  person(given = "Quentin F.",
+  family = "Gronau",
+  role = "ctb",
+  comment = c(ORCID = "0000-0001-5510-6943")),
+  person(given = "Sam",
+  family = "Crawley",
+  role = "ctb",
+  email = "sam@crawley.nz",
+  comment = c(ORCID = "0000-0002-7847-0411")))' in object 'top_packages'
+  'c(
+  person("Joseph", "Larmarange", email = "joseph@larmarange.net", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7097-700X")),
+  person("Daniel", "Ludecke", role = "ctb"),
+  person("Hadley", "Wickham", role = "ctb"),
+  person("Michal", "Bojanowski", role = "ctb"),
+  person("Fran<c3><a7>ois", "Briatte", role = "ctb")
+  )' in object 'top_packages'
+  'c(person(given = "Mattan S.",
+  family = "Ben-Shachar",
+  role = c("aut", "cre"),
+  email = "mattansb@msbstats.info",
+  comment = c(ORCID = "0000-0002-4287-4801", Twitter = "@mattansb")),
+  person(given = "Dominique",
+  family = "Makowski",
+  role = "aut",
+  email = "dom.makowski@gmail.com",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person(given = "Daniel",
+  family = "L<c3><bc>decke",
+  role = "aut",
+  email = "d.luedecke@uke.de",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = "aut",
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person(given = "Brenton M.",
+  family = "Wiernik",
+  role = "aut",
+  email = "brenton@wiernik.org",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person(given = "R<c3><a9>mi",
+  family = "Th<c3><a9>riault",
+  role = "aut",
+  email = "remi.theriault@mail.mcgill.ca",
+  comment = c(ORCID = "0000-0003-4315-6788", Twitter = "@rempsyc")),
+  person(given = "Ken",
+  family = "Kelley",
+  role = "ctb"),
+  person(given = "David",
+  family = "Stanley",
+  role = "ctb"),
+  person(given = "Aaron",
+  family = "Caldwell",
+  role = "ctb",
+  email = "arcaldwell49@gmail.com",
+  comment = c(ORCID = "0000-0002-4541-6283")),
+  person(given = "Jessica",
+  family = "Burnett",
+  role = "rev",
+  email = "jburnett@usgs.gov",
+  comment = c(ORCID = "0000-0002-0896-5099")),
+  person(given = "Johannes",
+  family = "Karreth",
+  role = "rev",
+  email = "jkarreth@ursinus.edu",
+  comment = c(ORCID = "0000-0003-4586-7153")))' in object 'top_packages'
+  'c(person(given = "Daniel",
+  family = "L<c3><bc>decke",
+  role = c("aut", "cre"),
+  email = "d.luedecke@uke.de",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person(given = "Dominique",
+  family = "Makowski",
+  role = c("aut", "ctb"),
+  email = "dom.makowski@gmail.com",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person(given = "Mattan S.",
+  family = "Ben-Shachar",
+  role = c("aut", "ctb"),
+  email = "matanshm@post.bgu.ac.il",
+  comment = c(ORCID = "0000-0002-4287-4801", Twitter = "@mattansb")),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = c("aut", "ctb"),
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person(given = "Philip",
+  family = "Waggoner",
+  role = c("aut", "ctb"),
+  email = "philip.waggoner@gmail.com",
+  comment = c(ORCID = "0000-0002-7825-7573")),
+  person(given = "Brenton M.",
+  family = "Wiernik",
+  role = c("aut", "ctb"),
+  email = "brenton@wiernik.org",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person(given = "Vincent",
+  family = "Arel-Bundock",
+  email = "vincent.arel-bundock@umontreal.ca",
+  role = "ctb",
+  comment = c(ORCID = "0000-0003-2042-7063")),
+  person(given = "R<c3><a9>mi",
+  family = "Th<c3><a9>riault",
+  role = "ctb",
+  email = "remi.theriault@mail.mcgill.ca",
+  comment = c(ORCID = "0000-0003-4315-6788", Twitter = "@rempsyc")),
+  person(given = "Martin",
+  family = "Jullum",
+  role = "rev"),
+  person(given = "gjo11",
+  role = "rev"),
+  person("Etienne",
+  "Bacher", ,
+  "etienne.bacher@protonmail.com",
+  role = "ctb",
+  comment = c(ORCID = "0000-0002-9271-5075")))' in object 'top_packages'
+  'c(
+  person("Daniel", "L<c3><bc>decke", role = c("aut", "cre"), email = "d.luedecke@uke.de", comment = c(ORCID = "0000-0002-8895-3206")),
+  person("avid", "Ranzolin", role = "ctb", email = "daranzolin@gmail.com"),
+  person("Jonathan", "De Troye", role = "ctb", email = "detroyejr@outlook.com")
+  )' in object 'top_packages'
+  'c(
+  person("Michael W.", "Kearney", , "kearneymw@missouri.edu", role = "aut",
+  comment = c(ORCID = "0000-0002-0730-4694")),
+  person("Llu<c3><ad>s", "Revilla Sancho", , "lluis.revilla@gmail.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0001-9747-2570")),
+  person("Hadley", "Wickham", role = "aut",
+  comment = c(ORCID = "0000-0003-4757-117X")),
+  person("Andrew", "Heiss", role = "rev",
+  comment = c(ORCID = "0000-0002-3948-3914")),
+  person("Francois", "Briatte", role = "rev"),
+  person("Jonathan", "Sidi", , "yonicd@gmail.com", role = "ctb",
+  comment = c(ORCID = "0000-0002-4222-1819"))
+  )' in object 'top_packages'
+  'c(
+  person("Hannes", "M<c3><bc>hleisen", , "hannes@cwi.nl", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0001-8552-0029")),
+  person("Mark", "Raasveldt", , "mark.raasveldt@cwi.nl", role = "aut",
+  comment = c(ORCID = "0000-0001-5005-6844")),
+  person("Stichting DuckDB Foundation", role = "cph"),
+  person("Apache Software Foundation", role = "cph"),
+  person("PostgreSQL Global Development Group", role = "cph"),
+  person("The Regents of the University of California", role = "cph"),
+  person("Cameron Desrochers", role = "cph"),
+  person("Victor Zverovich", role = "cph"),
+  person("RAD Game Tools", role = "cph"),
+  person("Valve Software", role = "cph"),
+  person("Rich Geldreich", role = "cph"),
+  person("Tenacious Software LLC", role = "cph"),
+  person("The RE2 Authors", role = "cph"),
+  person("Google Inc.", role = "cph"),
+  person("Facebook Inc.", role = "cph"),
+  person("Steven G. Johnson", role = "cph"),
+  person("Jiahao Chen", role = "cph"),
+  person("Tony Kelman", role = "cph"),
+  person("Jonas Fonseca", role = "cph"),
+  person("Lukas Fittl", role = "cph"),
+  person("Salvatore Sanfilippo", role = "cph"),
+  person("Art.sy, Inc.", role = "cph"),
+  person("Oran Agra", role = "cph"),
+  person("Redis Labs, Inc.", role = "cph"),
+  person("Melissa O'Neill", role = "cph"),
+  person("PCG Project contributors", role = "cph")
+  )' in object 'top_packages'
+  'c(
+  person(given = "Mikkel Meyer", family = "Andersen",
+  email = "mikl@math.aau.dk", role = c("aut", "cre", "cph")),
+  person(given = "Rob", family = "Goedman",
+  email = "goedman@mac.com", role = c("aut", "cph")),
+  person(given = "Gabor", family = "Grothendieck",
+  email = "ggrothendieck@gmail.com", role = c("aut", "cph")),
+  person(given = "S<c3><b8>ren", family = "H<c3><b8>jsgaard",
+  email = "sorenh@math.aau.dk", role = c("aut", "cph")),
+  person(given = "Grzegorz", family = "Mazur",
+  email = "teoretyk@gmail.com", role = c("aut", "cph")),
+  person(given = "Ayal", family = "Pinkus",
+  email = "apinkus@xs4all.nl", role = c("aut", "cph")),
+  person(given = "Nemanja", family = "Trifunovic",
+  role = c("cph"), comment = "UTF-8 part of yacas (src/yacas/include/yacas/utf8*)")
+  )' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", role = "aut"),
+  person("Jim", "Hester", role = "aut"),
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'person(given = "G<c3><a1>bor",
+  family = "Cs<c3><a1>rdi",
+  role = c("cre", "aut"),
+  email = "csardi.gabor@gmail.com")' in object 'top_packages'
+  'c(person(given="Claus Thorn", family="Ekstr<c3><b8>m", role = c("aut", "cre"), email = "claus@rprimer.dk"),
+  person(given="Niels Aske Lundtorp", family="Olsen", role=c("ctb"), email="nalo@dtu.dk"))' in object 'top_packages'
+  'c(person(given = "Daniel",
+  family = "L<c3><bc>decke",
+  role = c("aut", "cre"),
+  email = "d.luedecke@uke.de",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person(given = "Dominique",
+  family = "Makowski",
+  role = "aut",
+  email = "dom.makowski@gmail.com",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person(given = "Mattan S.",
+  family = "Ben-Shachar",
+  role = "aut",
+  email = "matanshm@post.bgu.ac.il",
+  comment = c(ORCID = "0000-0002-4287-4801")),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = "aut",
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person(given = "S<c3><b8>ren",
+  family = "H<c3><b8>jsgaard",
+  role = "aut",
+  email = "sorenh@math.aau.dk"),
+  person(given = "Brenton M.",
+  family = "Wiernik",
+  role = "aut",
+  email = "brenton@wiernik.org",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person(given = "Zen J.",
+  family = "Lau",
+  role = "ctb",
+  email = "zenjuen.lau@ntu.edu.sg"),
+  person(given = "Vincent",
+  family = "Arel-Bundock",
+  role = "ctb",
+  email = "vincent.arel-bundock@umontreal.ca",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@vincentab")),
+  person(given = "Jeffrey",
+  family = "Girard",
+  role = "ctb",
+  email = "me@jmgirard.com",
+  comment = c(ORCID = "0000-0002-7359-3746", Twitter = "@jeffreymgirard")),
+  person(given = "Christina",
+  family = "Maimone",
+  role = "rev",
+  email = "christina.maimone@northwestern.edu"),
+  person(given = "Niels",
+  family = "Ohlsen",
+  role = "rev",
+  comment = c(Twitter = "@Niels_Bremen")),
+  person(given = "Douglas Ezra",
+  family = "Morrison",
+  role = "ctb",
+  email = "dmorrison01@ucla.edu",
+  comment = c(ORCID = "0000-0002-7195-830X", Twitter = "@demstats1")),
+  person(given = "Joseph",
+  family = "Luchman",
+  role = "ctb",
+  email = "jluchman@gmail.com",
+  comment = c(ORCID = "0000-0002-8886-9717")))' in object 'top_packages'
+  'c(
+  person("Rasmus", "B<c3><a5><c3><a5>th", email = "rasmus.baath@gmail.com", role = c("aut", "cre")),
+  person("Amanda", "Dobbyn", email = "amanda.e.dobbyn@gmail.com", role = "ctb"))' in object 'top_packages'
+  'c(
+  person("G<c3><a1>bor", "Cs<c3><a1>rdi", , "csardi.gabor@gmail.com", role = c("aut", "cre")),
+  person("Posit Software, PBC", role = c("cph", "fnd"))
+  )' in object 'top_packages'
+  'c(person(given = c("Terrence","D."), family = "Jorgensen", role = c("aut","cre"), email="TJorgensen314@gmail.com", comment = c(ORCID = "0000-0001-5111-6773")),
+  person(given = "Sunthud", family = "Pornprasertmanit", role = "aut", email = "psunthud@gmail.com"),
+  person(given = c("Alexander","M."), family = "Schoemann", role = "aut", email="schoemanna@ecu.edu", comment = c(ORCID = "0000-0002-8479-8798")),
+  person(given = "Yves", family = "Rosseel", role = "aut", email="Yves.Rosseel@UGent.be", comment = c(ORCID = "0000-0002-4129-4477")),
+  person(given = "Patrick", family = "Miller", role = "ctb", email="pmille13@nd.edu"),
+  person(given = "Corbin", family = "Quick", role = "ctb", email="corbinq@umich.edu"),
+  person(given = "Mauricio", family = "Garnier-Villarreal", role = "ctb", email="mauricio.garniervillarreal@marquette.edu", comment = c(ORCID = "0000-0002-2951-6647")),
+  person(given = "James", family = "Selig", role = "ctb", email="selig@unm.edu"),
+  person(given = "Aaron", family = "Boulton", role = "ctb", email="aboulton@email.unc.edu"),
+  person(given = "Kristopher", family = "Preacher", role = "ctb", email="kris.preacher@vanderbilt.edu"),
+  person(given = "Donna", family = "Coffman", role = "ctb", email="dlc30@psu.edu"),
+  person(given = "Mijke", family = "Rhemtulla", role = "ctb", email="mrhemtulla@ucdavis.edu", comment = c(ORCID = "0000-0003-2572-2424")),
+  person(given = "Alexander", family = "Robitzsch", role = "ctb", email="a.robitzsch@bifie.at", comment = c(ORCID = "0000-0002-8226-3132")),
+  person(given = "Craig", family = "Enders", role = "ctb", email="cenders@psych.ucla.edu"),
+  person(given = "Ruben", family = "Arslan", role = "ctb", email="rubenarslan@gmail.com", comment = c(ORCID = "0000-0002-6670-5658")),
+  person(given = "Bell", family = "Clinton", role = "ctb", email="clintonbell@ku.edu"),
+  person(given = "Pavel", family = "Panko", role = "ctb", email="pavel.panko@ttu.edu"),
+  person(given = "Edgar", family = "Merkle", role = "ctb", email="merklee@missouri.edu", comment = c(ORCID = "0000-0001-7158-0653")),
+  person(given = "Steven", family = "Chesnut", role = "ctb", email="Steven.Chesnut@usm.edu"),
+  person(given = "Jarrett", family = "Byrnes", role = "ctb", email="Jarrett.Byrnes@umb.edu"),
+  person(given = c("Jason","D."), family = "Rights", role = "ctb", email="jrights@psych.ubc.ca"),
+  person(given = "Ylenio", family = "Longo", role = "ctb", email="yleniolongo@gmail.com"),
+  person(given = "Maxwell", family = "Mansolf", role = "ctb", email="mamansolf@gmail.com", comment = c(ORCID = "0000-0001-6861-8657")),
+  person(given = "Mattan S.", family = "Ben-Shachar", role = "ctb", email="matanshm@post.bgu.ac.il", comment = c(ORCID = "0000-0002-4287-4801")),
+  person(given = "Mikko", family = "R<c3><b6>nkk<c3><b6>", role = "ctb", email = "mikko.ronkko@jyu.fi", comment = c(ORCID = "0000-0001-7988-7609")),
+  person(given = "Andrew R.", family = "Johnson", role = "ctb", email = "andrew.johnson@curtin.edu.au", comment = c(ORCID = "0000-0001-7000-8065"))
+  )' in object 'top_packages'
+  'c(
+  person("Kenneth", "Benoit", email = "kbenoit@lse.ac.uk", role = c("cre", "aut", "cph"), comment = c(ORCID = "0000-0002-0797-564X")),
+  person("Kohei", "Watanabe", email = "watanabe.kohei@gmail.com", role = "aut", comment = c(ORCID = "0000-0001-6519-5265")),
+  person("Haiyan", "Wang", email = "whyinsa@yahoo.com", role = "aut", comment = c(ORCID = "0000-0003-4992-4311")),
+  person("Paul", "Nulty", email = "paul.nulty@gmail.com", role = "aut", comment = c(ORCID = "0000-0002-7214-4666")),
+  person("Adam", "Obeng", email = "quanteda@binaryeagle.com", role = "aut", comment = c(ORCID = "0000-0002-2906-4775")),
+  person("Stefan", "M<c3><bc>ller", email = "stefan.mueller@ucd.ie", role = "aut", comment = c(ORCID = "0000-0002-6315-4125")),
+  person("Akitaka", "Matsuo", email = "a.matsuo@essex.ac.uk", role = "aut", comment = c(ORCID = "0000-0002-3323-6330")),
+  person("William", "Lowe", email = "lowe@hertie-school.org", role = "aut", comment = c(ORCID = "0000-0002-1549-6163")),
+  person("Christian", "M<c3><bc>ller", email = "C.Mueller@lse.ac.uk", role = "ctb"),
+  person("Olivier", "Delmarcelle", email = "olivier.delmarcelle@ugent.be", role = "ctb", comment = c(ORCID = "0000-0003-4347-070X")),
+  person("European Research Council", role = "fnd", comment = "ERC-2011-StG 283794-QUANTESS")
+  )' in object 'top_packages'
+  'c(
+  person("Pedro J.", "Aphalo", email = "pedro.aphalo@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "0000-0003-3385-972X")),
+  person("Kamil", "Slowikowski", role = "ctb", comment = c(ORCID = "0000-0002-2843-6370")),
+  person("Micha<c5><82>", "Krassowski", role = "ctb", comment = c(ORCID = "0000-0002-9638-7785")),
+  person("Daniel", "Saban<c3><a9>s Bov<c3><a9>", role = "ctb"),
+  person("Stella", "Banjo", role = "ctb")
+  )' in object 'top_packages'
+  'c(person("Dominic", "Schuhmacher", email = "dominic.schuhmacher@mathematik.uni-goettingen.de", role = c("aut","cre")),
+  person("Bj<c3><b6>rn", "B<c3><a4>hre", role = "aut", comment = "aha and power diagrams"),
+  person("Nicolas", "Bonneel", role = "aut", comment = "networkflow"),
+  person("Carsten", "Gottschlich", role = "aut", comment = "simplex and shortlist"),
+  person("Valentin", "Hartmann", role = "aut", comment = "semidiscrete1"),
+  person("Florian", "Heinemann", role = "aut", comment = "transport_track and networkflow integration"),
+  person("Bernhard", "Schmitzer", role = "aut", comment = "shielding"),
+  person("J<c3><b6>rn", "Schrieber", role = "aut", comment = "subsampling"),
+  person("Timo", "Wilm", role = "ctb", comment = "wpp"))' in object 'top_packages'
+  'c(person("Julien", "Barnier", email="julien.barnier@cnrs.fr",
+  role=c("aut","cre")), person("Fran<c3><a7>ois", "Briatte",
+  email="f.briatte@gmail.com", role="aut"), person("Joseph", "Larmarange",
+  email="joseph@larmarange.net", role="aut"))' in object 'top_packages'
+  'c(person(given = "G<c3><a1>bor",
+  family = "Cs<c3><a1>rdi",
+  email = "csardi.gabor@gmail.com",
+  role = c("aut", "cre")),
+  person(given = "Ma<c3><ab>lle",
+  family = "Salmon",
+  role = "ctb"))' in object 'top_packages'
+  'c(person("Mollie","Brooks",
+  comment=c(ORCID="0000-0001-6963-8326"),
+  role = c("aut", "cre"),
+  email = "mollieebrooks@gmail.com"),
+  person("Ben","Bolker", role="aut",
+  comment=c(ORCID="0000-0002-2127-0443")),
+  person("Kasper","Kristensen",role="aut"),
+  person("Martin","Maechler", role="aut",
+  comment=c(ORCID="0000-0002-8685-9910")),
+  person("Arni","Magnusson", role="aut",
+  comment=c(ORCID="0000-0003-2769-6741")),
+  person("Maeve","McGillycuddy", role="ctb"),
+  person("Hans","Skaug",role="aut",
+  comment=c(ORCID="0000-0003-4235-2592")),
+  person("Anders","Nielsen", role="aut",
+  comment=c(ORCID="0000-0001-9683-9262")),
+  person("Casper","Berg", role="aut",
+  comment=c(ORCID="0000-0002-3812-5269")),
+  person("Koen","van Bentham", role="aut"),
+  person("Nafis","Sadat",role="ctb",
+  comment=c(ORCID="0000-0001-5715-616X")),
+  person("Daniel","L<c3><bc>decke", role="ctb",
+  comment=c(ORCID="0000-0002-8895-3206")),
+  person("Russ","Lenth", role="ctb"),
+  person("Joseph", "O'Brien", role = "ctb",
+  comment = c(ORCID = "0000-0001-9851-5077")),
+  person("Charles J.","Geyer", role="ctb"),
+  person("Mikael","Jagan", role="ctb",
+  comment = c(ORCID = "0000-0002-3542-2938")),
+  person("Brenton", "Wiernik", role="ctb",
+  comment = c(ORCID = "0000-0001-9560-6336")),
+  person("Daniel B.", "Stouffer", role="ctb",
+  comment = c(ORCID = "0000-0001-9436-9674"))
+  )' in object 'top_packages'
+  'c(person("Andy", "Bunn", role = c("aut", "cph","cre", "trl"), email = "bunna@wwu.edu"),
+  person("Mikko","Korpela", role = c("aut", "cph", "trl")),
+  person("Franco", "Biondi", role = c("aut", "cph")),
+  person("Filipe", "Campelo", role = c("aut", "cph")),
+  person("Pierre", "M<c3><a9>rian", role = c("aut","cph")),
+  person("Fares", "Qeadan", role = c("aut", "cph")),
+  person("Christian", "Zang", role = c("aut", "cph")),
+  person("Allan", "Buras", role = "ctb"),
+  person("Alice","Cecile", role = "ctb"),
+  person("Manfred", "Mudelsee", role ="ctb"),
+  person("Michael", "Schulz", role = "ctb"),
+  person("Stefan","Klesse", role = "ctb"),
+  person("David", "Frank",role = "ctb"),
+  person("Ronald","Visser", role = "ctb"),
+  person("Ed","Cook", role = "ctb"),
+  person("Kevin","Anchukaitis", role = "ctb"))' in object 'top_packages'
+  'c(person("Martin","Maechler", role=c("aut","cre"), email="maechler@stat.math.ethz.ch",
+  comment = c(ORCID = "0000-0002-8685-9910"))
+  , person("Werner", "Stahel", role = "ctb",
+  comment = "Functions: compresid2way(), f.robftest(), last(), p.scales(), p.dnorm()")
+  , person("Andreas", "Ruckstuhl", role = "ctb",
+  comment = "Functions: p.arrows(), p.profileTraces(), p.res.2x()")
+  , person("Christian", "Keller", role = "ctb",
+  comment = "Functions: histBxp(), p.tachoPlot()")
+  , person("Kjetil", "Halvorsen", role = "ctb",
+  comment = "Functions: KSd(), ecdf.ksCI()")
+  , person("Alain", "Hauser", role = "ctb",
+  comment = "Functions: cairoSwd(), is.whole(), toLatex.numeric()*")
+  , person("Christoph", "Buser", role = "ctb",
+  comment = "to function Duplicated()")
+  , person("Lorenz", "Gygax", role = "ctb",
+  comment = "to function p.res.2fact()")
+  , person("Bill", "Venables", role = "ctb",
+  comment = "Functions: empty.dimnames(), primes()")
+  , person("Tony", "Plate", role = "ctb", comment = "to inv.seq()")
+  # minor contributors:
+  , person("Isabelle", "Fl<c3><bc>ckiger", role = "ctb")
+  , person("Marcel", "Wolbers", role = "ctb")
+  , person("Markus", "Keller", role = "ctb")
+  , person("Sandrine", "Dudoit", role = "ctb")
+  , person("Jane", "Fridlyand", role = "ctb")
+  , person("Greg", "Snow", role = "ctb", comment = "to loessDemo()")
+  , person("Henrik Aa.", "Nielsen", role = "ctb", comment = "to loessDemo()")
+  , person("Vincent", "Carey", role = "ctb")
+  , person("Ben", "Bolker", role = "ctb")
+  , person("Philippe", "Grosjean", role = "ctb")
+  , person("Fr<c3><a9>d<c3><a9>ric", "Ibanez", role = "ctb")
+  , person("Caterina", "Savi", role = "ctb")
+  , person("Charles", "Geyer", role = "ctb")
+  , person("Jens", "Oehlschl<c3><a4>gel", role = "ctb")
+  )' in object 'top_packages'
+  'c(
+  person("Hadley", "Wickham", role = "aut"),
+  person("Jeroen", "Ooms", role = "aut"),
+  person("Kirill", "M<c3><bc>ller", , "kirill@cynkra.com", role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person("RStudio", role = "cph"),
+  person("R Consortium", role = "fnd"),
+  person("Tomoaki", "Nishiyama", role = "ctb",
+  comment = "Code for encoding vectors into strings derived from RPostgreSQL")
+  )' in object 'top_packages'
+  'c(person(given = "Dominique",
+  family = "Makowski",
+  role = c("aut", "inv"),
+  email = "dom.makowski@gmail.com",
+  comment = c(ORCID = "0000-0001-5375-9967", Twitter = "@Dom_Makowski")),
+  person(given = "Brenton M.",
+  family = "Wiernik",
+  role = c("aut", "cre"),
+  email = "brenton@wiernik.org",
+  comment = c(ORCID = "0000-0001-9560-6336", Twitter = "@bmwiernik")),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = "aut",
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")),
+  person(given = "Daniel",
+  family = "L<c3><bc>decke",
+  role = "aut",
+  email = "d.luedecke@uke.de",
+  comment = c(ORCID = "0000-0002-8895-3206", Twitter = "@strengejacke")),
+  person(given = "Mattan S.",
+  family = "Ben-Shachar",
+  role = "aut",
+  email = "matanshm@post.bgu.ac.il",
+  comment = c(ORCID = "0000-0002-4287-4801", Twitter = "@mattansb")),
+  person(given = "Mark",
+  family = "White",
+  email = "markhwhiteii@gmail.com",
+  role = "rev"),
+  person(given = "Maximilian M.",
+  family = "Rabe",
+  email = "maximilian.rabe@uni-potsdam.de",
+  role = "rev",
+  comment = c(ORCID = "0000-0002-2556-5644")))' in object 'top_packages'
+  'person("Xavier", "Fern<c3><a1>ndez i Mar<c3><ad>n", email = "xavier.fim@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0002-9522-8870"))' in object 'top_packages'
+  'c(
+  person("K Herv<c3><a9>", "Dakpo", email = "k-herve.dakpo@inrae.fr",
+  role = c("ctb", "cre")),
+  person("Hans Bruun", "Nielsen", role = "aut"),
+  person("Stig Bousgaard", "Mortensen", role = "aut")
+  )' in object 'top_packages'
+  'c(person(given = "Kirill",
+  family = "M<c3><bc>ller",
+  role = "aut",
+  email = "kirill@cynkra.com",
+  comment = c(ORCID = "0000-0002-1416-3412")),
+  person(given = "Lorenz",
+  family = "Walthert",
+  role = c("cre", "aut"),
+  email = "lorenz.walthert@icloud.com"),
+  person(given = "Indrajeet",
+  family = "Patil",
+  role = "ctb",
+  email = "patilindrajeet.science@gmail.com",
+  comment = c(ORCID = "0000-0003-1995-6531", Twitter = "@patilindrajeets")))' in object 'top_packages'
+  'c(
+  person("Ben", "Bolker", email = "bolker@mcmaster.ca",
+  role = c("aut", "cre"),
+  comment=c(ORCID="0000-0002-2127-0443")),
+  person("David", "Robinson", email = "admiral.david@gmail.com",
+  role = "aut"),
+  person("Dieter", "Menne", role = "ctb"),
+  person("Jonah", "Gabry", role = "ctb"),
+  person("Paul", "Buerkner", role = "ctb"),
+  person("Christopher", "Hua", role = "ctb"),
+  person("William", "Petry", role = "ctb",
+  comment=c(ORCID="0000-0002-5230-5987")),
+  person("Joshua", "Wiley", role = "ctb",
+  comment=c(ORCID="0000-0002-0271-6702")),
+  person("Patrick", "Kennedy", role = "ctb"),
+  person("Eduard", "Sz<c3><b6>cs", role = "ctb",
+  comment=c(ORCID = "0000-0001-5376-1194", sponsor = "BASF SE")),
+  person("Indrajeet", "Patil", role="ctb"),
+  person("Vincent", "Arel-Bundock",
+  email = "vincent.arel-bundock@umontreal.ca",
+  role = "ctb",
+  comment = c(ORCID = "0000-0003-2042-7063")),
+  person("Bill", "Denney", role = "ctb"),
+  person("Cory", "Brunson", role = "ctb")
+  )' in object 'top_packages'
+  'c(person("Yidong", "Zhou", email="ydzhou@ucdavis.edu", role=c("aut","cre")),
+  person("Satarupa","Bhattacharjee", role=c("aut")),
+  person("Cody","Carroll", email="cjcarroll@ucdavis.edu", role=c("aut"), comment =  c(ORCID = "0000-0003-3525-8653")),
+  person("Yaqing","Chen", email="yaqchen@ucdavis.edu", role=c("aut")),
+  person("Xiongtao","Dai", email="dai@ucdavis.edu", role=c("aut")),
+  person("Jianing","Fan", role=c("aut")),
+  person("Alvaro","Gajardo", role=c("aut")),
+  person("Pantelis Z.","Hadjipantelis", role=c("aut")),
+  person("Kyunghee","Han", role="aut"),
+  person("Hao","Ji", role=c("aut")),
+  person("Changbo","Zhu", role=c("aut")),
+  person("Shu-Chin", "Lin", role="ctb"),
+  person("Paromita", "Dubey", role="ctb"),
+  person("Hans-Georg", "M<c3><bc>ller", role=c("cph","ths","aut")),
+  person("Jane-Ling", "Wang", role=c("cph","ths","aut")))' in object 'top_packages'
+  'c(person("Scott", "Chamberlain", role = "aut",
+  comment = c(ORCID="0000-0003-2542-2202")),
+  person("Tam<c3><a1>s", "Stirling", role = c("ctb", "cre"),
+  email = "stirling.tamas@gmail.com"))' in object 'top_packages'
+  'c(person("Trevor L", "Davis", role=c("aut", "cre"),
+  email="trevor.l.davis@gmail.com",
+  comment = c(ORCID = "0000-0001-6341-4639")),
+  person("Allen", "Day", role="ctb", comment="Some documentation and examples ported from the getopt package."),
+  person("Python Software Foundation", role="ctb", comment="Some documentation from the optparse Python module."),
+  person("Steve", "Lianoglou", role="ctb"),
+  person("Jim", "Nikelski", role="ctb"),
+  person("Kirill", "M<c3><bc>ller", role="ctb"),
+  person("Peter", "Humburg", role="ctb"),
+  person("Rich", "FitzJohn", role="ctb"),
+  person("Gyu Jin", "Choi", role="ctb"))' in object 'top_packages'
+  'c(
+  person("Jean-Romain", "Roussel", email = "jean-romain.roussel.1@ulaval.ca", role = c("aut", "cre", "cph")),
+  person("David", "Auty", email = "", role = c("aut", "ctb"), comment = "Reviews the documentation"),
+  person("Florian", "De Boissieu", email = "", role = ("ctb"), comment = "Fixed bugs and improved catalog features"),
+  person("Andrew", "S<c3><a1>nchez Meador", email = "", role = ("ctb"), comment = "Implemented wing2015() for segment_snags()"),
+  person("Bourdon", "Jean-Fran<c3><a7>ois", email = "", role = ("ctb"), comment = "Contributed to Roussel2020() for track_sensor()"),
+  person("Gatziolis", "Demetrios", email = "", role = ("ctb"), comment = "Implemented Gatziolis2019() for track_sensor()"),
+  person("Leon", "Steinmeier", email = "", role = ("ctb"), comment = "Contributed to parallelization management"),
+  person("Stanislaw", "Adaszewski", email = "", role = ("cph"), comment = "Author of the C++ concaveman code"))' in object 'top_packages'
+  'c(person("Gerta", "R<c3><bc>cker",
+  role = "aut",
+  comment = c(ORCID = "0000-0002-2192-2560")),
+  person("Ulrike", "Krahn",
+  role = "aut"),
+  person("Jochem", "K<c3><b6>nig",
+  role = "aut",
+  comment = c(ORCID = "0000-0003-4683-0360")),
+  person("Orestis", "Efthimiou",
+  role = "aut",
+  comment = c(ORCID = "0000-0002-0955-7572")),
+  person("Annabel", "Davies",
+  role = "aut",
+  comment = c(ORCID = "0000-0003-2320-7701")),
+  person("Theodoros", "Papakonstantinou",
+  role = "aut",
+  comment = c(ORCID = "0000-0002-6630-6817")),
+  person("Guido", "Schwarzer",
+  role = c("aut", "cre"),
+  email = "guido.schwarzer@uniklinik-freiburg.de",
+  comment = c(ORCID = "0000-0001-6214-9087")))' in object 'top_packages'
+  'c(
+  person("Jacob", "van Etten", role = c("aut"),
+  comment = c(ORCID = "0000-0001-7554-2558")),
+  person("Kau<c3><aa>", "de Sousa", role = c("ctb"),
+  comment = c(ORCID = "0000-0002-7571-7845")),
+  person("Andrew", "Marx", role = c("cre", "ctb"),
+  email = "ajm.rpackages@gmail.com",
+  comment = c(ORCID = "0000-0002-7456-1631")))' in object 'top_packages'
+  'c(person(given = "Kristian Hovde",
+  family = "Liland",
+  role = c("aut","cre"),
+  email="kristian.liland@nmbu.no",
+  comment = c(ORCID = "0000-0001-6468-9423")),
+  person(given = "Bj<c3><b8>rn-Helge",
+  family = "Mevik",
+  role=c("aut")),
+  person(given = "Roberto",
+  family = "Canteri",
+  role=c("ctb")))' in object 'top_packages'
+  'c(person("Bettina", "Gr<c3><bc>n", role = c("aut", "cre"),
+  email = "Bettina.Gruen@R-project.org",
+  comment = c(ORCID = "0000-0001-7265-4773")),
+  person("Kurt", "Hornik", role = "aut",
+  comment = c(ORCID = "0000-0003-4198-9911")),
+  person("David M", "Blei", role = c("ctb", "cph"),
+  comment = "VEM estimation of LDA and CTM"),
+  person("John D", "Lafferty", role = c("ctb", "cph"),
+  comment = "VEM estimation of CTM"),
+  person("Xuan-Hieu", "Phan", role = c("ctb", "cph"),
+  comment = "MCMC estimation of LDA"),
+  person("Makoto", "Matsumoto", role = c("ctb", "cph"),
+  comment = "Mersenne Twister RNG"),
+  person("Takuji", "Nishimura", role = c("ctb", "cph"),
+  comment = "Mersenne Twister RNG"),
+  person("Shawn", "Cokus", role = "ctb",
+  comment = "Mersenne Twister RNG"))' in object 'top_packages'
+  'c(person(given = "Tim",
+  family = "Appelhans",
+  role = c("cre", "aut"),
+  email = "tim.appelhans@gmail.com"),
+  person(given = "Christoph",
+  family = "Reudenbach",
+  role = "ctb",
+  email = "reudenbach@geo.uni-marburg.de"),
+  person(given = "Kenton",
+  family = "Russell",
+  role = "ctb"),
+  person(given = "Jochen",
+  family = "Darley",
+  role = "ctb",
+  email = "Debugger@jedimasters.de"),
+  person(given = "Daniel",
+  family = "Montague",
+  role = c("ctb", "cph"),
+  comment = "Leaflet.EasyButton plugin"),
+  person(given = "Lorenzo",
+  family = "Busetto",
+  role = c("ctb"),
+  email = "lbusett@gmail.com"),
+  person(given = "Luigi",
+  family = "Ranghetti",
+  role = c("ctb")),
+  person(given = "Miles",
+  family = "McBain",
+  role = c("ctb")),
+  person(given = "Sebastian",
+  family = "Gatscha",
+  role = "ctb",
+  email = "sebastian_gatscha@gmx.at"),
+  person(given = "Bj<c3><b6>rn",
+  family = "Harrtell",
+  role = c("ctb", "cph"),
+  comment = "FlatGeobuf plugin"),
+  person(given = "Daniel",
+  family = "Dufour",
+  role = c("ctb", "cph"),
+  comment = "georaster-layer-for-leaflet"),
+  person(given = "Yeedle",
+  family = "Neuwirth",
+  role = "ctb"),
+  person(given = "Derek",
+  family = "Friend",
+  role = "ctb",
+  email = "dafriend.r@gmail.com"),
+  person(given = "Kevin",
+  family = "Cazelles",
+  role = "ctb",
+  email = "kevin.cazelles@gmail.com",
+  comment = c(ORCID = "0000-0001-6619-9874")))' in object 'top_packages'
+  'A collection of functions to create spatial weights matrix
+  objects from polygon 'contiguities', from point patterns by distance and
+  tessellations, for summarizing these objects, and for permitting their
+  use in spatial data analysis, including regional aggregation by minimum
+  spanning tree; a collection of tests for spatial 'autocorrelation',
+  including global 'Morans I' and 'Gearys C' proposed by 'Cliff' and 'Ord'
+  (1973, ISBN: 0850860369) and (1981, ISBN: 0850860814), 'Hubert/Mantel'
+  general cross product statistic, Empirical Bayes estimates and
+  'Assun<c3><a7><c3><a3>o/Reis' (1999) <doi:10.1002/(SICI)1097-0258(19990830)18:16%3C2147::AID-SIM179%3E3.0.CO;2-I> Index, 'Getis/Ord' G ('Getis' and 'Ord' 1992)
+  <doi:10.1111/j.1538-4632.1992.tb00261.x> and multicoloured
+  join count statistics, 'APLE' ('Li 'et al.' )
+  <doi:10.1111/j.1538-4632.2007.00708.x>, local 'Moran's I', 'Gearys C'
+  ('Anselin' 1995) <doi:10.1111/j.1538-4632.1995.tb00338.x> and
+  'Getis/Ord' G ('Ord' and 'Getis' 1995)
+  <doi:10.1111/j.1538-4632.1995.tb00912.x>,
+  'saddlepoint' approximations ('Tiefelsdorf' 2002)
+  <doi:10.1111/j.1538-4632.2002.tb01084.x> and exact tests
+  for global and local 'Moran's I' ('Bivand et al.' 2009)
+  <doi:10.1016/j.csda.2008.07.021> and 'LOSH' local indicators
+  of spatial heteroscedasticity ('Ord' and 'Getis')
+  <doi:10.1007/s00168-011-0492-y>. The implementation of most of
+  the measures is described in 'Bivand' and 'Wong' (2018)
+  <doi:10.1007/s11749-018-0599-x>, with further extensions in 'Bivand' (2022)
+  <doi:10.1111/gean.12319>.
+  From 'spdep' and 'spatialreg' versions >= 1.2-1, the model fitting functions
+  previously present in this package are defunct in 'spdep' and may be found
+  in 'spatialreg'.' in object 'top_packages'
+  'Computes p-values based on (a) Satterthwaite or
+  Kenward-Rogers degree of freedom methods and (b) parametric bootstrap
+  for mixed effects models as implemented in the 'lme4'
+  package. Implements parametric bootstrap test for generalized linear
+  mixed models as implemented in 'lme4' and generalized linear
+  models. The package is documented in the paper by Halekoh and
+  H<c3><b8>jsgaard, (2012, <doi:10.18637/jss.v059.i09>).  Please see
+  'citation("pbkrtest")' for citation details.' in object 'top_packages'
+  'Generalized estimating equations solver for parameters in
+  mean, scale, and correlation structures, through mean link,
+  scale link, and correlation link. Can also handle clustered
+  categorical responses. See e.g. Halekoh and H<c3><b8>jsgaard, (2005,
+  <doi:10.18637/jss.v015.i02>), for details.' in object 'top_packages'
+  'User-friendly general package providing standard methods for meta-analysis and supporting Schwarzer, Carpenter, and R<c3><bc>cker <DOI:10.1007/978-3-319-21416-0>, "Meta-Analysis with R" (2015):
+  - common effect and random effects meta-analysis;
+  - several plots (forest, funnel, Galbraith / radial, L'Abbe, Baujat, bubble);
+  - three-level meta-analysis model;
+  - generalised linear mixed model;
+  - Hartung-Knapp method for random effects model;
+  - Kenward-Roger method for random effects model;
+  - prediction interval;
+  - statistical tests  for funnel plot asymmetry;
+  - trim-and-fill method to evaluate bias in meta-analysis;
+  - meta-regression;
+  - cumulative meta-analysis and leave-one-out meta-analysis;
+  - import data from 'RevMan 5';
+  - produce forest plot summarising several (subgroup) meta-analyses.' in object 'top_packages'
+  'Functions to interpolate irregularly and regularly spaced data using Multilevel B-spline Approximation (MBA). Functions call portions of the SINTEF Multilevel B-spline Library written by <c3><98>yvind Hjelle which implements methods developed by Lee, Wolberg and Shin (1997; <doi:10.1109/2945.620490>).' in object 'top_packages'
+  'Efficient algorithms for fully Bayesian estimation of stochastic volatility (SV) models with and without asymmetry (leverage) via Markov chain Monte Carlo (MCMC) methods. Methodological details are given in Kastner and Fr<c3><bc>hwirth-Schnatter (2014) <doi:10.1016/j.csda.2013.01.002> and Hosszejni and Kastner (2019) <doi:10.1007/978-3-030-30611-3_8>; the most common use cases are described in Hosszejni and Kastner (2021) <doi:10.18637/jss.v100.i12> and Kastner (2016) <doi:10.18637/jss.v069.i05> and the package examples.' in object 'top_packages'
+  'Fit Bayesian generalized (non-)linear multivariate multilevel models
+  using 'Stan' for full Bayesian inference. A wide range of distributions
+  and link functions are supported, allowing users to fit -- among others --
+  linear, robust linear, count data, survival, response times, ordinal,
+  zero-inflated, hurdle, and even self-defined mixture models all in a
+  multilevel context. Further modeling options include both theory-driven and
+  data-driven non-linear terms, auto-correlation structures, censoring and
+  truncation, meta-analytic standard errors, and quite a few more.
+  In addition, all parameters of the response distribution can be predicted
+  in order to perform distributional regression. Prior specifications are
+  flexible and explicitly encourage users to apply prior distributions that
+  actually reflect their prior knowledge. Models can easily be evaluated and
+  compared using several methods assessing posterior or prior predictions.
+  References: B<c3><bc>rkner (2017) <doi:10.18637/jss.v080.i01>;
+  B<c3><bc>rkner (2018) <doi:10.32614/RJ-2018-017>;
+  B<c3><bc>rkner (2021) <doi:10.18637/jss.v100.i05>; Carpenter et al. (2017)
+  <doi:10.18637/jss.v076.i01>.' in object 'top_packages'
+  'Statistical models of biased sampling in the form of
+  univariate and multivariate noncentral hypergeometric distributions,
+  including Wallenius' noncentral hypergeometric distribution and
+  Fisher's noncentral hypergeometric distribution.
+  See vignette("UrnTheory") for explanation of these distributions.
+  Literature:
+  Fog, A. (2008a). Calculation Methods for Wallenius' Noncentral Hypergeometric Distribution, Communications in Statistics, Simulation and Computation, 37(2) <doi:10.1080/03610910701790269>.
+  Fog, A. (2008b). Sampling methods for Wallenius<e2><80><99> and Fisher<e2><80><99>s noncentral hypergeometric distributions, Communications in Statistics<e2><80><94>Simulation and Computation, 37(2)
+  <doi:10.1080/03610910701790236>.' in object 'top_packages'
+  'The 'gRbase' package provides graphical modelling features
+  used by e.g. the packages 'gRain', 'gRim' and 'gRc'. 'gRbase' implements
+  graph algorithms including (i) maximum cardinality search (for marked
+  and unmarked graphs).
+  (ii) moralization, (iii) triangulation, (iv) creation of junction tree.
+  'gRbase' facilitates array operations,
+  'gRbase' implements functions for testing for conditional independence.
+  'gRbase' illustrates how hierarchical log-linear models may be
+  implemented and describes concept of graphical meta
+  data.
+  The facilities of the package are documented in the book by H<c3><b8>jsgaard,
+  Edwards and Lauritzen (2012,
+  <doi:10.1007/978-1-4614-2299-0>) and in the paper by
+  Dethlefsen and H<c3><b8>jsgaard, (2005, <doi:10.18637/jss.v014.i17>).
+  Please see 'citation("gRbase")' for citation details.' in object 'top_packages'
+  'Utilities for computing measures to assess model quality,
+  which are not directly provided by R's 'base' or 'stats' packages.
+  These include e.g. measures like r-squared, intraclass correlation
+  coefficient (Nakagawa, Johnson & Schielzeth (2017)
+  <doi:10.1098/rsif.2017.0213>), root mean squared error or functions to
+  check models for overdispersion, singularity or zero-inflation and
+  more. Functions apply to a large variety of regression models,
+  including generalized linear models, mixed effects models and Bayesian
+  models. References: L<c3><bc>decke et al. (2021) <doi:10.21105/joss.03139>.' in object 'top_packages'
+  'Provides optimized functions and flexible combinatorial iterators
+  implemented in C++ for solving problems in combinatorics and
+  computational mathematics. Utilizes the RMatrix class from 'RcppParallel'
+  for thread safety. There are combination/permutation functions with
+  constraint parameters that allow for generation of all results of a vector
+  meeting specific criteria (e.g. generating integer partitions/compositions
+  or finding all combinations such that the sum is between two bounds).
+  Capable of generating specific combinations/permutations (e.g. retrieve
+  only the nth lexicographical result) which sets up nicely for
+  parallelization as well as random sampling. Gmp support permits exploration
+  where the total number of results is large (e.g. comboSample(10000, 500,
+  n = 4)). Additionally, there are several high performance number theoretic
+  functions that are useful for problems common in computational mathematics.
+  Some of these functions make use of the fast integer division library
+  'libdivide'. The primeSieve function is based on the segmented sieve of
+  Eratosthenes implementation by Kim Walisch. It is also efficient for large
+  numbers by using the cache friendly improvements originally developed by
+  Tom<c3><a1>s Oliveira. Finally, there is a prime counting function that implements
+  Legendre's formula based on the work of Kim Walisch.' in object 'top_packages'
+  'An R interface for libeemd (Luukko, Helske, R<c3><a4>s<c3><a4>nen, 2016) <doi:10.1007/s00180-015-0603-9>,
+  a C library of highly efficient parallelizable functions  for performing the ensemble empirical mode decomposition (EEMD),
+  its complete variant (CEEMDAN), the regular empirical mode decomposition (EMD), and bivariate EMD (BEMD).
+  Due to the possible portability issues CRAN version no longer supports OpenMP, you can install OpenMP-supported version
+  from GitHub: <https://github.com/helske/Rlibeemd/>.' in object 'top_packages'
+  'Size measurements, clutch observations, and blood isotope ratios for adult foraging Ad<c3><a9>lie, Chinstrap, and Gentoo penguins observed on islands in the Palmer Archipelago near Palmer Station, Antarctica. Data were collected and made available by Dr. Kristen Gorman and the Palmer Station Long Term Ecological Research (LTER) Program.' in object 'top_packages'
+  'Implements maximum likelihood and bootstrap methods based on
+  the diversity-dependent birth-death process to test whether
+  speciation or extinction are diversity-dependent, under various
+  models including various types of key innovations.
+  See Etienne et al. 2012, Proc. Roy. Soc. B 279: 1300-1309,
+  <DOI:10.1098/rspb.2011.1439>,
+  Etienne & Haegeman 2012, Am. Nat. 180: E75-E89,
+  <DOI:10.1086/667574>,
+  Etienne et al. 2016. Meth. Ecol. Evol. 7: 1092-1099,
+  <DOI:10.1111/2041-210X.12565> and
+  Laudanno et al. 2021. Syst. Biol. 70: 389<e2><80><93>407,
+  <DOI:10.1093/sysbio/syaa048>.
+  Also contains functions to simulate the diversity-dependent
+  process.' in object 'top_packages'
+  'Extracts sentiment and sentiment-derived plot arcs
+  from text using a variety of sentiment dictionaries conveniently
+  packaged for consumption by R users.  Implemented dictionaries include
+  "syuzhet" (default) developed in the Nebraska Literary Lab
+  "afinn" developed by Finn <c3><85>rup Nielsen, "bing" developed by Minqing Hu
+  and Bing Liu, and "nrc" developed by Mohammad, Saif M. and Turney, Peter D.
+  Applicable references are available in README.md and in the documentation
+  for the "get_sentiment" function.  The package also provides a hack for
+  implementing Stanford's coreNLP sentiment parser. The package provides
+  several methods for plot arc normalization.' in object 'top_packages'
+  'Tools for assessing and diagnosing convergence of
+  Markov Chain Monte Carlo simulations, as well as for graphically display
+  results from full MCMC analysis. The package also facilitates the graphical
+  interpretation of models by providing flexible functions to plot the
+  results against observed variables, and functions to work with
+  hierarchical/multilevel batches of parameters
+  (Fern<c3><a1>ndez-i-Mar<c3><ad>n, 2016 <doi:10.18637/jss.v070.i09>).' in object 'top_packages'
+  'A versatile package that provides implementation of various
+  methods of Functional Data Analysis (FDA) and Empirical Dynamics. The core of this
+  package is Functional Principal Component Analysis (FPCA), a key technique for
+  functional data analysis, for sparsely or densely sampled random trajectories
+  and time courses, via the Principal Analysis by Conditional Estimation
+  (PACE) algorithm. This core algorithm yields covariance and mean functions,
+  eigenfunctions and principal component (scores), for both functional data and
+  derivatives, for both dense (functional) and sparse (longitudinal) sampling designs.
+  For sparse designs, it provides fitted continuous trajectories with confidence bands,
+  even for subjects with very few longitudinal observations. PACE is a viable and
+  flexible alternative to random effects modeling of longitudinal data. There is also a
+  Matlab version (PACE) that contains some methods not available on fdapace and vice
+  versa. Updates to fdapace were supported by grants from NIH Echo and NSF DMS-1712864 and DMS-2014626. Please cite our package if you use it (You may run the command citation("fdapace") to get the citation format and bibtex entry).
+  References: Wang, J.L., Chiou, J., M<c3><bc>ller, H.G. (2016) <doi:10.1146/annurev-statistics-041715-033624>;
+  Chen, K., Zhang, X., Petersen, A., M<c3><bc>ller, H.G. (2017) <doi:10.1007/s12561-015-9137-5>.' in object 'top_packages'
+  'A comprehensive set of functions providing frequentist methods for network meta-analysis (Balduzzi et al., 2023) <doi:10.18637/jss.v106.i02> and supporting Schwarzer et al. (2015) <doi:10.1007/978-3-319-21416-0>, Chapter 8 "Network Meta-Analysis":
+  - frequentist network meta-analysis following R<c3><bc>cker (2012) <doi:10.1002/jrsm.1058>;
+  - additive network meta-analysis for combinations of treatments (R<c3><bc>cker et al., 2020) <doi:10.1002/bimj.201800167>;
+  - network meta-analysis of binary data using the Mantel-Haenszel or non-central hypergeometric distribution method (Efthimiou et al., 2019) <doi:10.1002/sim.8158>;
+  - rankograms and ranking of treatments by the Surface under the cumulative ranking curve (SUCRA) (Salanti et al., 2013) <doi:10.1016/j.jclinepi.2010.03.016>;
+  - ranking of treatments using P-scores (frequentist analogue of SUCRAs without resampling) according to R<c3><bc>cker & Schwarzer (2015) <doi:10.1186/s12874-015-0060-8>;
+  - split direct and indirect evidence to check consistency (Dias et al., 2010) <doi:10.1002/sim.3767>, (Efthimiou et al., 2019) <doi:10.1002/sim.8158>;
+  - league table with network meta-analysis results;
+  - 'comparison-adjusted' funnel plot (Chaimani & Salanti, 2012) <doi:10.1002/jrsm.57>;
+  - net heat plot and design-based decomposition of Cochran's Q according to Krahn et al. (2013) <doi:10.1186/1471-2288-13-35>;
+  - measures characterizing the flow of evidence between two treatments by K<c3><b6>nig et al. (2013) <doi:10.1002/sim.6001>;
+  - automated drawing of network graphs described in R<c3><bc>cker & Schwarzer (2016) <doi:10.1002/jrsm.1143>;
+  - partial order of treatment rankings ('poset') and Hasse diagram for 'poset' (Carlsen & Bruggemann, 2014) <doi:10.1002/cem.2569>; (R<c3><bc>cker & Schwarzer, 2017) <doi:10.1002/jrsm.1270>;
+  - contribution matrix as described in Papakonstantinou et al. (2018) <doi:10.12688/f1000research.14770.3> and Davies et al. (2022) <doi:10.1002/sim.9346>.' in object 'top_packages'
+  '2023-11-14 16:23:55 UTC; Gr<c3><b6>mping' in object 'top_packages'
+  'Hadley Wickham [aut, cre] (<https://orcid.org/0000-0003-4757-117X>),
+  Romain Fran<c3><a7>ois [aut] (<https://orcid.org/0000-0002-2444-4226>),
+  Lionel Henry [aut],
+  Kirill M<c3><bc>ller [aut] (<https://orcid.org/0000-0002-1416-3412>),
+  Davis Vaughan [aut] (<https://orcid.org/0000-0003-4777-038X>),
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Jim Hester [aut],
+  Romain Francois [ctb],
+  Jennifer Bryan [aut, cre] (<https://orcid.org/0000-0002-6983-2759>),
+  Shelby Bearrows [ctb],
+  Posit Software, PBC [cph, fnd],
+  https://github.com/mandreyel/ [cph] (mio library),
+  Jukka Jyl<c3><a4>nki [ctb, cph] (grisu3 implementation),
+  Mikkel J<c3><b8>rgensen [ctb, cph] (grisu3 implementation)' in object 'top_packages'
+  'Douglas Bates [aut] (<https://orcid.org/0000-0001-8316-9503>),
+  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
+  Mikael Jagan [aut] (<https://orcid.org/0000-0002-3542-2938>),
+  Timothy A. Davis [ctb] (<https://orcid.org/0000-0001-7614-6899>,
+  SuiteSparse libraries, notably CHOLMOD and AMD, collaborators
+  listed in dir(pattern="^[A-Z]+[.]txt$", full.names=TRUE,
+  system.file("doc", "SuiteSparse", package="Matrix"))),
+  Jens Oehlschl<c3><a4>gel [ctb] (initial nearPD()),
+  Jason Riedy [ctb] (<https://orcid.org/0000-0002-4345-4200>, GNU
+  Octave's condest() and onenormest(), Copyright: Regents of the
+  University of California),
+  R Core Team [ctb] (base R's matrix implementation)' in object 'top_packages'
+  'Hao Zhu [aut, cre] (<https://orcid.org/0000-0002-3386-6076>),
+  Thomas Travison [ctb],
+  Timothy Tsai [ctb],
+  Will Beasley [ctb],
+  Yihui Xie [ctb],
+  GuangChuang Yu [ctb],
+  St<c3><a9>phane Laurent [ctb],
+  Rob Shepherd [ctb],
+  Yoni Sidi [ctb],
+  Brian Salzer [ctb],
+  George Gui [ctb],
+  Yeliang Fan [ctb],
+  Duncan Murdoch [ctb],
+  Bill Evans [ctb]' in object 'top_packages'
+  'Edzer Pebesma [aut, cre] (<https://orcid.org/0000-0001-8049-7069>),
+  Roger Bivand [ctb] (<https://orcid.org/0000-0003-2392-6140>),
+  Etienne Racine [ctb],
+  Michael Sumner [ctb],
+  Ian Cook [ctb],
+  Tim Keitt [ctb],
+  Robin Lovelace [ctb],
+  Hadley Wickham [ctb],
+  Jeroen Ooms [ctb] (<https://orcid.org/0000-0002-4035-0289>),
+  Kirill M<c3><bc>ller [ctb],
+  Thomas Lin Pedersen [ctb],
+  Dan Baston [ctb],
+  Dewey Dunnington [ctb] (<https://orcid.org/0000-0002-9415-4582>)' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  Hadley Wickham [aut],
+  Romain Francois [ctb],
+  Jennifer Bryan [ctb],
+  RStudio [cph, fnd]' in object 'top_packages'
+  'Olaf Mersmann [aut, cre],
+  Heike Trautmann [aut],
+  Detlef Steuer [aut],
+  Bj<c3><b6>rn Bornkamp [aut]' in object 'top_packages'
+  'R Special Interest Group on Databases (R-SIG-DB) [aut],
+  Hadley Wickham [aut],
+  Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  R Consortium [fnd]' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  Hadley Wickham [aut],
+  David A. James [aut],
+  Seth Falcon [aut],
+  D. Richard Hipp [ctb] (for the included SQLite sources),
+  Dan Kennedy [ctb] (for the included SQLite sources),
+  Joe Mistachkin [ctb] (for the included SQLite sources),
+  SQLite Authors [ctb] (for the included SQLite sources),
+  Liam Healy [ctb] (for the included SQLite sources),
+  R Consortium [fnd],
+  RStudio [cph]' in object 'top_packages'
+  'Michel Lang [cre, aut] (<https://orcid.org/0000-0001-9754-0393>),
+  Bernd Bischl [ctb],
+  D<c3><a9>nes T<c3><b3>th [ctb] (<https://orcid.org/0000-0003-4262-3217>)' in object 'top_packages'
+  'Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
+  Abhraneel Sarma [ctb],
+  Adam Vogt [ctb],
+  Alastair Andrew [ctb],
+  Alex Zvoleff [ctb],
+  Amar Al-Zubaidi [ctb],
+  Andre Simon [ctb] (the CSS files under inst/themes/ were derived from
+  the Highlight package http://www.andre-simon.de),
+  Aron Atkins [ctb],
+  Aaron Wolen [ctb],
+  Ashley Manton [ctb],
+  Atsushi Yasumoto [ctb] (<https://orcid.org/0000-0002-8335-495X>),
+  Ben Baumer [ctb],
+  Brian Diggs [ctb],
+  Brian Zhang [ctb],
+  Bulat Yapparov [ctb],
+  Cassio Pereira [ctb],
+  Christophe Dervieux [ctb],
+  David Hall [ctb],
+  David Hugh-Jones [ctb],
+  David Robinson [ctb],
+  Doug Hemken [ctb],
+  Duncan Murdoch [ctb],
+  Elio Campitelli [ctb],
+  Ellis Hughes [ctb],
+  Emily Riederer [ctb],
+  Fabian Hirschmann [ctb],
+  Fitch Simeon [ctb],
+  Forest Fang [ctb],
+  Frank E Harrell Jr [ctb] (the Sweavel package at inst/misc/Sweavel.sty),
+  Garrick Aden-Buie [ctb],
+  Gregoire Detrez [ctb],
+  Hadley Wickham [ctb],
+  Hao Zhu [ctb],
+  Heewon Jeon [ctb],
+  Henrik Bengtsson [ctb],
+  Hiroaki Yutani [ctb],
+  Ian Lyttle [ctb],
+  Hodges Daniel [ctb],
+  Jacob Bien [ctb],
+  Jake Burkhead [ctb],
+  James Manton [ctb],
+  Jared Lander [ctb],
+  Jason Punyon [ctb],
+  Javier Luraschi [ctb],
+  Jeff Arnold [ctb],
+  Jenny Bryan [ctb],
+  Jeremy Ashkenas [ctb, cph] (the CSS file at
+  inst/misc/docco-classic.css),
+  Jeremy Stephens [ctb],
+  Jim Hester [ctb],
+  Joe Cheng [ctb],
+  Johannes Ranke [ctb],
+  John Honaker [ctb],
+  John Muschelli [ctb],
+  Jonathan Keane [ctb],
+  JJ Allaire [ctb],
+  Johan Toloe [ctb],
+  Jonathan Sidi [ctb],
+  Joseph Larmarange [ctb],
+  Julien Barnier [ctb],
+  Kaiyin Zhong [ctb],
+  Kamil Slowikowski [ctb],
+  Karl Forner [ctb],
+  Kevin K. Smith [ctb],
+  Kirill Mueller [ctb],
+  Kohske Takahashi [ctb],
+  Lorenz Walthert [ctb],
+  Lucas Gallindo [ctb],
+  Marius Hofert [ctb],
+  Martin Modr<c3><a1>k [ctb],
+  Michael Chirico [ctb],
+  Michael Friendly [ctb],
+  Michal Bojanowski [ctb],
+  Michel Kuhlmann [ctb],
+  Miller Patrick [ctb],
+  Nacho Caballero [ctb],
+  Nick Salkowski [ctb],
+  Niels Richard Hansen [ctb],
+  Noam Ross [ctb],
+  Obada Mahdi [ctb],
+  Pavel N. Krivitsky [ctb] (<https://orcid.org/0000-0002-9101-3362>),
+  Pedro Faria [ctb],
+  Qiang Li [ctb],
+  Ramnath Vaidyanathan [ctb],
+  Richard Cotton [ctb],
+  Robert Krzyzanowski [ctb],
+  Rodrigo Copetti [ctb],
+  Romain Francois [ctb],
+  Ruaridh Williamson [ctb],
+  Sagiru Mati [ctb] (<https://orcid.org/0000-0003-1413-3974>),
+  Scott Kostyshak [ctb],
+  Sebastian Meyer [ctb],
+  Sietse Brouwer [ctb],
+  Simon de Bernard [ctb],
+  Sylvain Rousseau [ctb],
+  Taiyun Wei [ctb],
+  Thibaut Assus [ctb],
+  Thibaut Lamadon [ctb],
+  Thomas Leeper [ctb],
+  Tim Mastny [ctb],
+  Tom Torsney-Weir [ctb],
+  Trevor Davis [ctb],
+  Viktoras Veitas [ctb],
+  Weicheng Zhu [ctb],
+  Wush Wu [ctb],
+  Zachary Foster [ctb],
+  Zhian N. Kamvar [ctb] (<https://orcid.org/0000-0003-1458-7108>),
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Uwe Ligges [aut, cre, cph] (<https://orcid.org/0000-0001-5875-6167>),
+  Sebastian Krey [aut, cph],
+  Olaf Mersmann [aut, cph],
+  Sarah Schnackenberg [aut, cph],
+  Guillaume Gu<c3><a9>nard [aut, cph] (for the 'pulse' functionality),
+  Daniel P. W. Ellis [aut, cph] (functions ported from 'rastamat'),
+  Underbit Technologies [aut, cph] (for the included 'libmad MPEG audio
+  decoder library'),
+  Andrea Preusser [ctb],
+  Anita Thieler [ctb],
+  Johanna Mielke [ctb],
+  Claus Weihs [ctb],
+  Brian D. Ripley [ctb],
+  Matthias Heymann [ctb] (for ideas from the former 'sound' package)' in object 'top_packages'
+  'Jerome Sueur [aut, cre],
+  Thierry Aubin [aut],
+  Caroline Simonis [aut],
+  Laurent Lellouch [ctr],
+  Pierre Aumond [ctr],
+  Ad<c3><a8>le de Baudouin [ctr],
+  Ethan C. Brown [ctr],
+  Guillaume Corbeau [ctr],
+  Marion Depraetere [ctr],
+  Camille Desjonqu<c3><a8>res [ctr],
+  Fran<c3><a7>ois Fabianek [ctr],
+  Amandine Gasc [ctr],
+  Sylvain Haupert [ctr],
+  Eric Kasten [ctr],
+  Jonathan Lees [ctr],
+  Jean Marchal [ctr],
+  Andre Mikulec [ctr],
+  Sandrine Pavoine [ctr],
+  David Pinaud [ctr],
+  Alicia Stotz [ctr],
+  Luis J. Villanueva-Rivera [ctr],
+  Zev Ross [ctr],
+  Carl G. Witthoft [ctr],
+  Hristo Zhivomirov [ctr]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Rich FitzJohn [aut],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Ulric Lund <ulund@calpoly.edu> [aut],
+  Claudio Agostinelli <claudio.agostinelli@unitn.it> [aut],
+  Hiroyoshi Arai <h_arai@aoni.waseda.jp> [ctb],
+  Alessando Gagliardi <gagliardi@stud.unive.it> [ctb],
+  Eduardo Garc<c3><ad>a-Portugu<c3><a9>s <edgarcia@est-econ.uc3m.es> [ctb, cre],
+  Dimitri Giunchi <dimitri.giunchi@unipi.it> [ctb],
+  Jean-Olivier Irisson <irisson@normalesup.org> [ctb],
+  Matthew Pocernich <pocernic@ucar.edu> [ctb],
+  Federico Rotolo [ctb]' in object 'top_packages'
+  'Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
+  Salim Br<c3><bc>ggemann [ctb] (<https://orcid.org/0000-0002-5329-5987>)' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Lionel Henry [aut],
+  Thomas Lin Pedersen [cre, aut]
+  (<https://orcid.org/0000-0002-5147-4711>),
+  T Jake Luciani [aut],
+  Matthieu Decorde [aut],
+  Vaudor Lise [aut],
+  Tony Plate [ctb] (Early line dashing code),
+  David Gohel [ctb] (Line dashing code and early raster code),
+  Yixuan Qiu [ctb] (Improved styles; polypath implementation),
+  H<c3><a5>kon Malmedal [ctb] (Opacity code),
+  Posit, PBC [cph, fnd]' in object 'top_packages'
+  'David Gohel [aut, cre],
+  ArData [cph],
+  Clementine Jager [ctb],
+  Panagiotis Skintzos [aut],
+  Quentin Fazilleau [ctb],
+  Maxim Nazarov [ctb] (rmarkdown for docx output),
+  Titouan Robert [ctb],
+  Michael Barrowman [ctb] (inline footnotes),
+  Atsushi Yasumoto [ctb] (support for bookdown cross reference),
+  Paul Julian [ctb] (support for gam objects),
+  Sean Browning [ctb] (work on footnote positioning system),
+  R<c3><a9>mi Th<c3><a9>riault [ctb] (<https://orcid.org/0000-0003-4315-6788>,
+  theme_apa),
+  Samuel Jobert [ctb] (work on pagination)' in object 'top_packages'
+  'Colin Fay [cre, aut] (<https://orcid.org/0000-0001-7343-1846>),
+  Vincent Guyader [aut] (<https://orcid.org/0000-0003-0671-9270>,
+  previous maintainer),
+  S<c3><a9>bastien Rochette [aut] (<https://orcid.org/0000-0002-1565-9313>),
+  Cervan Girard [aut] (<https://orcid.org/0000-0002-4816-4624>),
+  Novica Nakov [ctb],
+  David Granjon [ctb],
+  Arthur Br<c3><a9>ant [ctb],
+  Antoine Languillaume [ctb],
+  ThinkR [cph]' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  R Consortium [fnd],
+  RStudio [fnd]' in object 'top_packages'
+  'Jos<c3><a9> Pinheiro [aut] (S version),
+  Douglas Bates [aut] (up to 2007),
+  Saikat DebRoy [ctb] (up to 2002),
+  Deepayan Sarkar [ctb] (up to 2005),
+  EISPACK authors [ctb] (src/rs.f),
+  Siem Heisterkamp [ctb] (Author fixed sigma),
+  Bert Van Willigen [ctb] (Programmer fixed sigma),
+  Johannes Ranke [ctb] (varConstProp()),
+  R Core Team [aut, cre]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Brodie Gaslam [ctb]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Jim Hester [aut],
+  Hadley Wickham [aut],
+  Winston Chang [aut],
+  RStudio [cph],
+  Martin Morgan [aut],
+  Dan Tenenbaum [aut],
+  Mango Solutions [cph]' in object 'top_packages'
+  'Yihui Xie [aut, cre],
+  Joe Cheng [aut],
+  Xianying Tan [aut],
+  JJ Allaire [ctb],
+  Maximilian Girlich [ctb],
+  Greg Freedman Ellis [ctb],
+  Johannes Rauh [ctb],
+  SpryMedia Limited [ctb, cph] (DataTables in htmlwidgets/lib),
+  Brian Reavis [ctb, cph] (selectize.js in htmlwidgets/lib),
+  Leon Gersen [ctb, cph] (noUiSlider in htmlwidgets/lib),
+  Bartek Szopka [ctb, cph] (jquery.highlight.js in htmlwidgets/lib),
+  Alex Pickering [ctb],
+  William Holmes [ctb],
+  Mikko Marttila [ctb],
+  Andres Quintero [ctb],
+  St<c3><a9>phane Laurent [ctb],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Jim Hester [aut],
+  Hadley Wickham [aut],
+  G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  libuv project contributors [cph] (libuv library),
+  Joyent, Inc. and other Node contributors [cph] (libuv library),
+  RStudio [cph, fnd]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut] (<https://orcid.org/0000-0001-7098-9676>),
+  Tam<c3><a1>s Nepusz [aut] (<https://orcid.org/0000-0002-1451-338X>),
+  Vincent Traag [aut] (<https://orcid.org/0000-0003-3170-3879>),
+  Szabolcs Horv<c3><a1>t [aut] (<https://orcid.org/0000-0002-3100-523X>),
+  Fabio Zanini [aut] (<https://orcid.org/0000-0001-7097-8539>),
+  Daniel Noom [aut],
+  Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  Ma<c3><ab>lle Salmon [ctb],
+  Chan Zuckerberg Initiative [fnd]' in object 'top_packages'
+  'Delphine Charif [aut],
+  Olivier Clerc [ctb],
+  Carolin Frank [ctb],
+  Jean R. Lobry [aut, cph],
+  Anamaria Nec<c5><9f>ulea [ctb],
+  Leonor Palmeira [ctb],
+  Simon Penel [cre],
+  Guy Perri<c3><a8>re [ctb]' in object 'top_packages'
+  'St<c3><a9>phane Dray <stephane.dray@univ-lyon1.fr>, Anne-B<c3><a9>atrice Dufour <anne-beatrice.dufour@univ-lyon1.fr>, and Jean Thioulouse <jean.thioulouse@univ-lyon1.fr>, with contributions from Thibaut Jombart, Sandrine Pavoine, Jean R. Lobry, S<c3><a9>bastien Ollier, Daniel Borcard, Pierre Legendre, St<c3><a9>phanie Bougeard and Aur<c3><a9>lie Siberchicot. Based on earlier work by Daniel Chessel.' in object 'top_packages'
+  'Thibaut Jombart [aut] (<https://orcid.org/0000-0003-2226-8692>),
+  Zhian N. Kamvar [aut, cre] (<https://orcid.org/0000-0003-1458-7108>),
+  Caitlin Collins [ctb],
+  Roman Lustrik [ctb],
+  Marie-Pauline Beugin [ctb],
+  Brian J. Knaus [ctb],
+  Peter Solymos [ctb],
+  Vladimir Mikryukov [ctb],
+  Klaus Schliep [ctb],
+  Tiago Mai<c3><a9> [ctb],
+  Libor Morkovsky [ctb],
+  Ismail Ahmed [ctb],
+  Anne Cori [ctb],
+  Federico Calboli [ctb],
+  RJ Ewing [ctb],
+  Fr<c3><a9>d<c3><a9>ric Michaud [ctb],
+  Rebecca DeCamp [ctb],
+  Alexandre Courtiol [ctb] (<https://orcid.org/0000-0003-0637-2959>),
+  Lindsay V. Clark [ctb] (<https://orcid.org/0000-0002-3881-9252>),
+  Pavel Dimens [ctb] (<https://orcid.org/0000-0003-3823-0373>)' in object 'top_packages'
+  'Roger Bivand [cre, aut] (<https://orcid.org/0000-0003-2392-6140>),
+  Micah Altman [ctb],
+  Luc Anselin [ctb],
+  Renato Assun<c3><a7><c3><a3>o [ctb],
+  Olaf Berke [ctb],
+  F. Guillaume Blanchet [ctb],
+  Marilia Carvalho [ctb],
+  Bjarke Christensen [ctb],
+  Yongwan Chun [ctb],
+  Carsten Dormann [ctb],
+  St<c3><a9>phane Dray [ctb],
+  Dewey Dunnington [ctb] (<https://orcid.org/0000-0002-9415-4582>),
+  Virgilio G<c3><b3>mez-Rubio [ctb],
+  Elias Krainski [ctb],
+  Pierre Legendre [ctb],
+  Nicholas Lewin-Koh [ctb],
+  Angela Li [ctb],
+  Giovanni Millo [ctb],
+  Werner Mueller [ctb],
+  Hisaji Ono [ctb],
+  Josiah Parry [ctb] (<https://orcid.org/0000-0001-9910-865X>),
+  Pedro Peres-Neto [ctb],
+  Gianfranco Piras [ctb],
+  Markus Reder [ctb],
+  Jeff Sauer [ctb],
+  Michael Tiefelsdorf [ctb],
+  Ren<c3><a9> Westerholt [ctb],
+  Levi Wolf [ctb],
+  Danlin Yu [ctb]' in object 'top_packages'
+  'Balasubramanian Narasimhan [aut, cre],
+  Manuel Koller [ctb],
+  Steven G. Johnson [aut],
+  Thomas Hahn [aut],
+  Annie Bouvier [aut],
+  Ki<c3><aa>n Ki<c3><aa>u [aut],
+  Simen Gaure [ctb]' in object 'top_packages'
+  'Simon Garnier [aut, cre],
+  Noam Ross [ctb, cph],
+  Bob Rudis [ctb, cph],
+  Marco Sciaini [ctb, cph],
+  Ant<c3><b4>nio Pedro Camargo [ctb, cph],
+  C<c3><a9>dric Scherer [ctb, cph]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  R Consortium [fnd]' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Jim Hester [aut],
+  Winston Chang [aut, cre],
+  Kirill M<c3><bc>ller [aut],
+  Daniel Cook [aut],
+  Mark Edmondson [ctb]' in object 'top_packages'
+  'Jim Hester [aut],
+  Lionel Henry [aut, cre],
+  Kirill M<c3><bc>ller [aut],
+  Kevin Ushey [aut],
+  Hadley Wickham [aut],
+  Winston Chang [aut],
+  Jennifer Bryan [ctb],
+  Richard Cotton [ctb],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Carson Sievert [aut, cre] (<https://orcid.org/0000-0002-4958-2844>),
+  Chris Parmer [aut],
+  Toby Hocking [aut],
+  Scott Chamberlain [aut],
+  Karthik Ram [aut],
+  Marianne Corvellec [aut] (<https://orcid.org/0000-0002-1994-3581>),
+  Pedro Despouy [aut],
+  Salim Br<c3><bc>ggemann [ctb] (<https://orcid.org/0000-0002-5329-5987>),
+  Plotly Technologies Inc. [cph]' in object 'top_packages'
+  'Ulrich Halekoh [aut, cph],
+  S<c3><b8>ren H<c3><b8>jsgaard [aut, cre, cph]' in object 'top_packages'
+  'Alexandra Kuznetsova [aut],
+  Per Bruun Brockhoff [aut, ths],
+  Rune Haubo Bojesen Christensen [aut, cre],
+  Sofie P<c3><b8>denphant Jensen [ctb]' in object 'top_packages'
+  'Kamil Slowikowski [aut, cre] (<https://orcid.org/0000-0002-2843-6370>),
+  Alicia Schep [ctb] (<https://orcid.org/0000-0002-3915-0618>),
+  Sean Hughes [ctb] (<https://orcid.org/0000-0002-9409-9405>),
+  Trung Kien Dang [ctb] (<https://orcid.org/0000-0001-7562-6495>),
+  Saulius Lukauskas [ctb],
+  Jean-Olivier Irisson [ctb] (<https://orcid.org/0000-0003-4920-3880>),
+  Zhian N Kamvar [ctb] (<https://orcid.org/0000-0003-1458-7108>),
+  Thompson Ryan [ctb] (<https://orcid.org/0000-0002-0450-8181>),
+  Dervieux Christophe [ctb] (<https://orcid.org/0000-0003-4474-2498>),
+  Yutani Hiroaki [ctb],
+  Pierre Gramme [ctb],
+  Amir Masoud Abdol [ctb],
+  Malcolm Barrett [ctb] (<https://orcid.org/0000-0003-0299-5825>),
+  Robrecht Cannoodt [ctb] (<https://orcid.org/0000-0003-3641-729X>),
+  Micha<c5><82> Krassowski [ctb] (<https://orcid.org/0000-0002-9638-7785>),
+  Michael Chirico [ctb] (<https://orcid.org/0000-0003-0787-087X>),
+  Pedro Aphalo [ctb] (<https://orcid.org/0000-0003-3385-972X>),
+  Francis Barton [ctb]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Hadley Wickham [ctb],
+  Kirill M<c3><bc>ller [ctb],
+  Salim Br<c3><bc>ggemann [ctb] (<https://orcid.org/0000-0002-5329-5987>),
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'S<c3><b8>ren H<c3><b8>jsgaard [aut, cre, cph],
+  Ulrich Halekoh [aut, cph],
+  Jun Yan [aut, cph],
+  Claus Thorn Ekstr<c3><b8>m [ctb]' in object 'top_packages'
+  'Mikis Stasinopoulos [aut, cre, cph]
+  (<https://orcid.org/0000-0003-2407-5704>),
+  Robert Rigby [aut] (<https://orcid.org/0000-0003-3853-1707>),
+  Calliope Akantziliotou [ctb],
+  Vlasios Voudouris [ctb],
+  Gillian Heller [ctb] (<https://orcid.org/0000-0003-1270-1499>),
+  Fernanda De Bastiani [ctb] (<https://orcid.org/0000-0001-8532-639X>),
+  Raydonal Ospina [ctb] (<https://orcid.org/0000-0002-9884-9090>),
+  Nicoletta Motpan [ctb],
+  Fiona McElduff [ctb],
+  Majid Djennad [ctb],
+  Marco Enea [ctb],
+  Alexios Ghalanos [ctb],
+  Christos Argyropoulos [ctb],
+  Almond St<c3><b6>cker [ctb] (<https://orcid.org/0000-0001-9160-2397>),
+  Jens Lichter [ctb],
+  Stanislaus Stadlmann [ctb] (<https://orcid.org/0000-0001-6542-6342>),
+  Achim Zeileis [ctb] (<https://orcid.org/0000-0003-0918-3766>)' in object 'top_packages'
+  'Dewey Dunnington [aut, cre] (<https://orcid.org/0000-0002-9415-4582>),
+  Brent Thorne [ctb] (<https://orcid.org/0000-0002-1099-3857>),
+  Diego Hernang<c3><b3>mez [ctb] (<https://orcid.org/0000-0001-8457-4658>)' in object 'top_packages'
+  'Russell V. Lenth [aut, cre, cph],
+  Ben Bolker [ctb],
+  Paul Buerkner [ctb],
+  Iago Gin<c3><a9>-V<c3><a1>zquez [ctb],
+  Maxime Herve [ctb],
+  Maarten Jung [ctb],
+  Jonathon Love [ctb],
+  Fernando Miguez [ctb],
+  Hannes Riebl [ctb],
+  Henrik Singmann [ctb]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Alec Wong [ctb],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Scott Chamberlain [aut] (<https://orcid.org/0000-0003-1444-9135>),
+  Eduard Szoecs [aut],
+  Zachary Foster [aut, cre],
+  Zebulun Arendsee [aut],
+  Carl Boettiger [ctb],
+  Karthik Ram [ctb],
+  Ignasi Bartomeus [ctb],
+  John Baumgartner [ctb],
+  James O'Donnell [ctb],
+  Jari Oksanen [ctb],
+  Bastian Greshake Tzovaras [ctb],
+  Philippe Marchand [ctb],
+  Vinh Tran [ctb],
+  Ma<c3><ab>lle Salmon [ctb],
+  Gaopeng Li [ctb],
+  Matthias Greni<c3><a9> [ctb],
+  rOpenSci [fnd] (https://ropensci.org/)' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [cre, ctb],
+  Jennifer Bryan [aut],
+  Hadley Wickham [aut],
+  RStudio [cph, fnd]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [cre],
+  Hadley Wickham [aut],
+  Winston Chang [aut],
+  Robert Flight [aut],
+  Kirill M<c3><bc>ller [aut],
+  Jim Hester [aut],
+  R Core team [ctb]' in object 'top_packages'
+  'Edzer Pebesma [aut, cre] (<https://orcid.org/0000-0001-8049-7069>),
+  Thomas Mailund [aut],
+  Tomasz Kalinowski [aut],
+  James Hiebert [ctb],
+  I<c3><b1>aki Ucar [aut] (<https://orcid.org/0000-0001-6403-5550>),
+  Thomas Lin Pedersen [ctb]' in object 'top_packages'
+  'Kurt Hornik [aut, cre] (<https://orcid.org/0000-0003-4198-9911>),
+  Walter B<c3><b6>hm [ctb]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Kirill M<c3><bc>ller [aut],
+  Jim Hester [aut],
+  Ma<c3><ab>lle Salmon [ctb] (<https://orcid.org/0000-0002-2815-0399>),
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  Jennifer Bryan [ctb] (<https://orcid.org/0000-0002-6983-2759>)' in object 'top_packages'
+  'Daniel L<c3><bc>decke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>),
+  Iago Gin<c3><a9>-V<c3><a1>zquez [ctb],
+  Alexander Bartel [ctb] (<https://orcid.org/0000-0002-1280-6138>)' in object 'top_packages'
+  'Kurt Hornik [aut, cre] (<https://orcid.org/0000-0003-4198-9911>),
+  Bettina Gr<c3><bc>n [aut] (<https://orcid.org/0000-0001-7265-4773>)' in object 'top_packages'
+  'Jonah Gabry [aut, cre],
+  Tristan Mahr [aut],
+  Paul-Christian B<c3><bc>rkner [ctb],
+  Martin Modr<c3><a1>k [ctb],
+  Malcolm Barrett [ctb],
+  Frank Weber [ctb],
+  Eduardo Coronado Sroka [ctb],
+  Teemu Sailynoja [ctb],
+  Aki Vehtari [ctb]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi, Kuba Podg<c3><b3>rski, Rich Geldreich' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  Hadley Wickham [aut],
+  RStudio [cph]' in object 'top_packages'
+  'Tomasz Kalinowski [ctb, cph, cre],
+  Daniel Falbel [ctb, cph],
+  JJ Allaire [aut, cph],
+  Fran<c3><a7>ois Chollet [aut, cph],
+  RStudio [ctb, cph, fnd],
+  Google [ctb, cph, fnd],
+  Yuan Tang [ctb, cph] (<https://orcid.org/0000-0001-5243-233X>),
+  Wouter Van Der Bijl [ctb, cph],
+  Martin Studer [ctb, cph],
+  Sigrid Keydana [ctb]' in object 'top_packages'
+  'Yihui Xie [aut, cre, cph] (<https://orcid.org/0000-0003-0645-5666>),
+  Wush Wu [ctb],
+  Daijiang Li [ctb],
+  Xianying Tan [ctb],
+  Salim Br<c3><bc>ggemann [ctb] (<https://orcid.org/0000-0002-5329-5987>),
+  Christophe Dervieux [ctb],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Vincent Goulet [cre, aut],
+  S<c3><a9>bastien Auclair [ctb],
+  Christophe Dutang [aut],
+  Walter Garcia-Fontes [ctb],
+  Nicholas Langevin [ctb],
+  Xavier Milhaud [ctb],
+  Tommy Ouellet [ctb],
+  Alexandre Parent [ctb],
+  Mathieu Pigeon [aut],
+  Louis-Philippe Pouliot [ctb],
+  Jeffrey A. Ryan [aut] (Package API),
+  Robert Gentleman [aut] (Parts of the R to C interface),
+  Ross Ihaka [aut] (Parts of the R to C interface),
+  R Core Team [aut] (Parts of the R to C interface),
+  R Foundation [aut] (Parts of the R to C interface)' in object 'top_packages'
+  'Jonathan Owen [aut, cre, cph],
+  Jeff Allen [ctb],
+  Yihui Xie [ctb],
+  Enzo Martoglio [ctb],
+  Inberg Ger [ctb],
+  Warpechowski Marcin [ctb, cph] (Handsontable.js library),
+  Handsoncode sp. z o.o. [ctb, cph] (Handsontable.js library),
+  Aisch Gregor [ctb, cph] (Chroma.js library),
+  F<c3><b6>retagsplatsen [ctb, cph] (Numbro.js library),
+  Draper Adam [ctb, cph] (Numeral.js library),
+  Wood Tim [ctb, cph] (Moment.js library),
+  Chernev Iskren [ctb, cph] (Moment.js library),
+  Moment.js contributors [ctb, cph] (Moment.js library),
+  Bushell David [ctb, cph] (Pikaday.js library),
+  jQuery Foundation [ctb, cph] (jQuery.js library),
+  Splunk Inc [ctb, cph] (Sparkline.js library),
+  Russell Kent [ctb, cph] (Sparkline.js library),
+  Rohan Jon [ctb, cph] (ZeroClipboard library),
+  Greene James [ctb, cph] (ZeroClipboard library),
+  Hammill Dillon [ctb]' in object 'top_packages'
+  'Jens Oehlschl<c3><a4>gel [aut, cre], Leonardo Silvestri [ctb]' in object 'top_packages'
+  'Jeroen Ooms [aut, cre] (<https://orcid.org/0000-0002-4035-0289>),
+  G<c3><a1>bor Cs<c3><a1>rdi [ctb]' in object 'top_packages'
+  'Jim Hester [aut] (<https://orcid.org/0000-0002-2739-7082>),
+  Hadley Wickham [aut] (<https://orcid.org/0000-0003-4757-117X>),
+  Jennifer Bryan [aut, cre] (<https://orcid.org/0000-0002-6983-2759>),
+  Shelby Bearrows [ctb],
+  https://github.com/mandreyel/ [cph] (mio library),
+  Jukka Jyl<c3><a4>nki [cph] (grisu3 implementation),
+  Mikkel J<c3><b8>rgensen [cph] (grisu3 implementation),
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Hadley Wickham [aut, cre, cph]
+  (<https://orcid.org/0000-0003-4757-117X>),
+  Peter Danenberg [aut, cph],
+  G<c3><a1>bor Cs<c3><a1>rdi [aut],
+  Manuel Eugster [aut, cph],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Neal Richardson [aut],
+  Ian Cook [aut],
+  Nic Crane [aut, cre],
+  Dewey Dunnington [aut] (<https://orcid.org/0000-0002-9415-4582>),
+  Romain Fran<c3><a7>ois [aut] (<https://orcid.org/0000-0002-2444-4226>),
+  Jonathan Keane [aut],
+  Drago<c8><99> Moldovan-Gr<c3><bc>nfeld [aut],
+  Jeroen Ooms [aut],
+  Jacob Wujciak-Jens [aut],
+  Javier Luraschi [ctb],
+  Karl Dunkle Werner [ctb] (<https://orcid.org/0000-0003-0523-7309>),
+  Jeffrey Wong [ctb],
+  Apache Arrow [aut, cph]' in object 'top_packages'
+  'Kristian Hovde Liland [aut, cre],
+  Bj<c3><b8>rn-Helge Mevik [aut],
+  Ron Wehrens [aut],
+  Paul Hiemstra [ctb]' in object 'top_packages'
+  'Thomas Lin Pedersen [cre, aut]
+  (<https://orcid.org/0000-0002-5147-4711>),
+  Berendea Nicolae [aut] (Author of the ColorSpace C++ library),
+  Romain Fran<c3><a7>ois [aut] (<https://orcid.org/0000-0002-2444-4226>)' in object 'top_packages'
+  'Kamil Barto<c5><84>' in object 'top_packages'
+  'Elin Waring [cre, aut],
+  Michael Quinn [aut],
+  Amelia McNamara [aut],
+  Eduardo Arino de la Rubia [aut],
+  Hao Zhu [aut],
+  Julia Lowndes [ctb],
+  Shannon Ellis [aut],
+  Hope McLeod [ctb],
+  Hadley Wickham [ctb],
+  Kirill M<c3><bc>ller [ctb],
+  RStudio, Inc. [cph] (Spark functions),
+  Connor Kirkpatrick [ctb],
+  Scott Brenstuhl [ctb],
+  Patrick Schratz [ctb],
+  lbusett [ctb],
+  Mikko Korpela [ctb],
+  Jennifer Thompson [ctb],
+  Harris McGehee [ctb],
+  Mark Roepke [ctb],
+  Patrick Kennedy [ctb],
+  Daniel Possenriede [ctb],
+  David Zimmermann [ctb],
+  Kyle Butts [ctb],
+  Bastian Torges [ctb],
+  Rick Saporta [ctb],
+  Henry Morgan Stewart [ctb]' in object 'top_packages'
+  'Jay Loden [aut],
+  Dave Daeschler [aut],
+  Giampaolo Rodola' [aut],
+  G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Barret Schloerke [cre, aut] (<https://orcid.org/0000-0001-9986-114X>),
+  Jeff Allen [aut, ccp],
+  Bruno Tremblay [ctb],
+  Frans van Dunn<c3><a9> [ctb],
+  Sebastiaan Vandewoude [ctb],
+  RStudio [cph, fnd]' in object 'top_packages'
+  'Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
+  Friedrich Leisch [ctb] (norMixEM(),
+  <https://orcid.org/0000-0001-7278-1983>),
+  Erik J<c3><b8>rgensen [ctb] (pnorMix(), qnorMix())' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre, cph] (<https://orcid.org/0000-0001-7098-9676>),
+  Winston Chang [aut],
+  Posit Software, PBC [cph, fnd],
+  Mango Solutions [cph, fnd]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre, cph] (<https://orcid.org/0000-0001-7098-9676>),
+  Winston Chang [aut],
+  RStudio [cph, fnd],
+  Mango Solutions [cph, fnd]' in object 'top_packages'
+  'S<c3><b8>ren H<c3><b8>jsgaard <sorenh@math.aau.dk> and Ulrich Halekoh
+  <uhalekoh@health.sdu.dk>' in object 'top_packages'
+  'Andrew Finley [aut, cre],
+  Sudipto Banerjee [aut],
+  <c3><98>yvind Hjelle [aut],
+  Roger Bivand [ctb]' in object 'top_packages'
+  'Masaaki Horikoshi [aut],
+  Yuan Tang [aut, cre] (<https://orcid.org/0000-0001-5243-233X>),
+  Austin Dickey [ctb],
+  Matthias Greni<c3><a9> [ctb],
+  Ryan Thompson [ctb],
+  Luciano Selzer [ctb],
+  Dario Strbenac [ctb],
+  Kirill Voronin [ctb],
+  Damir Pulatov [ctb]' in object 'top_packages'
+  'Xavier Robin [cre, aut] (<https://orcid.org/0000-0002-6813-3200>),
+  Natacha Turck [aut],
+  Alexandre Hainard [aut],
+  Natalia Tiberti [aut],
+  Fr<c3><a9>d<c3><a9>rique Lisacek [aut],
+  Jean-Charles Sanchez [aut],
+  Markus M<c3><bc>ller [aut],
+  Stefan Siegert [ctb] (Fast DeLong code),
+  Matthias Doering [ctb] (Hand & Till Multiclass),
+  Zane Billings [ctb] (DeLong paired test CI)' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Sindre Sorhus [aut]' in object 'top_packages'
+  'Gergely Dar<c3><b3>czi [aut, cre] (<https://orcid.org/0000-0003-3149-8537>),
+  System1 [fnd]' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Kirill M<c3><bc>ller [cre],
+  RStudio [cph, fnd]' in object 'top_packages'
+  'Travers Ching [aut, cre, cph],
+  Yann Collet [ctb, cph] (Yann Collet is the author of the bundled zstd,
+  lz4 and xxHash code),
+  Facebook, Inc. [cph] (Facebook is the copyright holder of the bundled
+  zstd code),
+  Reichardt Tino [ctb, cph] (Contributor/copyright holder of zstd bundled
+  code),
+  Skibinski Przemyslaw [ctb, cph] (Contributor/copyright holder of zstd
+  bundled code),
+  Mori Yuta [ctb, cph] (Contributor/copyright holder of zstd bundled
+  code),
+  Romain Francois [ctb, cph] (Derived example/tutorials for ALTREP
+  structures),
+  Francesc Alted [ctb, cph] (Shuffling routines derived from Blosc
+  library),
+  Bryce Chamberlain [ctb] (qsavem and qload functions),
+  Salim Br<c3><bc>ggemann [ctb] (<https://orcid.org/0000-0002-5329-5987>,
+  documentation)' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Matthew Lincoln [ctb]' in object 'top_packages'
+  'Aki Vehtari [aut],
+  Jonah Gabry [cre, aut],
+  Mans Magnusson [aut],
+  Yuling Yao [aut],
+  Paul-Christian B<c3><bc>rkner [aut],
+  Topi Paananen [aut],
+  Andrew Gelman [aut],
+  Ben Goodrich [ctb],
+  Juho Piironen [ctb],
+  Bruno Nicenboim [ctb],
+  Leevi Lindgren [ctb]' in object 'top_packages'
+  'Carter T. Butts [aut, cre],
+  David Hunter [ctb],
+  Mark Handcock [ctb],
+  Skye Bender-deMoll [ctb],
+  Jeffrey Horner [ctb],
+  Li Wang [ctb],
+  Pavel N. Krivitsky [ctb] (<https://orcid.org/0000-0002-9101-3362>),
+  Brendan Knapp [ctb] (<https://orcid.org/0000-0003-3284-4972>),
+  Micha<c5><82> Bojanowski [ctb] (<https://orcid.org/0000-0001-7503-852X>),
+  Chad Klumb [ctb]' in object 'top_packages'
+  'Fran<c3><a7>ois Briatte [aut, cre] (<https://orcid.org/0000-0001-6494-9774>),
+  Micha<c5><82> Bojanowski [ctb] (<https://orcid.org/0000-0001-7503-852X>),
+  Micka<c3><ab>l Canouil [ctb] (<https://orcid.org/0000-0002-3396-4549>),
+  Zachary Charlop-Powers [ctb] (<https://orcid.org/0000-0001-8816-4680>),
+  Jacob C. Fisher [ctb] (<https://orcid.org/0000-0003-0299-0346>),
+  Kipp Johnson [ctb] (<https://orcid.org/0000-0002-5102-741X>),
+  Tyler Rinker [ctb]' in object 'top_packages'
+  'Jo<c3><ab>l Gombin [cre, aut],
+  Ramnath Vaidyanathan [aut],
+  Vladimir Agafonkin [aut],
+  Mapbox [cph]' in object 'top_packages'
+  'Paul-Christian B<c3><bc>rkner [aut, cre],
+  Jonah Gabry [aut],
+  Matthew Kay [aut],
+  Aki Vehtari [aut],
+  M<c3><a5>ns Magnusson [ctb],
+  Rok <c4><8c>e<c5><a1>novar [ctb],
+  Ben Lambert [ctb],
+  Ozan Ad<c4><b1>g<c3><bc>zel [ctb],
+  Jacob Socolar [ctb]' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Yihui Xie [aut, cre] (<https://orcid.org/0000-0003-0645-5666>),
+  Michael Lawrence [ctb],
+  Thomas Kluyver [ctb],
+  Jeroen Ooms [ctb],
+  Barret Schloerke [ctb],
+  Adam Ryczkowski [ctb],
+  Hiroaki Yutani [ctb],
+  Michel Lang [ctb],
+  Karolis Koncevi<c4><8d>ius [ctb],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Joe Thorley [aut, cre] (<https://orcid.org/0000-0002-7683-4592>),
+  Kirill M<c3><bc>ller [aut] (<https://orcid.org/0000-0002-1416-3412>),
+  Ayla Pearson [aut] (<https://orcid.org/0000-0001-7388-1222>),
+  Nadine Hussein [ctb] (<https://orcid.org/0000-0003-4470-8361>),
+  Evan Amies-Galonski [ctb] (<https://orcid.org/0000-0003-1096-2089>),
+  Poisson Consulting [cph, fnd]' in object 'top_packages'
+  'Markus Gesmann [aut, cre],
+  Diego de Castillo [aut],
+  Joe Cheng [ctb],
+  Ashley Baldry [ctb],
+  Durey Ingenier<c3><ad>a [ctb]' in object 'top_packages'
+  'Paul-Christian B<c3><bc>rkner [aut, cre],
+  Jonah Gabry [ctb],
+  Sebastian Weber [ctb],
+  Andrew Johnson [ctb],
+  Martin Modrak [ctb],
+  Hamada S. Badr [ctb],
+  Frank Weber [ctb],
+  Mattan S. Ben-Shachar [ctb],
+  Hayden Rabel [ctb],
+  Simon C. Mills [ctb],
+  Stephen Wild [ctb]' in object 'top_packages'
+  'Daniel L<c3><bc>decke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Dominique Makowski [aut, ctb] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Indrajeet Patil [aut, ctb] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  Philip Waggoner [aut, ctb] (<https://orcid.org/0000-0002-7825-7573>),
+  Mattan S. Ben-Shachar [aut, ctb]
+  (<https://orcid.org/0000-0002-4287-4801>),
+  Brenton M. Wiernik [aut, ctb] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  Vincent Arel-Bundock [aut, ctb]
+  (<https://orcid.org/0000-0003-2042-7063>),
+  Etienne Bacher [aut, ctb] (<https://orcid.org/0000-0002-9271-5075>),
+  Alex Hayes [rev] (<https://orcid.org/0000-0002-4985-5160>),
+  Grant McDermott [ctb] (<https://orcid.org/0000-0001-7883-8573>),
+  R<c3><a9>mi Th<c3><a9>riault [ctb] (<https://orcid.org/0000-0003-4315-6788>,
+  @rempsyc),
+  Alex Reinhart [ctb] (<https://orcid.org/0000-0002-6658-514X>)' in object 'top_packages'
+  'Indrajeet Patil [aut] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  Etienne Bacher [aut, cre] (<https://orcid.org/0000-0002-9271-5075>),
+  Dominique Makowski [aut] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Daniel L<c3><bc>decke [aut] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Mattan S. Ben-Shachar [aut] (<https://orcid.org/0000-0002-4287-4801>),
+  Brenton M. Wiernik [aut] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  R<c3><a9>mi Th<c3><a9>riault [ctb] (<https://orcid.org/0000-0003-4315-6788>,
+  @rempsyc),
+  Thomas J. Faulkenberry [rev],
+  Robert Garrett [rev]' in object 'top_packages'
+  'Gergely Dar<c3><b3>czi [aut, cre] (<https://orcid.org/0000-0003-3149-8537>),
+  Roman Tsegelskyi [aut]' in object 'top_packages'
+  'Bhaskar Karambelkar [aut, cre],
+  Barret Schloerke [aut],
+  Bangyou Zheng [ctb] (Leaflet-search and Leaflet-GPS plugin integration),
+  Robin Cura [ctb] (Fixes for Draw Options),
+  Markus Voge [ctb] (Enhancements for Draw Options),
+  Markus Dumke [ctb] (Bounce Marker addition),
+  Mapbox [ctb, cph] (leaflet-omnivore, csv2geojson, and togeojson
+  libraries),
+  Henry Thasler [ctb, cph] (Leaflet.Geodesic library),
+  Dennis Wilhelm [ctb, cph] (Leaflet.StyleEditor library),
+  Kirollos Risk [ctb, cph] (fuse.js library),
+  Tim Wisniewski [ctb, cph] (leaflet-choropleth library),
+  Leaflet [ctb, cph] (leaflet-draw library),
+  Alexander Milevski [ctb, cph] (leaflet-draw-drag library),
+  John Firebaugh [ctb, cph] (leaflet-fullscreen library),
+  Stefano Cudini [ctb, cph] (leaflet-gps library),
+  Johannes Rudolph [ctb, cph] (leaflet-hash library),
+  Per Liedman [ctb, cph] (leaflet-measure-path library),
+  Pavel Shramov [ctb, cph] (leaflet-plugins library),
+  Filip Zavadil [ctb, cph] (leaflet-pulse-icon library),
+  Stefano Cudini [ctb, cph] (leaflet-search library),
+  CliffCloud [ctb, cph] (leaflet-sleep library),
+  Ursudio [ctb, cph] (leaflet-webgl-heatmap library),
+  Maxime Hadjinlian [ctb, cph] (leaflet.BounceMarker library),
+  Vladimir Agafonkin [ctb, cph] (leaflet.heat library),
+  Iv<c3><a1>n S<c3><a1>nchez Ortega [ctb, cph] (leaflet.tilelayer.pouchdbcached
+  library),
+  Dale Harvey [ctb, cph] (pouchdb-browser library),
+  Mike Bostock [ctb, cph] (topojson library)' in object 'top_packages'
+  'Mark S. Handcock [aut],
+  David R. Hunter [aut],
+  Carter T. Butts [aut],
+  Steven M. Goodreau [aut],
+  Pavel N. Krivitsky [aut, cre] (<https://orcid.org/0000-0002-9101-3362>),
+  Martina Morris [aut],
+  Li Wang [ctb],
+  Kirk Li [ctb],
+  Skye Bender-deMoll [ctb],
+  Chad Klumb [ctb],
+  Micha<c5><82> Bojanowski [ctb] (<https://orcid.org/0000-0001-7503-852X>),
+  Ben Bolker [ctb],
+  Christian Schmid [ctb],
+  Joyce Cheng [ctb],
+  Arya Karami [ctb]' in object 'top_packages'
+  'Daniel Adler [aut],
+  Christian Gl<c3><a4>ser [aut],
+  Oleg Nenadic  [aut],
+  Jens Oehlschl<c3><a4>gel [aut, cre],
+  Martijn Schuemie [aut],
+  Walter Zucchini  [aut]' in object 'top_packages'
+  'Roger Bivand [cre, aut] (<https://orcid.org/0000-0003-2392-6140>),
+  Gianfranco Piras [aut],
+  Luc Anselin [ctb],
+  Andrew Bernat [ctb],
+  Eric Blankmeyer [ctb],
+  Yongwan Chun [ctb],
+  Virgilio G<c3><b3>mez-Rubio [ctb],
+  Daniel Griffith [ctb],
+  Martin Gubri [ctb],
+  Rein Halbersma [ctb],
+  James LeSage [ctb],
+  Angela Li [ctb],
+  Hongfei Li [ctb],
+  Jielai Ma [ctb],
+  Abhirup Mallik [ctb, trl],
+  Giovanni Millo [ctb],
+  Kelley Pace [ctb],
+  Pedro Peres-Neto [ctb],
+  Tobias R<c3><bc>ttenauer [ctb],
+  Mauricio Sarrias [ctb],
+  JuanTomas Sayago [ctb],
+  Michael Tiefelsdorf [ctb]' in object 'top_packages'
+  'Florian Priv<c3><a9> [aut, cre]' in object 'top_packages'
+  'Jim Hester [aut] (<https://orcid.org/0000-0002-2739-7082>),
+  G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Nan Xiao [aut, cre] (<https://orcid.org/0000-0002-0250-5673>),
+  Joshua Cook [ctb],
+  Clara J<c3><a9>gousse [ctb],
+  Miaozhu Li [ctb]' in object 'top_packages'
+  'Micha<c5><82> Bojanowski [aut, cre] (<https://orcid.org/0000-0001-7503-852X>)' in object 'top_packages'
+  'Daniel M<c3><bc>llner [aut, cph, cre],
+  Google Inc. [cph]' in object 'top_packages'
+  'Henrik Singmann [aut, cre] (<https://orcid.org/0000-0002-4842-3657>),
+  Ben Bolker [aut],
+  Jake Westfall [aut],
+  Frederik Aust [aut] (<https://orcid.org/0000-0003-4900-788X>),
+  Mattan S. Ben-Shachar [aut],
+  S<c3><b8>ren H<c3><b8>jsgaard [ctb],
+  John Fox [ctb],
+  Michael A. Lawrence [ctb],
+  Ulf Mertens [ctb],
+  Jonathon Love [ctb],
+  Russell Lenth [ctb],
+  Rune Haubo Bojesen Christensen [ctb]' in object 'top_packages'
+  'Roger Bivand [aut, cre] (<https://orcid.org/0000-0003-2392-6140>),
+  Bill Denney [ctb] (<https://orcid.org/0000-0002-5759-428X>),
+  Richard Dunlap [ctb],
+  Diego Hernang<c3><b3>mez [ctb] (<https://orcid.org/0000-0001-8457-4658>),
+  Hisaji Ono [ctb],
+  Josiah Parry [ctb] (<https://orcid.org/0000-0001-9910-865X>),
+  Matthieu Stigler [ctb] (<https://orcid.org/0000-0002-6802-4290>)' in object 'top_packages'
+  'Ben Bolker [aut, cre] (<https://orcid.org/0000-0002-2127-0443>),
+  R Development Core Team [aut],
+  Iago Gin<c3><a9>-V<c3><a1>zquez [ctb]' in object 'top_packages'
+  'Marius Hofert [aut] (<https://orcid.org/0000-0001-8009-4665>),
+  Ivan Kojadinovic [aut] (<https://orcid.org/0000-0002-2903-1543>),
+  Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
+  Jun Yan [aut] (<https://orcid.org/0000-0003-4401-7296>),
+  Johanna G. Ne<c5><a1>lehov<c3><a1> [ctb] (evTestK(),
+  <https://orcid.org/0000-0001-9634-4796>),
+  Rebecca Morger [ctb] (fitCopula.ml(): code for free mixCopula weight
+  parameters)' in object 'top_packages'
+  'S<c3><b8>ren H<c3><b8>jsgaard <sorenh@math.aau.dk>' in object 'top_packages'
+  'Yves Till<c3><a9> <yves.tille@unine.ch>, Alina Matei <alina.matei@unine.ch>' in object 'top_packages'
+  'Dominique Makowski [aut, cre] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Daniel L<c3><bc>decke [aut] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Mattan S. Ben-Shachar [aut] (<https://orcid.org/0000-0002-4287-4801>,
+  @mattansb),
+  Indrajeet Patil [aut] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  Michael D. Wilson [aut] (<https://orcid.org/0000-0003-4143-7308>),
+  Brenton M. Wiernik [aut] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  Paul-Christian B<c3><bc>rkner [rev],
+  Tristan Mahr [rev] (<https://orcid.org/0000-0002-8890-5116>),
+  Henrik Singmann [ctb] (<https://orcid.org/0000-0002-4842-3657>),
+  Quentin F. Gronau [ctb] (<https://orcid.org/0000-0001-5510-6943>),
+  Sam Crawley [ctb] (<https://orcid.org/0000-0002-7847-0411>)' in object 'top_packages'
+  'Joseph Larmarange [aut, cre] (<https://orcid.org/0000-0001-7097-700X>),
+  Daniel Ludecke [ctb],
+  Hadley Wickham [ctb],
+  Michal Bojanowski [ctb],
+  Fran<c3><a7>ois Briatte [ctb]' in object 'top_packages'
+  'Mattan S. Ben-Shachar [aut, cre]
+  (<https://orcid.org/0000-0002-4287-4801>, @mattansb),
+  Dominique Makowski [aut] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Daniel L<c3><bc>decke [aut] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Indrajeet Patil [aut] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  Brenton M. Wiernik [aut] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  R<c3><a9>mi Th<c3><a9>riault [aut] (<https://orcid.org/0000-0003-4315-6788>,
+  @rempsyc),
+  Ken Kelley [ctb],
+  David Stanley [ctb],
+  Aaron Caldwell [ctb] (<https://orcid.org/0000-0002-4541-6283>),
+  Jessica Burnett [rev] (<https://orcid.org/0000-0002-0896-5099>),
+  Johannes Karreth [rev] (<https://orcid.org/0000-0003-4586-7153>)' in object 'top_packages'
+  'Daniel L<c3><bc>decke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Dominique Makowski [aut, ctb] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Mattan S. Ben-Shachar [aut, ctb]
+  (<https://orcid.org/0000-0002-4287-4801>, @mattansb),
+  Indrajeet Patil [aut, ctb] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  Philip Waggoner [aut, ctb] (<https://orcid.org/0000-0002-7825-7573>),
+  Brenton M. Wiernik [aut, ctb] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  Vincent Arel-Bundock [ctb] (<https://orcid.org/0000-0003-2042-7063>),
+  R<c3><a9>mi Th<c3><a9>riault [ctb] (<https://orcid.org/0000-0003-4315-6788>,
+  @rempsyc),
+  Martin Jullum [rev],
+  gjo11 [rev],
+  Etienne Bacher [ctb] (<https://orcid.org/0000-0002-9271-5075>)' in object 'top_packages'
+  'Daniel L<c3><bc>decke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>),
+  avid Ranzolin [ctb],
+  Jonathan De Troye [ctb]' in object 'top_packages'
+  'Michael W. Kearney [aut] (<https://orcid.org/0000-0002-0730-4694>),
+  Llu<c3><ad>s Revilla Sancho [aut, cre]
+  (<https://orcid.org/0000-0001-9747-2570>),
+  Hadley Wickham [aut] (<https://orcid.org/0000-0003-4757-117X>),
+  Andrew Heiss [rev] (<https://orcid.org/0000-0002-3948-3914>),
+  Francois Briatte [rev],
+  Jonathan Sidi [ctb] (<https://orcid.org/0000-0002-4222-1819>)' in object 'top_packages'
+  'Etienne Lalibert<c3><a9>, Pierre Legendre, Bill Shipley' in object 'top_packages'
+  'Hannes M<c3><bc>hleisen [aut, cre] (<https://orcid.org/0000-0001-8552-0029>),
+  Mark Raasveldt [aut] (<https://orcid.org/0000-0001-5005-6844>),
+  Stichting DuckDB Foundation [cph],
+  Apache Software Foundation [cph],
+  PostgreSQL Global Development Group [cph],
+  The Regents of the University of California [cph],
+  Cameron Desrochers [cph],
+  Victor Zverovich [cph],
+  RAD Game Tools [cph],
+  Valve Software [cph],
+  Rich Geldreich [cph],
+  Tenacious Software LLC [cph],
+  The RE2 Authors [cph],
+  Google Inc. [cph],
+  Facebook Inc. [cph],
+  Steven G. Johnson [cph],
+  Jiahao Chen [cph],
+  Tony Kelman [cph],
+  Jonas Fonseca [cph],
+  Lukas Fittl [cph],
+  Salvatore Sanfilippo [cph],
+  Art.sy, Inc. [cph],
+  Oran Agra [cph],
+  Redis Labs, Inc. [cph],
+  Melissa O'Neill [cph],
+  PCG Project contributors [cph]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi, Linus Torvalds' in object 'top_packages'
+  'Mikkel Meyer Andersen [aut, cre, cph],
+  Rob Goedman [aut, cph],
+  Gabor Grothendieck [aut, cph],
+  S<c3><b8>ren H<c3><b8>jsgaard [aut, cph],
+  Grzegorz Mazur [aut, cph],
+  Ayal Pinkus [aut, cph],
+  Nemanja Trifunovic [cph] (UTF-8 part of yacas
+  (src/yacas/include/yacas/utf8*))' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Jim Hester [aut],
+  G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [cre, aut]' in object 'top_packages'
+  'Claus Thorn Ekstr<c3><b8>m [aut, cre],
+  Niels Aske Lundtorp Olsen [ctb]' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>)' in object 'top_packages'
+  'Daniel L<c3><bc>decke [aut, cre] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Dominique Makowski [aut] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Mattan S. Ben-Shachar [aut] (<https://orcid.org/0000-0002-4287-4801>),
+  Indrajeet Patil [aut] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  S<c3><b8>ren H<c3><b8>jsgaard [aut],
+  Brenton M. Wiernik [aut] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  Zen J. Lau [ctb],
+  Vincent Arel-Bundock [ctb] (<https://orcid.org/0000-0003-1995-6531>,
+  @vincentab),
+  Jeffrey Girard [ctb] (<https://orcid.org/0000-0002-7359-3746>,
+  @jeffreymgirard),
+  Christina Maimone [rev],
+  Niels Ohlsen [rev] (@Niels_Bremen),
+  Douglas Ezra Morrison [ctb] (<https://orcid.org/0000-0002-7195-830X>,
+  @demstats1),
+  Joseph Luchman [ctb] (<https://orcid.org/0000-0002-8886-9717>)' in object 'top_packages'
+  'Rasmus B<c3><a5><c3><a5>th [aut, cre],
+  Amanda Dobbyn [ctb]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Posit Software, PBC [cph, fnd]' in object 'top_packages'
+  'Terrence D. Jorgensen [aut, cre]
+  (<https://orcid.org/0000-0001-5111-6773>),
+  Sunthud Pornprasertmanit [aut],
+  Alexander M. Schoemann [aut] (<https://orcid.org/0000-0002-8479-8798>),
+  Yves Rosseel [aut] (<https://orcid.org/0000-0002-4129-4477>),
+  Patrick Miller [ctb],
+  Corbin Quick [ctb],
+  Mauricio Garnier-Villarreal [ctb]
+  (<https://orcid.org/0000-0002-2951-6647>),
+  James Selig [ctb],
+  Aaron Boulton [ctb],
+  Kristopher Preacher [ctb],
+  Donna Coffman [ctb],
+  Mijke Rhemtulla [ctb] (<https://orcid.org/0000-0003-2572-2424>),
+  Alexander Robitzsch [ctb] (<https://orcid.org/0000-0002-8226-3132>),
+  Craig Enders [ctb],
+  Ruben Arslan [ctb] (<https://orcid.org/0000-0002-6670-5658>),
+  Bell Clinton [ctb],
+  Pavel Panko [ctb],
+  Edgar Merkle [ctb] (<https://orcid.org/0000-0001-7158-0653>),
+  Steven Chesnut [ctb],
+  Jarrett Byrnes [ctb],
+  Jason D. Rights [ctb],
+  Ylenio Longo [ctb],
+  Maxwell Mansolf [ctb] (<https://orcid.org/0000-0001-6861-8657>),
+  Mattan S. Ben-Shachar [ctb] (<https://orcid.org/0000-0002-4287-4801>),
+  Mikko R<c3><b6>nkk<c3><b6> [ctb] (<https://orcid.org/0000-0001-7988-7609>),
+  Andrew R. Johnson [ctb] (<https://orcid.org/0000-0001-7000-8065>)' in object 'top_packages'
+  'Kenneth Benoit [cre, aut, cph]
+  (<https://orcid.org/0000-0002-0797-564X>),
+  Kohei Watanabe [aut] (<https://orcid.org/0000-0001-6519-5265>),
+  Haiyan Wang [aut] (<https://orcid.org/0000-0003-4992-4311>),
+  Paul Nulty [aut] (<https://orcid.org/0000-0002-7214-4666>),
+  Adam Obeng [aut] (<https://orcid.org/0000-0002-2906-4775>),
+  Stefan M<c3><bc>ller [aut] (<https://orcid.org/0000-0002-6315-4125>),
+  Akitaka Matsuo [aut] (<https://orcid.org/0000-0002-3323-6330>),
+  William Lowe [aut] (<https://orcid.org/0000-0002-1549-6163>),
+  Christian M<c3><bc>ller [ctb],
+  Olivier Delmarcelle [ctb] (<https://orcid.org/0000-0003-4347-070X>),
+  European Research Council [fnd] (ERC-2011-StG 283794-QUANTESS)' in object 'top_packages'
+  'Pedro J. Aphalo [aut, cre] (<https://orcid.org/0000-0003-3385-972X>),
+  Kamil Slowikowski [ctb] (<https://orcid.org/0000-0002-2843-6370>),
+  Micha<c5><82> Krassowski [ctb] (<https://orcid.org/0000-0002-9638-7785>),
+  Daniel Saban<c3><a9>s Bov<c3><a9> [ctb],
+  Stella Banjo [ctb]' in object 'top_packages'
+  'Dominic Schuhmacher [aut, cre],
+  Bj<c3><b6>rn B<c3><a4>hre [aut] (aha and power diagrams),
+  Nicolas Bonneel [aut] (networkflow),
+  Carsten Gottschlich [aut] (simplex and shortlist),
+  Valentin Hartmann [aut] (semidiscrete1),
+  Florian Heinemann [aut] (transport_track and networkflow integration),
+  Bernhard Schmitzer [aut] (shielding),
+  J<c3><b6>rn Schrieber [aut] (subsampling),
+  Timo Wilm [ctb] (wpp)' in object 'top_packages'
+  'Julien Barnier [aut, cre],
+  Fran<c3><a7>ois Briatte [aut],
+  Joseph Larmarange [aut]' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi [aut, cre],
+  Ma<c3><ab>lle Salmon [ctb]' in object 'top_packages'
+  'Patrick O. Perry [aut, cph],
+  Kirill M<c3><bc>ller [cre],
+  Unicode, Inc. [cph, dtc] (Unicode Character Database)' in object 'top_packages'
+  'Mollie Brooks [aut, cre] (<https://orcid.org/0000-0001-6963-8326>),
+  Ben Bolker [aut] (<https://orcid.org/0000-0002-2127-0443>),
+  Kasper Kristensen [aut],
+  Martin Maechler [aut] (<https://orcid.org/0000-0002-8685-9910>),
+  Arni Magnusson [aut] (<https://orcid.org/0000-0003-2769-6741>),
+  Maeve McGillycuddy [ctb],
+  Hans Skaug [aut] (<https://orcid.org/0000-0003-4235-2592>),
+  Anders Nielsen [aut] (<https://orcid.org/0000-0001-9683-9262>),
+  Casper Berg [aut] (<https://orcid.org/0000-0002-3812-5269>),
+  Koen van Bentham [aut],
+  Nafis Sadat [ctb] (<https://orcid.org/0000-0001-5715-616X>),
+  Daniel L<c3><bc>decke [ctb] (<https://orcid.org/0000-0002-8895-3206>),
+  Russ Lenth [ctb],
+  Joseph O'Brien [ctb] (<https://orcid.org/0000-0001-9851-5077>),
+  Charles J. Geyer [ctb],
+  Mikael Jagan [ctb] (<https://orcid.org/0000-0002-3542-2938>),
+  Brenton Wiernik [ctb] (<https://orcid.org/0000-0001-9560-6336>),
+  Daniel B. Stouffer [ctb] (<https://orcid.org/0000-0001-9436-9674>)' in object 'top_packages'
+  'Andy Bunn [aut, cph, cre, trl],
+  Mikko Korpela [aut, cph, trl],
+  Franco Biondi [aut, cph],
+  Filipe Campelo [aut, cph],
+  Pierre M<c3><a9>rian [aut, cph],
+  Fares Qeadan [aut, cph],
+  Christian Zang [aut, cph],
+  Allan Buras [ctb],
+  Alice Cecile [ctb],
+  Manfred Mudelsee [ctb],
+  Michael Schulz [ctb],
+  Stefan Klesse [ctb],
+  David Frank [ctb],
+  Ronald Visser [ctb],
+  Ed Cook [ctb],
+  Kevin Anchukaitis [ctb]' in object 'top_packages'
+  'Martin Maechler [aut, cre] (<https://orcid.org/0000-0002-8685-9910>),
+  Werner Stahel [ctb] (Functions: compresid2way(), f.robftest(), last(),
+  p.scales(), p.dnorm()),
+  Andreas Ruckstuhl [ctb] (Functions: p.arrows(), p.profileTraces(),
+  p.res.2x()),
+  Christian Keller [ctb] (Functions: histBxp(), p.tachoPlot()),
+  Kjetil Halvorsen [ctb] (Functions: KSd(), ecdf.ksCI()),
+  Alain Hauser [ctb] (Functions: cairoSwd(), is.whole(),
+  toLatex.numeric()*),
+  Christoph Buser [ctb] (to function Duplicated()),
+  Lorenz Gygax [ctb] (to function p.res.2fact()),
+  Bill Venables [ctb] (Functions: empty.dimnames(), primes()),
+  Tony Plate [ctb] (to inv.seq()),
+  Isabelle Fl<c3><bc>ckiger [ctb],
+  Marcel Wolbers [ctb],
+  Markus Keller [ctb],
+  Sandrine Dudoit [ctb],
+  Jane Fridlyand [ctb],
+  Greg Snow [ctb] (to loessDemo()),
+  Henrik Aa. Nielsen [ctb] (to loessDemo()),
+  Vincent Carey [ctb],
+  Ben Bolker [ctb],
+  Philippe Grosjean [ctb],
+  Fr<c3><a9>d<c3><a9>ric Ibanez [ctb],
+  Caterina Savi [ctb],
+  Charles Geyer [ctb],
+  Jens Oehlschl<c3><a4>gel [ctb]' in object 'top_packages'
+  'Hadley Wickham [aut],
+  Jeroen Ooms [aut],
+  Kirill M<c3><bc>ller [aut, cre] (<https://orcid.org/0000-0002-1416-3412>),
+  RStudio [cph],
+  R Consortium [fnd],
+  Tomoaki Nishiyama [ctb] (Code for encoding vectors into strings derived
+  from RPostgreSQL)' in object 'top_packages'
+  'Dominique Makowski [aut, inv] (<https://orcid.org/0000-0001-5375-9967>,
+  @Dom_Makowski),
+  Brenton M. Wiernik [aut, cre] (<https://orcid.org/0000-0001-9560-6336>,
+  @bmwiernik),
+  Indrajeet Patil [aut] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets),
+  Daniel L<c3><bc>decke [aut] (<https://orcid.org/0000-0002-8895-3206>,
+  @strengejacke),
+  Mattan S. Ben-Shachar [aut] (<https://orcid.org/0000-0002-4287-4801>,
+  @mattansb),
+  Mark White [rev],
+  Maximilian M. Rabe [rev] (<https://orcid.org/0000-0002-2556-5644>)' in object 'top_packages'
+  'Greg Freedman Ellis [aut, cre],
+  Thomas Lumley [ctb],
+  Tomasz <c5><bb><c3><b3><c5><82>tak [ctb],
+  Ben Schneider [aut, ctb],
+  Pavel N. Krivitsky [ctb]' in object 'top_packages'
+  'Xavier Fern<c3><a1>ndez i Mar<c3><ad>n [aut, cre]
+  (<https://orcid.org/0000-0002-9522-8870>)' in object 'top_packages'
+  'K Herv<c3><a9> Dakpo [ctb, cre],
+  Hans Bruun Nielsen [aut],
+  Stig Bousgaard Mortensen [aut]' in object 'top_packages'
+  'Kirill M<c3><bc>ller [aut] (<https://orcid.org/0000-0002-1416-3412>),
+  Lorenz Walthert [cre, aut],
+  Indrajeet Patil [ctb] (<https://orcid.org/0000-0003-1995-6531>,
+  @patilindrajeets)' in object 'top_packages'
+  'Ben Bolker [aut, cre] (<https://orcid.org/0000-0002-2127-0443>),
+  David Robinson [aut],
+  Dieter Menne [ctb],
+  Jonah Gabry [ctb],
+  Paul Buerkner [ctb],
+  Christopher Hua [ctb],
+  William Petry [ctb] (<https://orcid.org/0000-0002-5230-5987>),
+  Joshua Wiley [ctb] (<https://orcid.org/0000-0002-0271-6702>),
+  Patrick Kennedy [ctb],
+  Eduard Sz<c3><b6>cs [ctb] (<https://orcid.org/0000-0001-5376-1194>, BASF SE),
+  Indrajeet Patil [ctb],
+  Vincent Arel-Bundock [ctb] (<https://orcid.org/0000-0003-2042-7063>),
+  Bill Denney [ctb],
+  Cory Brunson [ctb]' in object 'top_packages'
+  'Yidong Zhou [aut, cre],
+  Satarupa Bhattacharjee [aut],
+  Cody Carroll [aut] (<https://orcid.org/0000-0003-3525-8653>),
+  Yaqing Chen [aut],
+  Xiongtao Dai [aut],
+  Jianing Fan [aut],
+  Alvaro Gajardo [aut],
+  Pantelis Z. Hadjipantelis [aut],
+  Kyunghee Han [aut],
+  Hao Ji [aut],
+  Changbo Zhu [aut],
+  Shu-Chin Lin [ctb],
+  Paromita Dubey [ctb],
+  Hans-Georg M<c3><bc>ller [cph, ths, aut],
+  Jane-Ling Wang [cph, ths, aut]' in object 'top_packages'
+  'Scott Chamberlain [aut] (<https://orcid.org/0000-0003-2542-2202>),
+  Tam<c3><a1>s Stirling [ctb, cre]' in object 'top_packages'
+  'Trevor L Davis [aut, cre] (<https://orcid.org/0000-0001-6341-4639>),
+  Allen Day [ctb] (Some documentation and examples ported from the getopt
+  package.),
+  Python Software Foundation [ctb] (Some documentation from the optparse
+  Python module.),
+  Steve Lianoglou [ctb],
+  Jim Nikelski [ctb],
+  Kirill M<c3><bc>ller [ctb],
+  Peter Humburg [ctb],
+  Rich FitzJohn [ctb],
+  Gyu Jin Choi [ctb]' in object 'top_packages'
+  'Jean-Romain Roussel [aut, cre, cph],
+  David Auty [aut, ctb] (Reviews the documentation),
+  Florian De Boissieu [ctb] (Fixed bugs and improved catalog features),
+  Andrew S<c3><a1>nchez Meador [ctb] (Implemented wing2015() for
+  segment_snags()),
+  Bourdon Jean-Fran<c3><a7>ois [ctb] (Contributed to Roussel2020() for
+  track_sensor()),
+  Gatziolis Demetrios [ctb] (Implemented Gatziolis2019() for
+  track_sensor()),
+  Leon Steinmeier [ctb] (Contributed to parallelization management),
+  Stanislaw Adaszewski [cph] (Author of the C++ concaveman code)' in object 'top_packages'
+  'Gerta R<c3><bc>cker [aut] (<https://orcid.org/0000-0002-2192-2560>),
+  Ulrike Krahn [aut],
+  Jochem K<c3><b6>nig [aut] (<https://orcid.org/0000-0003-4683-0360>),
+  Orestis Efthimiou [aut] (<https://orcid.org/0000-0002-0955-7572>),
+  Annabel Davies [aut] (<https://orcid.org/0000-0003-2320-7701>),
+  Theodoros Papakonstantinou [aut]
+  (<https://orcid.org/0000-0002-6630-6817>),
+  Guido Schwarzer [aut, cre] (<https://orcid.org/0000-0001-6214-9087>)' in object 'top_packages'
+  'Jacob van Etten [aut] (<https://orcid.org/0000-0001-7554-2558>),
+  Kau<c3><aa> de Sousa [ctb] (<https://orcid.org/0000-0002-7571-7845>),
+  Andrew Marx [cre, ctb] (<https://orcid.org/0000-0002-7456-1631>)' in object 'top_packages'
+  'Kristian Hovde Liland [aut, cre]
+  (<https://orcid.org/0000-0001-6468-9423>),
+  Bj<c3><b8>rn-Helge Mevik [aut],
+  Roberto Canteri [ctb]' in object 'top_packages'
+  'Bettina Gr<c3><bc>n [aut, cre] (<https://orcid.org/0000-0001-7265-4773>),
+  Kurt Hornik [aut] (<https://orcid.org/0000-0003-4198-9911>),
+  David M Blei [ctb, cph] (VEM estimation of LDA and CTM),
+  John D Lafferty [ctb, cph] (VEM estimation of CTM),
+  Xuan-Hieu Phan [ctb, cph] (MCMC estimation of LDA),
+  Makoto Matsumoto [ctb, cph] (Mersenne Twister RNG),
+  Takuji Nishimura [ctb, cph] (Mersenne Twister RNG),
+  Shawn Cokus [ctb] (Mersenne Twister RNG)' in object 'top_packages'
+  'Tim Appelhans [cre, aut],
+  Christoph Reudenbach [ctb],
+  Kenton Russell [ctb],
+  Jochen Darley [ctb],
+  Daniel Montague [ctb, cph] (Leaflet.EasyButton plugin),
+  Lorenzo Busetto [ctb],
+  Luigi Ranghetti [ctb],
+  Miles McBain [ctb],
+  Sebastian Gatscha [ctb],
+  Bj<c3><b6>rn Harrtell [ctb, cph] (FlatGeobuf plugin),
+  Daniel Dufour [ctb, cph] (georaster-layer-for-leaflet),
+  Yeedle Neuwirth [ctb],
+  Derek Friend [ctb],
+  Kevin Cazelles [ctb] (<https://orcid.org/0000-0001-6619-9874>)' in object 'top_packages'
+  'Kirill M<c3><bc>ller <kirill@cynkra.com>' in object 'top_packages'
+  'G<c3><a1>bor Cs<c3><a1>rdi <csardi.gabor@gmail.com>' in object 'top_packages'
+  'Eduardo Garc<c3><ad>a-Portugu<c3><a9>s <edgarcia@est-econ.uc3m.es>' in object 'top_packages'
+  'Aur<c3><a9>lie Siberchicot <aurelie.siberchicot@univ-lyon1.fr>' in object 'top_packages'
+  'Kirill M<c3><bc>ller <krlmlr+r@mailbox.org>' in object 'top_packages'
+  'Daniel L<c3><bc>decke <d.luedecke@uke.de>' in object 'top_packages'
+  'Jens Oehlschl<c3><a4>gel <Jens.Oehlschlaegel@truecluster.com>' in object 'top_packages'
+  'Kamil Barto<c5><84> <kamil.barton@go2.pl>' in object 'top_packages'
+  'Gergely Dar<c3><b3>czi <daroczig@rapporter.net>' in object 'top_packages'
+  'Fran<c3><a7>ois Briatte <f.briatte@gmail.com>' in object 'top_packages'
+  'Jo<c3><ab>l Gombin <joel.gombin@gmail.com>' in object 'top_packages'
+  'Paul-Christian B<c3><bc>rkner <paul.buerkner@gmail.com>' in object 'top_packages'
+  'Florian Priv<c3><a9> <florian.prive.21@gmail.com>' in object 'top_packages'
+  'Micha<c5><82> Bojanowski <michal2992@gmail.com>' in object 'top_packages'
+  'Daniel M<c3><bc>llner <daniel@danifold.net>' in object 'top_packages'
+  'Llu<c3><ad>s Revilla Sancho <lluis.revilla@gmail.com>' in object 'top_packages'
+  'Etienne Lalibert<c3><a9> <etiennelaliberte@gmail.com>' in object 'top_packages'
+  'Hannes M<c3><bc>hleisen <hannes@cwi.nl>' in object 'top_packages'
+  'Claus Thorn Ekstr<c3><b8>m <claus@rprimer.dk>' in object 'top_packages'
+  'Rasmus B<c3><a5><c3><a5>th <rasmus.baath@gmail.com>' in object 'top_packages'
+  'Xavier Fern<c3><a1>ndez i Mar<c3><ad>n <xavier.fim@gmail.com>' in object 'top_packages'
+  'K Herv<c3><a9> Dakpo <k-herve.dakpo@inrae.fr>' in object 'top_packages'
+  'Tam<c3><a1>s Stirling <stirling.tamas@gmail.com>' in object 'top_packages'
+  'Bettina Gr<c3><bc>n <Bettina.Gruen@R-project.org>' in object 'top_packages'
+  'Until package version 1.1.23: <c2><a9> 2011 Daniel M<c3><bc>llner
+  <https://danifold.net>. All changes from version 1.1.24 on: <c2><a9>
+  Google Inc. <https://www.google.com>.' in object 'top_packages'
+* checking LazyData ... OK
+* checking data for ASCII and uncompressed saves ... OK
+* checking installed files from ‘inst/doc’ ... OK
+* checking files in ‘vignettes’ ... OK
+* checking examples ... OK
+* checking for unstated dependencies in vignettes ... NOTE
+'::' or ':::' import not declared from: ‘broom’
+'library' or 'require' call not declared from: ‘tidyverse’
+* checking package vignettes in ‘inst/doc’ ... OK
+* checking re-building of vignette outputs ... [23s/26s] OK
+* checking for non-standard things in the check directory ... OK
+* checking for detritus in the temp directory ... OK
+* DONE
+Status: 7 WARNINGs, 4 NOTEs

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head><title>R: A formula interface for model-first PCA; PCA for the people!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container">
+<h1> A formula interface for model-first PCA; PCA for the people!
+<img class="toplogo" src="../../../doc/html/Rlogo.svg" alt="[R logo]" />
+</h1>
+<hr/>
+<div style="text-align: center;">
+<a href="../../../doc/html/packages.html"><img class="arrow" src="../../../doc/html/left.jpg" alt="[Up]" /></a>
+<a href="../../../doc/html/index.html"><img class="arrow" src="../../../doc/html/up.jpg" alt="[Top]" /></a>
+</div><h2>Documentation for package &lsquo;longpca&rsquo; version 0.0.0.9000</h2>
+
+<ul><li><a href="../DESCRIPTION">DESCRIPTION file</a>.</li>
+<li><a href="../doc/index.html">User guides, package vignettes and other documentation.</a></li>
+</ul>
+
+<h2>Help Pages</h2>
+
+
+<table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="diagnose.html">diagnose</a></td>
+<td>diagnose_formula</td></tr>
+<tr><td style="width: 25%;"><a href="extract_interaction.html">extract_interaction</a></td>
+<td>extract_interaction (internal)</td></tr>
+<tr><td style="width: 25%;"><a href="extract_variables.html">extract_variables</a></td>
+<td>extract_variables (internal)</td></tr>
+<tr><td style="width: 25%;"><a href="glaplacian.html">glaplacian</a></td>
+<td>glaplacian</td></tr>
+<tr><td style="width: 25%;"><a href="itty_pivot.html">itty_pivot</a></td>
+<td>itty_pivot (internal)</td></tr>
+<tr><td style="width: 25%;"><a href="localization.html">localization</a></td>
+<td>localization</td></tr>
+<tr><td style="width: 25%;"><a href="make_deg_lev_resid.html">make_deg_lev_resid</a></td>
+<td>make_deg_lev_resid (Internal)</td></tr>
+<tr><td style="width: 25%;"><a href="make_interaction_model.html">make_interaction_model</a></td>
+<td>make_interaction_model</td></tr>
+<tr><td style="width: 25%;"><a href="make_interaction_model_from_variables.html">make_interaction_model_from_variables</a></td>
+<td>make_interaction_model_from_variables (internal to make_interaction_tibble and text2sparse)</td></tr>
+<tr><td style="width: 25%;"><a href="make_leverage.html">make_leverage</a></td>
+<td>make_leverage (internal for localization)</td></tr>
+<tr><td style="width: 25%;"><a href="make_sparse_output.html">make_sparse_output</a></td>
+<td>make_sparse_output (internal to rotate)</td></tr>
+<tr><td style="width: 25%;"><a href="pair.html">pair</a></td>
+<td>Internal</td></tr>
+<tr><td style="width: 25%;"><a href="parse_formula.html">parse_formula</a></td>
+<td>parse_variables (internal)</td></tr>
+<tr><td style="width: 25%;"><a href="pca.html">pca</a></td>
+<td>pca</td></tr>
+<tr><td style="width: 25%;"><a href="pca_average.html">pca_average</a></td>
+<td>pca_average</td></tr>
+<tr><td style="width: 25%;"><a href="pca_count.html">pca_count</a></td>
+<td>pca_count</td></tr>
+<tr><td style="width: 25%;"><a href="pca_sum.html">pca_sum</a></td>
+<td>pca_sum</td></tr>
+<tr><td style="width: 25%;"><a href="pca_text.html">pca_text</a></td>
+<td>pca_text</td></tr>
+<tr><td style="width: 25%;"><a href="pick_dim.html">pick_dim</a></td>
+<td>pick_dim</td></tr>
+<tr><td style="width: 25%;"><a href="plot.pc.html">plot.pc</a></td>
+<td>plot.pc</td></tr>
+<tr><td style="width: 25%;"><a href="print.interaction_model.html">print.interaction_model</a></td>
+<td>print interaction model</td></tr>
+<tr><td style="width: 25%;"><a href="print.pc.html">print.pc</a></td>
+<td>print.pc</td></tr>
+<tr><td style="width: 25%;"><a href="remove_L_normalization.html">remove_L_normalization</a></td>
+<td>remove_L_normalization (internal to pca_mean/pca_average)</td></tr>
+<tr><td style="width: 25%;"><a href="rotate.html">rotate</a></td>
+<td>rotate</td></tr>
+<tr><td style="width: 25%;"><a href="select_universe.html">select_universe</a></td>
+<td>select_universe</td></tr>
+<tr><td style="width: 25%;"><a href="streaks.html">streaks</a></td>
+<td>streaks</td></tr>
+<tr><td style="width: 25%;"><a href="summary.interaction_model.html">summary.interaction_model</a></td>
+<td>summary interaction model</td></tr>
+<tr><td style="width: 25%;"><a href="top.html">top</a></td>
+<td>Title</td></tr>
+<tr><td style="width: 25%;"><a href="top_features.html">top_features</a></td>
+<td>top_features</td></tr>
+<tr><td style="width: 25%;"><a href="transpose_tibble.html">transpose_tibble</a></td>
+<td>#' list_2_tib (internal) #' #' used for diagnose #' #' @param list_of_data #' #' @return #' #' @examples list_2_tib = function(list_of_data) dplyr::bind_rows(lapply(list_of_data, itty_pivot))</td></tr>
+<tr><td style="width: 25%;"><a href="update_lhs_to_1.html">update_lhs_to_1</a></td>
+<td>update_lhs_to_1 (internal to pca_count)</td></tr>
+<tr><td style="width: 25%;"><a href="varimax_with_pre_rotation.html">varimax_with_pre_rotation</a></td>
+<td>varimax_with_pre_rotation (internal to rotate)</td></tr>
+</table>
+</div></body></html>

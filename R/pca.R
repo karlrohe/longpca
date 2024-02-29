@@ -31,13 +31,39 @@ glaplacian <- function(A, regularize = TRUE) {
 
 
 
-get_Matrix = function(interaction_model){
-  Matrix::sparseMatrix(
+#' get_Matrix
+#'
+#' @param interaction_model
+#'
+#' @return
+#' @export
+#'
+#' @examples
+get_Matrix = function(interaction_model, import_names = FALSE){
+  A = Matrix::sparseMatrix(
     i = interaction_model$interaction_tibble$row_num,
     j = interaction_model$interaction_tibble$col_num,
     x = interaction_model$interaction_tibble$outcome,
     dims = c(nrow(interaction_model$row_universe), nrow(interaction_model$column_universe)))
 
+  if(import_names){
+
+    these_row_names = interaction_model$row_universe %>%
+      rowwise() %>%
+      transmute(combined = paste(c_across(all_of(interaction_model$settings$row_variables)), collapse = "/")) %>%
+      ungroup() |>
+      pull(combined)
+
+    these_col_names = interaction_model$column_universe %>%
+      rowwise() %>%
+      transmute(combined = paste(c_across(all_of(interaction_model$settings$column_variables)), collapse = "/")) %>%
+      ungroup() |>
+      pull(combined)
+
+    rownames(A) = these_row_names
+    colnames(A) = these_col_names
+  }
+  return(A)
 }
 
 get_Incomplete_Matrix = function(interaction_model){
@@ -132,8 +158,7 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
   # A = sp_A_dat$A
   if(sqrt_counts) A@x = sqrt(A@x)
   if(regularize) A = glaplacian(A)
-  # s_svd = irlba::irlba(A,nu = k, nv = k)
-  s_svd = RSpectra::svds(A, k)
+  s_svd = irlba::irlba(A,nu = k, nv = k)
 
   # dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
   # print(length(dimension_prefix))
@@ -161,19 +186,7 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
   pcs
 }
 
-#' print pcs
-#'
-#' @param pcs
-#'
-#' @return
-#' @export
-#'
-#' @examples
-print.pc = function(pcs){
-  pcs[[1]] = pcs[[1]] |> select(-row_num, -weighted_degree)
-  pcs[[2]] = pcs[[2]] |> select(-col_num, -weighted_degree)
-  print(pcs[1:2])
-}
+
 
 #' pca_text
 #'
@@ -307,7 +320,7 @@ pca_average = function(fo, tib, k){
 
   dimension_prefix = "na_pc"
 
-  pcs = s_2_pc(sparse_matrix_data = A, s = s_svd, dimension_prefix=dimension_prefix)
+  pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
 
 
   parsed_model =  parse_formula(fo, tib)
@@ -332,3 +345,17 @@ pca_mean = pca_average
 
 
 
+
+
+#' print.pc
+#'
+#' @param pcs
+#'
+#' @return
+#' @export
+#'
+#' @examples
+print.pc = function(pcs){
+  print(pcs$row_features)
+  print(pcs$column_features)
+}

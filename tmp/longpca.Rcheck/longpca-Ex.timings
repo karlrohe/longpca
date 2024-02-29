@@ -1,0 +1,4 @@
+name	user	system	elapsed
+diagnose	2.961	0.183	3.224	
+pick_dim	0.371	0.075	0.479	
+plot.pc	0.578	0.054	0.881	

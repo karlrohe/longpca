@@ -1,0 +1,23 @@
+Package: longpca
+Title: A formula interface for model-first PCA; PCA for the people!
+Version: 0.0.0.9000
+Authors@R: 
+    person("Rohe", "Karl", , "karlrohe@stat.wisc.edu", role = c("aut", "cre"))
+Description: This package introduces a novel formula syntax for PCA. In modern applications (where data is often in "long format"),  the formula syntax helps to fluidly imagine PCA without thinking about matrices. In other words, it provides a layer of abstraction above matrices. Given the formula and the (long) data, the code in this package transforms your data into a proper format for fast PCA via sparse linear algebra. The package also provides code to 1) help pick the number of dimensions to compute, 2) diagnose the suitability of PCA (both pre and post PCA), 3) rotate the PCs with varimax, 4) visualize and interpret the dimensions uncovered, and (not yet) 5) make predictions. This package uses "PCA" as a broad term for computing the leading singular vectors of a normalized (sometimes incomplete) matrix. Some might refer to specific instances as factor analysis, correspondence analysis, latent symantic analysis, social network analysis, or low-rank matrix completion, among other possible terms. This is big-tent PCA, all included. `longpca` is in development. So, functions and syntax might change.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.1
+Imports: dplyr, gdim, ggplot2, irlba, magrittr, Matrix, nycflights13,
+        rlang, RSpectra, stringr, tidyr, tidyselect, tidytext
+URL: https://github.com/karlrohe/longpca
+BugReports: https://github.com/karlrohe/longpca/issues
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Depends: R (>= 3.5.0)
+LazyData: true
+NeedsCompilation: no
+Packaged: 2024-02-29 15:22:28 UTC; karlrohe
+Author: Rohe Karl [aut, cre]
+Maintainer: Rohe Karl <karlrohe@stat.wisc.edu>
+Built: R 4.3.2; ; 2024-02-29 15:22:36 UTC; unix
