@@ -75,9 +75,15 @@ get_middle_matrix = function(pcs){
   return(Matrix::as.matrix(B_matrix))
 }
 make_middle_B_tibble = function(B_matrix, dimension_prefix){
-  colnames(B_matrix) = paste(dimension_prefix,1:ncol(B_matrix), "columns", sep = "_")
+
+  num_cols = ncol(B_matrix)
+  num_digits = nchar(as.character(num_cols))
+  formatted_colnames = sprintf(paste0(dimension_prefix, "_%0", num_digits, "d"), 1:num_cols)
+
+  # colnames(B_matrix) = paste(dimension_prefix,1:ncol(B_matrix), "columns", sep = "_")
+  colnames(B_matrix) = paste(formatted_colnames, "columns", sep = "_")
   B_tib = tibble::as_tibble(as.matrix(B_matrix)) %>%
-    mutate(row_factors = paste(dimension_prefix,1:nrow(B_matrix), "rows", sep="_")) %>%
+    mutate(row_factors = paste(formatted_colnames, "rows", sep="_")) %>%
     relocate(row_factors) %>%
     pivot_longer(-1, names_to="column_factors", values_to = "value") %>%
     dplyr::filter(value !=0)

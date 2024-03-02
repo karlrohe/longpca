@@ -188,6 +188,33 @@ rotate = function(pcs, mode = NULL){
   if(only_rotate_one & mode_order_vector[1]==2) fit_method = str_glue(pcs$settings$fit_method, "varimax (columns)",.sep = " + ")
 
 
+
+  # if we only rotate one, then let's get rid of the middle B matrix and put it into the other factors...
+  if(only_rotate_one){
+    # if we rotated the rows...
+    if(mode_order_vector[1] == 1){
+      # push B into the column_features
+      column_matrix_old = column_features |> select(contains(new_prefix)) |> as.matrix()
+      column_matrix = column_matrix_old %*% t(new_B)
+      colnames(column_matrix) = colnames(column_matrix_old)
+      column_features = bind_cols(column_features |> select(-contains(new_prefix)),
+                                  as_tibble(column_matrix))
+
+    }
+    if(mode_order_vector[1] == 2){
+      # push B into the column_features
+      row_matrix_old = row_features |> select(contains(new_prefix)) |> as.matrix()
+      row_matrix = row_matrix_old %*% t(new_B)
+      colnames(row_matrix) = colnames(row_matrix_old)
+      row_features = bind_cols(row_features |> select(-contains(new_prefix)),
+                               as_tibble(row_matrix))
+
+    }
+
+    new_B = diag(rep(1,pcs$settings$k))
+    B_tib= make_middle_B_tibble(new_B, dimension_prefix = new_prefix)
+
+  }
   new_settings = c(
     list(
       fit_method = fit_method,
