@@ -10,7 +10,7 @@
 top = function(pcs, this_dim, keep_how_many = 9, abs_cut_off = 3){
   dim_string= paste0(pcs$settings$prefix_for_dimensions, "0*",this_dim,"_")
 
-  tidy_row_features = pcs %>%
+  tidy_row_features = pcs |>
     select_universe(mode = "rows", any_dims = this_dim) |>
     select(-any_of("row_num"))
 
@@ -18,7 +18,7 @@ top = function(pcs, this_dim, keep_how_many = 9, abs_cut_off = 3){
 
   top_rows = top_features(tidy_row_features, pc_name_for_rows, keep_how_many)
 
-  tidy_column_features = pcs %>%
+  tidy_column_features = pcs |>
     select_universe(mode = "columns", any_dims = this_dim) |>
     select(-any_of("col_num"))
 
@@ -26,9 +26,9 @@ top = function(pcs, this_dim, keep_how_many = 9, abs_cut_off = 3){
 
   top_columns = top_features(tidy_column_features, pc_name_for_cols,keep_how_many)
 
-  list(top_rows = top_rows %>%
+  list(top_rows = top_rows |>
          dplyr::filter(abs(!!sym(pc_name_for_rows))>abs_cut_off),
-       top_columns= top_columns %>%
+       top_columns= top_columns |>
          dplyr::filter(abs(!!sym(pc_name_for_cols))>abs_cut_off))
 }
 
@@ -43,12 +43,12 @@ top = function(pcs, this_dim, keep_how_many = 9, abs_cut_off = 3){
 top_features = function(tidy_features, pc_name_for_mode, keep_how_many){
 
 
-  tmp = tidy_features %>%
+  tmp = tidy_features |>
     dplyr::arrange(dplyr::across(dplyr::all_of(pc_name_for_mode),
                                  dplyr::desc))
 
   dplyr::bind_rows(
-    tmp %>% dplyr::slice_head(n = keep_how_many),
-    tmp %>% dplyr::slice_tail(n = keep_how_many)
+    tmp |> dplyr::slice_head(n = keep_how_many),
+    tmp |> dplyr::slice_tail(n = keep_how_many)
   )
 }

@@ -31,13 +31,40 @@ glaplacian <- function(A, regularize = TRUE) {
 
 
 
-get_Matrix = function(interaction_model){
-  Matrix::sparseMatrix(
+#' get_Matrix
+#'
+#' @param interaction_model
+#'
+#' @return
+#' @export
+#' @importFrom dplyr rowwise transmute c_across all_of ungroup pull
+#'
+#' @examples
+get_Matrix = function(interaction_model, import_names = FALSE){
+  A = Matrix::sparseMatrix(
     i = interaction_model$interaction_tibble$row_num,
     j = interaction_model$interaction_tibble$col_num,
     x = interaction_model$interaction_tibble$outcome,
     dims = c(nrow(interaction_model$row_universe), nrow(interaction_model$column_universe)))
 
+  if(import_names){
+
+    these_row_names = interaction_model$row_universe |>
+      rowwise() |>
+      transmute(combined = paste(c_across(all_of(interaction_model$settings$row_variables)), collapse = "/")) |>
+      ungroup() |>
+      pull(combined)
+
+    these_col_names = interaction_model$column_universe |>
+      rowwise() |>
+      transmute(combined = paste(c_across(all_of(interaction_model$settings$column_variables)), collapse = "/")) |>
+      ungroup() |>
+      pull(combined)
+
+    rownames(A) = these_row_names
+    colnames(A) = these_col_names
+  }
+  return(A)
 }
 
 get_Incomplete_Matrix = function(interaction_model){
@@ -113,7 +140,7 @@ pca_count = function(fo, tib, k){
 #'
 #' @examples
 pca_sum = function(fo, tib, k){
-  im = make_interaction_model(fo, tib)
+  im = make_interaction_model(tib, fo)
   pca(im, k)
 }
 
@@ -182,7 +209,7 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
 pca_text = function(fo, tib, k, ...){
 
 
-  im = make_interaction_model(fo, tib, parse_text = TRUE, ...)
+  im = make_interaction_model(tib, fo, parse_text = TRUE, ...)
   pca(im, k)
 
   # A = sp_A_dat$A
@@ -284,7 +311,7 @@ pca_average = function(fo, tib, k){
   # settings (this is a list of details)
 
 
-  im = make_interaction_model(fo, tib, duplicates= "average")
+  im = make_interaction_model(tib, fo, duplicates= "average")
   # sp_A_dat = make_incomplete_matrix_raw(fo, tib)
   A = get_Incomplete_Matrix(im)
   # A = sp_A_dat$A

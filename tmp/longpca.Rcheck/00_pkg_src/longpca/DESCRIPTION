@@ -17,6 +17,6 @@ VignetteBuilder: knitr
 Depends: R (>= 3.5.0)
 LazyData: true
 NeedsCompilation: no
-Packaged: 2024-02-29 15:22:28 UTC; karlrohe
+Packaged: 2024-03-21 11:16:35 UTC; karlrohe
 Author: Rohe Karl [aut, cre]
 Maintainer: Rohe Karl <karlrohe@stat.wisc.edu>

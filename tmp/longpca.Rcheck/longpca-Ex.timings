@@ -1,4 +1,3 @@
 name	user	system	elapsed
-diagnose	2.961	0.183	3.224	
-pick_dim	0.371	0.075	0.479	
-plot.pc	0.578	0.054	0.881	
+diagnose	5.754	0.318	6.383	
+make_interaction_model	1.530	0.120	1.704	

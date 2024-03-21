@@ -16,7 +16,52 @@
 * checking if there is a namespace ... OK
 * checking for executable files ... OK
 * checking for hidden files and directories ... OK
-* checking for portable file names ... OK
+* checking for portable file names ... NOTE
+Found the following non-portable file paths:
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-10_ced087d08839fc7c51f7565913bea092.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-10_ced087d08839fc7c51f7565913bea092.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-10_ced087d08839fc7c51f7565913bea092.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-11_5891c219a4bcfa8aeb01a369a14247e9.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-11_5891c219a4bcfa8aeb01a369a14247e9.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-11_5891c219a4bcfa8aeb01a369a14247e9.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-12_6681a11f8d22b250b402220e47e64b7a.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-12_6681a11f8d22b250b402220e47e64b7a.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-12_6681a11f8d22b250b402220e47e64b7a.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-13_cf3ed7be14033ca29fc7bfa923142ce8.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-13_cf3ed7be14033ca29fc7bfa923142ce8.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-13_cf3ed7be14033ca29fc7bfa923142ce8.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-14_d90653fe12c623b3e2f5f320deb925e4.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-14_d90653fe12c623b3e2f5f320deb925e4.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-14_d90653fe12c623b3e2f5f320deb925e4.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-15_9868a82d069dcb9fc9646ade07e383a2.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-15_9868a82d069dcb9fc9646ade07e383a2.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-15_9868a82d069dcb9fc9646ade07e383a2.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-18_c82068dd043ee2c6694ba67ea159901f.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-18_c82068dd043ee2c6694ba67ea159901f.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-18_c82068dd043ee2c6694ba67ea159901f.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-4_b728833eb3cce949786fdedc4f39246e.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-4_b728833eb3cce949786fdedc4f39246e.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-4_b728833eb3cce949786fdedc4f39246e.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-5_adce0358c8c30063b1402ac6a5827f5d.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-5_adce0358c8c30063b1402ac6a5827f5d.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-5_adce0358c8c30063b1402ac6a5827f5d.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-6_8bcd0a0e597743d343e1b38b96a0b169.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-6_8bcd0a0e597743d343e1b38b96a0b169.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-6_8bcd0a0e597743d343e1b38b96a0b169.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-7_ca5a0f34c92bfc8caa435da3e86e25d2.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-7_ca5a0f34c92bfc8caa435da3e86e25d2.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-7_ca5a0f34c92bfc8caa435da3e86e25d2.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-8_2dfca62f9d8911cb4f3726e55c2d4ef0.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-8_2dfca62f9d8911cb4f3726e55c2d4ef0.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-8_2dfca62f9d8911cb4f3726e55c2d4ef0.rdx
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-9_b19d818a25fc4afc89e8f73de1e49d1a.RData
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-9_b19d818a25fc4afc89e8f73de1e49d1a.rdb
+  longpca/vignettes/Intro_to_longpca_with_nycflights_data_cache/html/unnamed-chunk-9_b19d818a25fc4afc89e8f73de1e49d1a.rdx
+
+Tarballs are only required to store paths of up to 100 bytes and cannot
+store those of more than 256 bytes, with restrictions including to 100
+bytes for the final component.
+See section ‘Package structure’ in the ‘Writing R Extensions’ manual.
 * checking for sufficient/correct file permissions ... OK
 * checking whether package ‘longpca’ can be installed ... WARNING
 Found the following significant warnings:
@@ -33,8 +78,9 @@ to ‘yes’.
 * checking top-level files ... NOTE
 Non-standard files/directories found at top level:
   ‘README.R’ ‘README.Rmd’ ‘README_cache’ ‘README_files’ ‘TODO.txt’
-  ‘climate_data.R’ ‘images’ ‘my_profile.out’ ‘notes.R’
-  ‘pca_text_example.Rmd’ ‘pca_text_example_cache’ ‘tmp’
+  ‘climate_data.R’ ‘get_cdc_data.R’ ‘images’ ‘my_profile.out’ ‘notes.R’
+  ‘pca_text_example.Rmd’ ‘pca_text_example.html’
+  ‘pca_text_example_cache’ ‘pca_text_example_files’ ‘tmp’ ‘tr.R’
 * checking for left-over files ... OK
 * checking index information ... OK
 * checking package subdirectories ... OK
@@ -47,20 +93,20 @@ Non-standard files/directories found at top level:
 * checking whether the namespace can be unloaded cleanly ... OK
 * checking dependencies in R code ... WARNING
 '::' or ':::' imports not declared from:
-  ‘softImpute’ ‘tibble’
+  ‘igraph’ ‘softImpute’ ‘tibble’
 Namespaces in Imports field not imported from:
   ‘RSpectra’ ‘nycflights13’
   All declared Imports should be used.
 * checking S3 generic/method consistency ... WARNING
 print:
   function(x, ...)
-print.interaction_model:
-  function(im)
+print.pc:
+  function(pcs)
 
 print:
   function(x, ...)
-print.pc:
-  function(pcs)
+print.interaction_model:
+  function(im)
 
 summary:
   function(object, ...)
@@ -76,33 +122,36 @@ Extensions’ manual.
 * checking replacement functions ... OK
 * checking foreign function calls ... OK
 * checking R code for possible problems ... NOTE
+.make_interaction_model_completion: missing arguments not allowed in
+  calls to ‘c’
+add_graph_summaries: no visible binding for global variable ‘row_num’
+add_graph_summaries: no visible binding for global variable ‘col_num’
+add_graph_summaries: no visible binding for global variable ‘name’
+clean: no visible binding for global variable ‘component_label’
+clean: no visible binding for global variable ‘coreness’
+core: no visible binding for global variable ‘coreness’
+core: no visible global function definition for ‘make_new’
 diagnose: no visible binding for global variable ‘type’
 diagnose: no visible binding for global variable ‘degree’
 diagnose: no visible binding for global variable ‘type_label’
 diagnose: no visible global function definition for ‘median’
+get_Matrix: no visible binding for global variable ‘combined’
 itty_pivot: no visible binding for global variable ‘type’
-itty_pivot: no visible binding for global variable ‘id’
 localization: no visible binding for global variable ‘degree’
 localization: no visible binding for global variable ‘leverage’
 localization: no visible binding for global variable ‘residuals’
 make_interaction_model: no visible binding for global variable ‘text’
-make_interaction_model_from_variables: no visible global function
-  definition for ‘across’
-make_interaction_model_from_variables: no visible global function
-  definition for ‘desc’
-make_interaction_model_from_variables: no visible binding for global
-  variable ‘.data’
 make_interaction_model_from_variables: no visible binding for global
   variable ‘row_num’
 make_interaction_model_from_variables: no visible binding for global
   variable ‘col_num’
 make_interaction_model_from_variables: no visible binding for global
   variable ‘outcome’
-make_interaction_model_from_variables: no visible global function
-  definition for ‘if_else’
 make_middle_B_tibble: no visible binding for global variable
   ‘row_factors’
 make_middle_B_tibble: no visible binding for global variable ‘value’
+old_make_interaction_model: no visible binding for global variable
+  ‘text’
 pair: no visible global function definition for ‘pairs’
 pca_average: possible error in s_2_pc(sparse_matrix_data = sp_A_dat, s
   = s_svd, dimension_prefix = dimension_prefix): unused argument
@@ -112,14 +161,14 @@ pca_mean: possible error in s_2_pc(sparse_matrix_data = sp_A_dat, s =
   s_svd, dimension_prefix = dimension_prefix): unused argument
   (sparse_matrix_data = sp_A_dat)
 pca_mean: no visible binding for global variable ‘sp_A_dat’
-rotate: no visible global function definition for ‘everything’
-top: no visible global function definition for ‘any_of’
-top: no visible global function definition for ‘matches’
-top: no visible global function definition for ‘sym’
+subset_im: no visible binding for global variable ‘row_num’
+subset_im: no visible binding for global variable ‘new_row_num’
+subset_im: no visible binding for global variable ‘col_num’
+subset_im: no visible binding for global variable ‘new_col_num’
 Undefined global functions or variables:
-  .data across any_of col_num degree desc everything id if_else
-  leverage matches median outcome pairs residuals row_factors row_num
-  sp_A_dat sym text type type_label value
+  col_num combined component_label coreness degree leverage make_new
+  median name new_col_num new_row_num outcome pairs residuals
+  row_factors row_num sp_A_dat text type type_label value
 Consider adding
   importFrom("graphics", "pairs", "text")
   importFrom("stats", "median", "residuals")
@@ -130,10 +179,17 @@ File ‘longpca/R/utils.R’: if (class(pcs) == "interaction_model") ...
 Use inherits() (or maybe is()) instead.
 * checking Rd files ... NOTE
 prepare_Rd: transpose_tibble.Rd:42-44: Dropping empty section ‘edge_tib_list = make_edge_tib(fo,tib)’
-prepare_Rd: transpose_tibble.Rd:46-48: Dropping empty section ‘row_degrees = edge_tib_list$edge_tib %>% count(row_id) %>% rename(degree=n)’
-prepare_Rd: transpose_tibble.Rd:50-52: Dropping empty section ‘col_degrees = edge_tib_list$edge_tib %>% count(col_id) %>% rename(degree=n)’
+prepare_Rd: transpose_tibble.Rd:46-48: Dropping empty section ‘row_degrees = edge_tib_list$edge_tib |> count(row_id) |> rename(degree=n)’
+prepare_Rd: transpose_tibble.Rd:50-52: Dropping empty section ‘col_degrees = edge_tib_list$edge_tib |> count(col_id) |> rename(degree=n)’
 * checking Rd metadata ... OK
-* checking Rd line widths ... OK
+* checking Rd line widths ... NOTE
+Rd file 'rotate.Rd':
+  \examples lines wider than 100 characters:
+     # if you rotate only the columns, then the middle B matrix is set to diagonal and this matrix is "pushed into" the other mode.
+     # these values were pushed into the row_features.  You can see that their scale is drastically reduced:
+     # importantly, this is not simply the row pcs scaled by the singular values... it is also rotated by the varimax rotation for the colum ... [TRUNCATED]
+
+These lines will be truncated in the PDF manual.
 * checking Rd cross-references ... OK
 * checking for missing documentation entries ... WARNING
 Undocumented code objects:
@@ -145,14 +201,20 @@ See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
 * checking for code/documentation mismatches ... OK
 * checking Rd \usage sections ... WARNING
+Undocumented arguments in documentation object 'core'
+  ‘im’
+
 Undocumented arguments in documentation object 'diagnose'
   ‘im’ ‘nbins’
+
+Undocumented arguments in documentation object 'get_Matrix'
+  ‘import_names’
 
 Undocumented arguments in documentation object 'glaplacian'
   ‘A’
 
 Undocumented arguments in documentation object 'make_interaction_model'
-  ‘duplicates’ ‘parse_text’ ‘data_prefix’ ‘...’
+  ‘duplicates’ ‘parse_text’ ‘dropNA’ ‘data_prefix’
 
 Undocumented arguments in documentation object 'make_interaction_model_from_variables'
   ‘tib’ ‘row_column’ ‘column_column’ ‘vars’ ‘dropNA’ ‘duplicates’
@@ -161,6 +223,9 @@ Undocumented arguments in documentation object 'make_sparse_output'
   ‘sparse_pc_mat’ ‘rot_mat’ ‘new_prefix’
 Documented arguments not in \usage in documentation object 'make_sparse_output':
   ‘old_prefix’
+
+Undocumented arguments in documentation object 'old_make_interaction_model'
+  ‘duplicates’ ‘data_prefix’ ‘...’
 
 Undocumented arguments in documentation object 'pair'
   ‘u’
@@ -184,7 +249,7 @@ Undocumented arguments in documentation object 'remove_L_normalization'
   ‘s_svd’ ‘A’
 
 Undocumented arguments in documentation object 'rotate'
-  ‘mode’
+  ‘pcs’
 
 Undocumented arguments in documentation object 'select_universe'
   ‘pcs’ ‘mode’
@@ -214,6 +279,12 @@ The \usage entries must correspond to syntactically valid R code.
 See chapter ‘Writing R documentation files’ in the ‘Writing R
 Extensions’ manual.
 * checking Rd contents ... WARNING
+Argument items with no description in Rd object 'add_graph_summaries':
+  ‘im’
+
+Argument items with no description in Rd object 'core':
+  ‘core_threshold’
+
 Argument items with no description in Rd object 'diagnose':
   ‘make_plot’
 
@@ -222,6 +293,9 @@ Argument items with no description in Rd object 'extract_interaction':
 
 Argument items with no description in Rd object 'extract_variables':
   ‘str’
+
+Argument items with no description in Rd object 'get_Matrix':
+  ‘interaction_model’
 
 Argument items with no description in Rd object 'glaplacian':
   ‘regularize’
@@ -274,14 +348,14 @@ Argument items with no description in Rd object 'print.pc':
 Argument items with no description in Rd object 'remove_L_normalization':
   ‘orthogonalize’
 
-Argument items with no description in Rd object 'rotate':
-  ‘pcs’
-
 Argument items with no description in Rd object 'select_universe':
   ‘any_dims’
 
 Argument items with no description in Rd object 'streaks':
   ‘plot_columns’
+
+Argument items with no description in Rd object 'subset_im':
+  ‘im’
 
 Argument items with no description in Rd object 'summary.interaction_model':
   ‘im’
@@ -3980,13 +4054,30 @@ Argument items with no description in Rd object 'varimax_with_pre_rotation':
 * checking data for ASCII and uncompressed saves ... OK
 * checking installed files from ‘inst/doc’ ... OK
 * checking files in ‘vignettes’ ... OK
-* checking examples ... OK
+* checking examples ... [9s/10s] ERROR
+Running examples in ‘longpca-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: old_make_interaction_model
+> ### Title: old_make_interaction_model
+> ### Aliases: old_make_interaction_model
+> 
+> ### ** Examples
+> 
+> library(nycflights13)
+> im = make_interaction_model(~(month & day)*dest, flights)
+Error in if (length(formula) == 2 & boolean_first_symbol_is_tilde) { : 
+  the condition has length > 1
+Calls: make_interaction_model
+Execution halted
 * checking for unstated dependencies in vignettes ... NOTE
 '::' or ':::' import not declared from: ‘broom’
-'library' or 'require' call not declared from: ‘tidyverse’
+'library' or 'require' calls not declared from:
+  ‘maps’ ‘tidyverse’
 * checking package vignettes in ‘inst/doc’ ... OK
-* checking re-building of vignette outputs ... [23s/26s] OK
+* checking re-building of vignette outputs ... [60s/71s] OK
 * checking for non-standard things in the check directory ... OK
 * checking for detritus in the temp directory ... OK
 * DONE
-Status: 7 WARNINGs, 4 NOTEs
+Status: 1 ERROR, 7 WARNINGs, 6 NOTEs

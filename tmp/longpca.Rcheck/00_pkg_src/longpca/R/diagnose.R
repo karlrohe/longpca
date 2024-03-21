@@ -25,9 +25,9 @@ itty_pivot = function(itty_tibby){
   #   userId     1      7
   #   userId     2     36
 
-  itty_tibby %>%
-    pivot_longer(1, names_to = "type", values_to = "id") %>%
-    relocate(type, id) %>% select(-id)
+  itty_tibby |>
+    pivot_longer(1, names_to = "type", values_to = "id") |>
+    relocate(type, id) |> select(-id)
 }
 
 
@@ -61,8 +61,8 @@ itty_pivot = function(itty_tibby){
 #'   row_degrees = tibble(row_id = 1:nrow(sparse_matrix_data$A), degree = Matrix::rowSums(sparse_matrix_data$A!=0))
 #'   col_degrees = tibble(col_id = 1:ncol(sparse_matrix_data$A), degree = Matrix::colSums(sparse_matrix_data$A!=0))
 #'   # edge_tib_list = make_edge_tib(fo,tib)
-#'   # row_degrees = edge_tib_list$edge_tib %>% count(row_id) %>% rename(degree=n)
-#'   # col_degrees = edge_tib_list$edge_tib %>% count(col_id) %>% rename(degree=n)
+#'   # row_degrees = edge_tib_list$edge_tib |> count(row_id) |> rename(degree=n)
+#'   # col_degrees = edge_tib_list$edge_tib |> count(col_id) |> rename(degree=n)
 #'   list(row_degrees, col_degrees)
 #' }
 #'
@@ -107,7 +107,7 @@ transpose_tibble <- function(data) {
 #'
 #' @examples
 #' library(nycflights13)
-#' im = make_interaction_model(~(month&day)*dest, flights)
+#' im = make_interaction_model(flights, ~(month&day)*dest)
 #' diagnose(im)
 #' @importFrom ggplot2 ggplot geom_histogram scale_x_log10 scale_y_log10 facet_wrap aes
 #' @importFrom dplyr group_by summarize n tibble
@@ -127,17 +127,17 @@ diagnose = function(im, make_plot = TRUE, nbins = 30){
   #                                                  type_label = c(model_variables[[2]],model_variables[[3]]))) %>%
   #   select(-type)
 
-  degrees_data = degrees_data %>% left_join(tibble(type=c("row_id", "col_id"),
+  degrees_data = degrees_data |> left_join(tibble(type=c("row_id", "col_id"),
                                                    type_label = c(paste(im$settings$row_variables, collapse = " & "),
                                                                   paste(im$settings$column_variables, collapse = " & ")
                                                                   # im$settings$column_variables)
-                                                   )), by = "type") %>%
+                                                   )), by = "type") |>
     select(-type)
 
 
 
   if (make_plot) {
-    p =  ggplot(degrees_data %>% dplyr::filter(degree>0), aes(x = degree)) +
+    p =  ggplot(degrees_data |> dplyr::filter(degree>0), aes(x = degree)) +
       geom_histogram(bins = nbins)+
       # geom_density(aes(y = after_stat(count))) +
       scale_x_log10()+
@@ -146,8 +146,8 @@ diagnose = function(im, make_plot = TRUE, nbins = 30){
     print(p)
   }
 
-  dat = degrees_data %>%
-    group_by(type_label) %>%
+  dat = degrees_data |>
+    group_by(type_label) |>
     summarize(number_of_items = n(),
               average_degree = round(mean(degree)),
               median_degree = median(degree),
@@ -155,11 +155,11 @@ diagnose = function(im, make_plot = TRUE, nbins = 30){
               percent_le_2 = round(mean(degree<=2),2)*100,
               percent_le_3 = round(mean(degree<=3),2)*100)
 
-  # dat %>% left_join(tibble(type=c("row_id", "col_id"),
-  #                          type_label = c(model_variables[[2]],model_variables[[3]]))) %>%
-  #   select(-type) %>%
-  #   relocate(type_label) %>%
-  dat %>%   transpose_tibble
+  # dat |> left_join(tibble(type=c("row_id", "col_id"),
+  #                          type_label = c(model_variables[[2]],model_variables[[3]]))) |>
+  #   select(-type) |>
+  #   relocate(type_label) |>
+  dat |>   transpose_tibble()
   # transpose_tibble(dat)
 
 }

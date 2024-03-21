@@ -1,6 +1,64 @@
+add_graph_summaries     graph_summaries this function takes an
+                        interaction_model and an interaction_model,
+                        where row_universe and column_universe have two
+                        additional columns $coreness and
+                        $component_label. importantly, strange behavior
+                        if im is a symmetric graph. this treats each
+                        row index and each column index as nodes in a
+                        graph.  So, if something appears in both rows
+                        and columns (e.g. as in symmetric graph), then
+                        this will be ignored.
+clean                   clean Given and interaction_model, this returns
+                        a new interaction_model that is the "k-core" of
+                        the "largest connected component" of the
+                        original interaction_model.  This function is
+                        recommended when 'diagnose(im)' shows that the
+                        majority of rows/columns have 1, 2, or 3
+                        connections.  In this case, the data is
+                        potentially too sparse for pca. If you simply
+                        throwing away the rows/columns that are weakly
+                        connected, then you will reduce the connections
+                        of those that remain.  The k-core is what you
+                        get if you keep on iterating.  In particular,
+                        it will find the largest subset of rows and
+                        columns from the interaction_model such that
+                        every row and column has at least
+                        'core_threshold' number of connections or "data
+                        points" in interaction_tibble.  This is exactly
+                        the k-core if the row and columns correspond to
+                        unique elements (non-overlapping).  If the
+                        elements in the rows match some elements in the
+                        columns, then those elements are represented
+                        twice... once for the row and once for the
+                        column.  It is possible that only one of those
+                        is retained.
+core                    core Given an interaction_model, this will
+                        return another interaction_model that
+                        corresponds to the "k-core" of the input.  This
+                        function is recommended when 'diagnose(im)'
+                        shows that the majority of rows/columns have 1,
+                        2, or 3 connections.  In this case, the data is
+                        potentially too sparse for pca.  If you simply
+                        throwing away the rows/columns that are weakly
+                        connected, then you will reduce the connections
+                        of those that remain.  The k-core is what you
+                        get if you keep on iterating.  In particular,
+                        it will find the largest subset of rows and
+                        columns from the interaction_model such that
+                        every row and column has at least
+                        'core_threshold' number of connections or "data
+                        points" in interaction_tibble.  This is exactly
+                        the k-core if the row and columns correspond to
+                        unique elements (non-overlapping).  If the
+                        elements in the rows match some elements in the
+                        columns, then those elements are represented
+                        twice... once for the row and once for the
+                        column.  It is possible that only one of those
+                        is retained.
 diagnose                diagnose_formula
 extract_interaction     extract_interaction (internal)
 extract_variables       extract_variables (internal)
+get_Matrix              get_Matrix
 glaplacian              glaplacian
 itty_pivot              itty_pivot (internal)
 localization            localization
@@ -12,6 +70,8 @@ make_interaction_model_from_variables
                         to make_interaction_tibble and text2sparse)
 make_leverage           make_leverage (internal for localization)
 make_sparse_output      make_sparse_output (internal to rotate)
+old_make_interaction_model
+                        old_make_interaction_model
 pair                    Internal
 parse_formula           parse_variables (internal)
 pca                     pca
@@ -30,6 +90,11 @@ remove_L_normalization
 rotate                  rotate
 select_universe         select_universe
 streaks                 streaks
+subset_im               subset_im If you've removed some rows of
+                        row_universe or column_universe, then you want
+                        to redefine a bunch of things... you need new
+                        row/col numbering and you want to remove rows
+                        from interaction_tibble.  this does that.
 summary.interaction_model
                         summary interaction model
 top                     Title

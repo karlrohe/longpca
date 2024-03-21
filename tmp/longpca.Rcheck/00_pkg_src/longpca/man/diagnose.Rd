@@ -14,6 +14,6 @@ This function helps to see that there is "enough data" for the pca to return rel
 }
 \examples{
 library(nycflights13)
-im = make_interaction_model(~(month&day)*dest, flights)
+im = make_interaction_model(flights, ~(month&day)*dest)
 diagnose(im)
 }

@@ -22,12 +22,20 @@
 
 
 <table style="width: 100%;">
+<tr><td style="width: 25%;"><a href="add_graph_summaries.html">add_graph_summaries</a></td>
+<td>graph_summaries this function takes an interaction_model and an interaction_model, where row_universe and column_universe have two additional columns $coreness and $component_label. importantly, strange behavior if im is a symmetric graph. this treats each row index and each column index as nodes in a graph.  So, if something appears in both rows and columns (e.g. as in symmetric graph), then this will be ignored.</td></tr>
+<tr><td style="width: 25%;"><a href="clean.html">clean</a></td>
+<td>clean Given and interaction_model, this returns a new interaction_model that is the "k-core" of the "largest connected component" of the original interaction_model.  This function is recommended when 'diagnose(im)' shows that the majority of rows/columns have 1, 2, or 3 connections.  In this case, the data is potentially too sparse for pca. If you simply throwing away the rows/columns that are weakly connected, then you will reduce the connections of those that remain.  The k-core is what you get if you keep on iterating.  In particular, it will find the largest subset of rows and columns from the interaction_model such that every row and column has at least 'core_threshold' number of connections or "data points" in interaction_tibble.  This is exactly the k-core if the row and columns correspond to unique elements (non-overlapping).  If the elements in the rows match some elements in the columns, then those elements are represented twice... once for the row and once for the column.  It is possible that only one of those is retained.</td></tr>
+<tr><td style="width: 25%;"><a href="core.html">core</a></td>
+<td>core Given an interaction_model, this will return another interaction_model that corresponds to the "k-core" of the input.  This function is recommended when 'diagnose(im)' shows that the majority of rows/columns have 1, 2, or 3 connections.  In this case, the data is potentially too sparse for pca.  If you simply throwing away the rows/columns that are weakly connected, then you will reduce the connections of those that remain.  The k-core is what you get if you keep on iterating.  In particular, it will find the largest subset of rows and columns from the interaction_model such that every row and column has at least 'core_threshold' number of connections or "data points" in interaction_tibble.  This is exactly the k-core if the row and columns correspond to unique elements (non-overlapping).  If the elements in the rows match some elements in the columns, then those elements are represented twice... once for the row and once for the column.  It is possible that only one of those is retained.</td></tr>
 <tr><td style="width: 25%;"><a href="diagnose.html">diagnose</a></td>
 <td>diagnose_formula</td></tr>
 <tr><td style="width: 25%;"><a href="extract_interaction.html">extract_interaction</a></td>
 <td>extract_interaction (internal)</td></tr>
 <tr><td style="width: 25%;"><a href="extract_variables.html">extract_variables</a></td>
 <td>extract_variables (internal)</td></tr>
+<tr><td style="width: 25%;"><a href="get_Matrix.html">get_Matrix</a></td>
+<td>get_Matrix</td></tr>
 <tr><td style="width: 25%;"><a href="glaplacian.html">glaplacian</a></td>
 <td>glaplacian</td></tr>
 <tr><td style="width: 25%;"><a href="itty_pivot.html">itty_pivot</a></td>
@@ -44,6 +52,8 @@
 <td>make_leverage (internal for localization)</td></tr>
 <tr><td style="width: 25%;"><a href="make_sparse_output.html">make_sparse_output</a></td>
 <td>make_sparse_output (internal to rotate)</td></tr>
+<tr><td style="width: 25%;"><a href="old_make_interaction_model.html">old_make_interaction_model</a></td>
+<td>old_make_interaction_model</td></tr>
 <tr><td style="width: 25%;"><a href="pair.html">pair</a></td>
 <td>Internal</td></tr>
 <tr><td style="width: 25%;"><a href="parse_formula.html">parse_formula</a></td>
@@ -74,6 +84,8 @@
 <td>select_universe</td></tr>
 <tr><td style="width: 25%;"><a href="streaks.html">streaks</a></td>
 <td>streaks</td></tr>
+<tr><td style="width: 25%;"><a href="subset_im.html">subset_im</a></td>
+<td>subset_im If you've removed some rows of row_universe or column_universe, then you want to redefine a bunch of things... you need new row/col numbering and you want to remove rows from interaction_tibble.  this does that.</td></tr>
 <tr><td style="width: 25%;"><a href="summary.interaction_model.html">summary.interaction_model</a></td>
 <td>summary interaction model</td></tr>
 <tr><td style="width: 25%;"><a href="top.html">top</a></td>

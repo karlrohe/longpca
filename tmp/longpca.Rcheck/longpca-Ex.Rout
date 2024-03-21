@@ -50,10 +50,12 @@ Type 'q()' to quit R.
 > ### ** Examples
 > 
 > library(nycflights13)
-> im = make_interaction_model(~(month&day)*dest, flights)
+> im = make_interaction_model(flights, ~(month&day)*dest)
 > diagnose(im)
-Warning: Transformation introduced infinite values in continuous y-axis
-Warning: Removed 28 rows containing missing values (`geom_bar()`).
+Warning in scale_y_log10() :
+  log-10 transformation introduced infinite values.
+Warning: Removed 28 rows containing missing values or values outside the scale range
+(`geom_bar()`).
 # A tibble: 6 × 3
   measurement      dest `month & day`
   <chr>           <dbl>         <dbl>
@@ -72,88 +74,193 @@ Warning: Removed 28 rows containing missing values (`geom_bar()`).
 
 detaching ‘package:nycflights13’
 
-> nameEx("pick_dim")
-> ### * pick_dim
+> nameEx("make_interaction_model")
+> ### * make_interaction_model
 > 
 > flush(stderr()); flush(stdout())
 > 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: pick_dim
-> ### Title: pick_dim
-> ### Aliases: pick_dim
+> ### Name: make_interaction_model
+> ### Title: make_interaction_model
+> ### Aliases: make_interaction_model
 > 
 > ### ** Examples
 > 
 > library(nycflights13)
-> im = make_interaction_model(~(month&day)*dest, flights)
-> cveig = pick_dim(im, dimMax = 7)
-> plot(cveig)
-> cveig
-Estimated graph dimension:	 4
+> im = make_interaction_model(flights,~(month & day)*dest)
+> names(im)
+[1] "interaction_tibble" "row_universe"       "column_universe"   
+[4] "settings"          
+> im$row_universe
+# A tibble: 365 × 4
+   month   day     n row_num
+   <int> <int> <int>   <int>
+ 1    11    27  1014       1
+ 2     7    11  1006       2
+ 3     7     8  1004       3
+ 4     7    10  1004       4
+ 5    12     2  1004       5
+ 6     7    18  1003       6
+ 7     7    25  1003       7
+ 8     7    12  1002       8
+ 9     7     9  1001       9
+10     7    17  1001      10
+# ℹ 355 more rows
+> im$column_universe
+# A tibble: 105 × 3
+   dest      n col_num
+   <chr> <int>   <int>
+ 1 ORD   17283       1
+ 2 ATL   17215       2
+ 3 LAX   16174       3
+ 4 BOS   15508       4
+ 5 MCO   14082       5
+ 6 CLT   14064       6
+ 7 SFO   13331       7
+ 8 FLL   12055       8
+ 9 MIA   11728       9
+10 DCA    9705      10
+# ℹ 95 more rows
+> im$interaction_tibble
+# A tibble: 31,229 × 3
+   row_num col_num outcome
+     <int>   <int>   <dbl>
+ 1       1       1      52
+ 2       1       2      51
+ 3       1       3      49
+ 4       1       4      43
+ 5       1       5      40
+ 6       1       6      42
+ 7       1       7      43
+ 8       1       8      38
+ 9       1       9      37
+10       1      10      28
+# ℹ 31,219 more rows
+> im$settings
+$fo
+1 ~ (month & day) * dest
+<environment: 0x7fe15f1e9110>
 
-Number of bootstraps:		 2
-Edge splitting probabaility:	 0.1
-Significance level:		 0.05
+$data_prefix
+NULL
 
- ------------ Summary of Tests ------------
- k           z        pvals         padj
- 1 166.7491123 0.000000e+00 0.000000e+00
- 2  12.6008905 1.043869e-36 1.043869e-36
- 3   7.2246222 2.512485e-13 2.512485e-13
- 4   4.7031158 1.281105e-06 1.281105e-06
- 5   0.3923683 3.473930e-01 3.473930e-01
- 6  -2.5168770 9.940800e-01 9.940800e-01
- 7  -6.2279950 1.000000e+00 1.000000e+00
+$outcome_aggregation
+[1] "count"
+
+$outcome_variables
+[1] "outcome_unweighted_1"
+
+$row_variables
+[1] "month" "day"  
+
+$column_variables
+[1] "dest"
+
+> # you can extract the sparse Matrix:
+> A = longpca:::get_Matrix(im,  import_names = TRUE)
+> str(A)
+Formal class 'dgCMatrix' [package "Matrix"] with 6 slots
+  ..@ i       : int [1:31229] 0 1 2 3 4 5 6 7 8 9 ...
+  ..@ p       : int [1:106] 0 365 730 1095 1460 1825 2190 2555 2920 3285 ...
+  ..@ Dim     : int [1:2] 365 105
+  ..@ Dimnames:List of 2
+  .. ..$ : chr [1:365] "11/27" "7/11" "7/8" "7/10" ...
+  .. ..$ : chr [1:105] "ORD" "ATL" "LAX" "BOS" ...
+  ..@ x       : num [1:31229] 52 55 55 55 49 54 55 55 54 55 ...
+  ..@ factors : list()
+> im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE)
+> names(im)
+[1] "interaction_tibble" "row_universe"       "column_universe"   
+[4] "settings"          
+> im$row_universe
+# A tibble: 20,319 × 3
+   Package                n row_num
+   <chr>              <int>   <int>
+ 1 Seurat                64       1
+ 2 tidyverse             60       2
+ 3 radiant.data          58       3
+ 4 radiant.model         58       4
+ 5 SSDM                  55       5
+ 6 BasketballAnalyzeR    53       6
+ 7 tRigon                49       7
+ 8 AFM                   48       8
+ 9 dextergui             48       9
+10 proteus               48      10
+# ℹ 20,309 more rows
+> im$column_universe
+# A tibble: 6,230 × 4
+   from_text token        n col_num
+   <chr>     <chr>    <int>   <int>
+ 1 Imports   stats     5442       1
+ 2 Imports   utils     3423       2
+ 3 Imports   dplyr     3299       3
+ 4 Imports   methods   3210       4
+ 5 Imports   ggplot2   3135       5
+ 6 Imports   rcpp      2548       6
+ 7 Imports   rlang     2172       7
+ 8 Imports   graphics  2158       8
+ 9 Imports   magrittr  1954       9
+10 Imports   stringr   1698      10
+# ℹ 6,220 more rows
+> im$interaction_tibble
+# A tibble: 114,833 × 3
+   row_num col_num outcome
+     <int>   <int>   <dbl>
+ 1       1       1       1
+ 2       1       2       1
+ 3       1       5       1
+ 4       1       6       1
+ 5       1       7       1
+ 6       1       8       1
+ 7       1      12       1
+ 8       1      13       1
+ 9       1      14       1
+10       1      15       1
+# ℹ 114,823 more rows
+> im$settings
+$fo
+1 ~ Package * Imports
+<environment: 0x7fe16ae5c210>
+
+$data_prefix
+[1] "text"
+
+$outcome_aggregation
+[1] "count"
+
+$outcome_variables
+[1] "outcome_unweighted_1"
+
+$row_variables
+[1] "Package"
+
+$column_variables
+[1] "from_text" "token"    
 
 > 
 > 
 > 
 > base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-> base::cat("pick_dim", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
+> base::cat("make_interaction_model", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
 > cleanEx()
 
 detaching ‘package:nycflights13’
 
-> nameEx("plot.pc")
-> ### * plot.pc
+> nameEx("old_make_interaction_model")
+> ### * old_make_interaction_model
 > 
 > flush(stderr()); flush(stdout())
 > 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: plot.pc
-> ### Title: plot.pc
-> ### Aliases: plot.pc
+> ### Name: old_make_interaction_model
+> ### Title: old_make_interaction_model
+> ### Aliases: old_make_interaction_model
 > 
 > ### ** Examples
 > 
 > library(nycflights13)
-> pcs = pca_count(1 ~ (month & day)*(dest), flights, k = 6)
-> plot(pcs)
-Press [Enter] to continue to the next plot...
-Press [Enter] to continue to the next plot...
-`geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'
-Press [Enter] to continue to the next plot...
-Press [Enter] to continue to the next plot...
-> 
-> 
-> 
-> base::assign(".dptime", (proc.time() - get(".ptime", pos = "CheckExEnv")), pos = "CheckExEnv")
-> base::cat("plot.pc", base::get(".format_ptime", pos = 'CheckExEnv')(get(".dptime", pos = "CheckExEnv")), "\n", file=base::get(".ExTimings", pos = 'CheckExEnv'), append=TRUE, sep="\t")
-> ### * <FOOTER>
-> ###
-> cleanEx()
-
-detaching ‘package:nycflights13’
-
-> options(digits = 7L)
-> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  4.932 0.383 5.817 0 0 
-> grDevices::dev.off()
-null device 
-          1 
-> ###
-> ### Local variables: ***
-> ### mode: outline-minor ***
-> ### outline-regexp: "\\(> \\)?### [*]+" ***
-> ### End: ***
-> quit('no')
+> im = make_interaction_model(~(month & day)*dest, flights)
+Error in if (length(formula) == 2 & boolean_first_symbol_is_tilde) { : 
+  the condition has length > 1
+Calls: make_interaction_model
+Execution halted

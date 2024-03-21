@@ -6,7 +6,8 @@ library(tidyverse)
 library(longpca)
 library(nycflights13)
 
-im = make_interaction_model(formula, flights)
+formula =  ~ (month & day)*(dest)
+# im = make_interaction_model(formula, flights,duplicates = "none")
 im
 
 # inspect "degree distributions" with this funciton:

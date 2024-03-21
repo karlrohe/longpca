@@ -29,7 +29,7 @@ Recall that the basic use of `make_interaction_model` in the flights data:
 ```{r}
 library(nycflights13)
 formula =  ~ (month & day)*(dest)
-im = make_interaction_model(formula, flights)
+im = make_interaction_model(flights, formula)
 # pcs = pca(im, k = 6)
 ```
 
@@ -52,7 +52,7 @@ all_packages |> select(Package,  Imports)
 
 Notice how the column `Imports` gives a "csv" of other packages. We can "extract" these values with `parse_text = TRUE`:
 ```{r}
-im_imports = make_interaction_model(~Package*Imports, tib = all_packages, parse_text= TRUE)
+im_imports = make_interaction_model(all_packages, ~Package*Imports, parse_text= TRUE)
 im_imports$row_universe
 im_imports$column_universe
 ```
@@ -60,14 +60,14 @@ Under the hood, this calls `tidytext::unnest_tokens` to convert `Imports` into a
 
 Additional arguments to `make_interaction_model` are passed off to `tidytext::unest_tokens`.  For example, by default it puts the imported packages into lower case. We can turn that off... 
 ```{r}
-im_imports = make_interaction_model(~Package*Imports, tib = all_packages, parse_text= TRUE, to_lower = FALSE)
+im_imports = make_interaction_model(all_packages, ~Package*Imports, parse_text= TRUE, to_lower = FALSE)
 im_imports$column_universe
 ```
 
 Notice how `Rcpp` in row 6 of the `$column_universe` was previously `rcpp` (lower case). You could parse a different variable instead.  For example,
 
 ```{r}
-im_description = make_interaction_model(~Package*Description, top_packages, parse_text = TRUE, to_lower= TRUE)
+im_description = make_interaction_model(top_packages,~Package*Description,  parse_text = TRUE, to_lower= TRUE)
 diagnose(im_description)
 im_description$column_universe
 ```
@@ -77,7 +77,7 @@ Here we see the stopwords.  These will form high degree nodes in your `interacti
 You can also parse multiple columns with the `&`:
 
 ```{r}
-im_imports_authors = make_interaction_model(~Package*(Imports&Author&Description&Title), tib = top_packages, parse_text = TRUE)
+im_imports_authors = make_interaction_model(top_packages, ~Package*(Imports&Author&Description&Title), parse_text = TRUE)
 im_imports_authors$row_universe
 im_imports_authors$column_universe
 

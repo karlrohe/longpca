@@ -12,7 +12,7 @@
 #'
 #' @examples
 #' library(nycflights13)
-#' im = make_interaction_model(~(month&day)*dest, flights)
+#' im = make_interaction_model(flights,~(month&day)*dest)
 #' cveig = pick_dim(im, dimMax = 7)
 #' plot(cveig)
 #' cveig

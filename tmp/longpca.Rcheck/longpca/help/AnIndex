@@ -1,6 +1,11 @@
+.make_interaction_model_completion	dot-make_interaction_model_completion
+add_graph_summaries	add_graph_summaries
+clean	clean
+core	core
 diagnose	diagnose
 extract_interaction	extract_interaction
 extract_variables	extract_variables
+get_Matrix	get_Matrix
 glaplacian	glaplacian
 itty_pivot	itty_pivot
 localization	localization
@@ -9,6 +14,7 @@ make_interaction_model	make_interaction_model
 make_interaction_model_from_variables	make_interaction_model_from_variables
 make_leverage	make_leverage
 make_sparse_output	make_sparse_output
+old_make_interaction_model	old_make_interaction_model
 pair	pair
 parse_formula	parse_formula
 pca	pca
@@ -24,6 +30,7 @@ remove_L_normalization	remove_L_normalization
 rotate	rotate
 select_universe	select_universe
 streaks	streaks
+subset_im	subset_im
 summary.interaction_model	summary.interaction_model
 top	top
 top_features	top_features

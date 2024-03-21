@@ -58,9 +58,10 @@ varimax_with_pre_rotation = function(matrix_to_rotate, pre_rotation){
 
 #' rotate
 #'
-#' perform varimax rotation on both rows and columns.
+#' perform varimax rotation on both rows and columns.  If mode is specified, the only that mode is rotated.
 #'
 #' @param pcs
+#' @param mode specify row or column if you only want to rotate one mode.
 #'
 #' @return
 #' @export
@@ -70,6 +71,27 @@ varimax_with_pre_rotation = function(matrix_to_rotate, pre_rotation){
 #' @importFrom stringr str_glue
 #'
 #' @examples
+#' im = make_interaction_model(~Package*Imports, all_packages, parse_text = TRUE)
+#' pcs = pca(im, k = 10)
+#' # streaks(pcs)
+#' sparse_pcs = rotate(pcs)
+#' # notice how the rotation aligns the streaks with the axes...
+#' # streaks(sparse_pcs, "columns")
+#' # if you do not specify a mode, then the middle B matrix will not be strictly diagonal...
+#' image(longpca:::get_middle_matrix(sparse_pcs))
+#' # if you rotate only the columns, then the middle B matrix is set to diagonal and this matrix is "pushed into" the other mode.
+#' sparse_columns_pcs = rotate(pcs, mode = "columns")
+#' # because we only rotated one mode, the B matrix is the identity matrix:
+#' image(longpca:::get_middle_matrix(sparse_columns_pcs))
+#' # these values were pushed into the row_features.  You can see that their scale is drastically reduced:
+#' sparse_pcs$row_features$vpc_01_rows |> sd()
+#' sparse_columns_pcs$row_features$vpc_01_rows |> sd()
+#' # importantly, this is not simply the row pcs scaled by the singular values... it is also rotated by the varimax rotation for the columns...
+#' # here is the algebra using the SVD:
+#' # U D V' = (UDR)(VR)'
+#' # after rotating only the columns...
+#' # (UDR) gives the new row_features
+#' # (VR) gives the new column_features
 rotate = function(pcs, mode = NULL){
   # rotate both modes with variamax.  return a pc object.
   #  we want the axes for rows and columns to roughly align with each other
@@ -83,28 +105,29 @@ rotate = function(pcs, mode = NULL){
     if(nrow(pcs[[1]]) > nrow(pcs[[2]])) mode_order_vector = c(2,1)
   }else{
     only_rotate_one = TRUE
+    mode = mode_detector(mode)
     if(mode %in% c("r","row","rows")){
       mode_order_vector = c(1, 2)
     }
-    if(mode %in% c("c","col","cols", "columns")){
+    if(mode %in% c("c","col","cols", "column", "columns")){
       mode_order_vector = c(2, 1)
     }
   }
 
-  old_prefix = pcs$settings$prefix_for_dimensions %>% stringr::str_remove("_")
+  old_prefix = pcs$settings$prefix_for_dimensions |>  stringr::str_remove("_")
   new_prefix = str_glue("v",old_prefix)
 
   # rotate the first one (which is the smaller one if we haven't specified a mode)
 
-  pc_mat_mode1 = pcs[[mode_order_vector[1]]] %>%
-    select(starts_with(pcs$settings$prefix_for_dimensions)) %>%
+  pc_mat_mode1 = pcs[[mode_order_vector[1]]] |>
+    select(starts_with(pcs$settings$prefix_for_dimensions)) |>
     as.matrix()
 
   varimax_rotation_mode1 = varimax(pc_mat_mode1,normalize = F)$rot
 
 
-  pc_mat_mode2 = pcs[[mode_order_vector[2]]] %>%
-    select(starts_with(pcs$settings$prefix_for_dimensions)) %>%
+  pc_mat_mode2 = pcs[[mode_order_vector[2]]] |>
+    select(starts_with(pcs$settings$prefix_for_dimensions)) |>
     as.matrix()
 
 
@@ -154,13 +177,13 @@ rotate = function(pcs, mode = NULL){
     column_output = mode2_output
   }
   row_features = bind_cols(
-    pcs$row_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
-    row_output$sparse_tib %>% dplyr::rename_with(~paste0(., "_rows"), everything())
+    pcs$row_features |>  select(-starts_with(pcs$settings$prefix_for_dimensions)),
+    row_output$sparse_tib |>  dplyr::rename_with(~paste0(., "_rows"), everything())
   )
 
   column_features = bind_cols(
-    pcs$column_features %>% select(-starts_with(pcs$settings$prefix_for_dimensions)),
-    column_output$sparse_tib %>% dplyr::rename_with(~paste0(., "_columns"), everything())
+    pcs$column_features |>  select(-starts_with(pcs$settings$prefix_for_dimensions)),
+    column_output$sparse_tib |>  dplyr::rename_with(~paste0(., "_columns"), everything())
   )
 
 
@@ -188,6 +211,33 @@ rotate = function(pcs, mode = NULL){
   if(only_rotate_one & mode_order_vector[1]==2) fit_method = str_glue(pcs$settings$fit_method, "varimax (columns)",.sep = " + ")
 
 
+
+  # if we only rotate one, then let's get rid of the middle B matrix and put it into the other factors...
+  if(only_rotate_one){
+    # if we rotated the rows...
+    if(mode_order_vector[1] == 1){
+      # push B into the column_features
+      column_matrix_old = column_features |> select(contains(new_prefix)) |> as.matrix()
+      column_matrix = column_matrix_old %*% t(new_B)
+      colnames(column_matrix) = colnames(column_matrix_old)
+      column_features = bind_cols(column_features |> select(-contains(new_prefix)),
+                                  as_tibble(column_matrix))
+
+    }
+    if(mode_order_vector[1] == 2){
+      # push B into the column_features
+      row_matrix_old = row_features |> select(contains(new_prefix)) |> as.matrix()
+      row_matrix = row_matrix_old %*% t(new_B)
+      colnames(row_matrix) = colnames(row_matrix_old)
+      row_features = bind_cols(row_features |> select(-contains(new_prefix)),
+                               as_tibble(row_matrix))
+
+    }
+
+    new_B = diag(rep(1,pcs$settings$k))
+    B_tib= make_middle_B_tibble(new_B, dimension_prefix = new_prefix)
+
+  }
   new_settings = c(
     list(
       fit_method = fit_method,

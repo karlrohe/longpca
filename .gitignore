@@ -5,6 +5,8 @@
 .DS_Store
 .quarto
 climate_data.R
+get_cdc_data.R
+tr.R
 README_cache/
 inst/doc
 vignettes/bff_cache/

@@ -37,6 +37,7 @@ glaplacian <- function(A, regularize = TRUE) {
 #'
 #' @return
 #' @export
+#' @importFrom dplyr rowwise transmute c_across all_of ungroup pull
 #'
 #' @examples
 get_Matrix = function(interaction_model, import_names = FALSE){
@@ -48,15 +49,15 @@ get_Matrix = function(interaction_model, import_names = FALSE){
 
   if(import_names){
 
-    these_row_names = interaction_model$row_universe %>%
-      rowwise() %>%
-      transmute(combined = paste(c_across(all_of(interaction_model$settings$row_variables)), collapse = "/")) %>%
+    these_row_names = interaction_model$row_universe |>
+      rowwise() |>
+      transmute(combined = paste(c_across(all_of(interaction_model$settings$row_variables)), collapse = "/")) |>
       ungroup() |>
       pull(combined)
 
-    these_col_names = interaction_model$column_universe %>%
-      rowwise() %>%
-      transmute(combined = paste(c_across(all_of(interaction_model$settings$column_variables)), collapse = "/")) %>%
+    these_col_names = interaction_model$column_universe |>
+      rowwise() |>
+      transmute(combined = paste(c_across(all_of(interaction_model$settings$column_variables)), collapse = "/")) |>
       ungroup() |>
       pull(combined)
 
@@ -139,7 +140,7 @@ pca_count = function(fo, tib, k){
 #'
 #' @examples
 pca_sum = function(fo, tib, k){
-  im = make_interaction_model(fo, tib)
+  im = make_interaction_model(tib, fo)
   pca(im, k)
 }
 
@@ -208,7 +209,7 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
 pca_text = function(fo, tib, k, ...){
 
 
-  im = make_interaction_model(fo, tib, parse_text = TRUE, ...)
+  im = make_interaction_model(tib, fo, parse_text = TRUE, ...)
   pca(im, k)
 
   # A = sp_A_dat$A
@@ -310,7 +311,7 @@ pca_average = function(fo, tib, k){
   # settings (this is a list of details)
 
 
-  im = make_interaction_model(fo, tib, duplicates= "average")
+  im = make_interaction_model(tib, fo, duplicates= "average")
   # sp_A_dat = make_incomplete_matrix_raw(fo, tib)
   A = get_Incomplete_Matrix(im)
   # A = sp_A_dat$A

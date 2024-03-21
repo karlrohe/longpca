@@ -39,7 +39,7 @@ library(nycflights13)
 The code is fast and nimble.  First you define "the model" with a formula... and some data:
 ```{r, cache=TRUE}
 formula = 1 ~ (month & day)*(dest)
-im = make_interaction_model(formula, flights)
+im = make_interaction_model(flights, formula)
 pcs = pca(im, k = 6)
 ```
 
@@ -59,7 +59,7 @@ The hope is that  *model first* PCA with the formula makes interacting with the 
 The function `make_interaction_model` constructs a list with the class `interaction_model`.  You can think of this as an abstraction of a matrix...
 ```{r}
 formula = 1 ~ (month & day)*(dest)
-im = make_interaction_model(formula, flights)
+im = make_interaction_model(flights,formula)
 names(im)
 class(im)
 ```

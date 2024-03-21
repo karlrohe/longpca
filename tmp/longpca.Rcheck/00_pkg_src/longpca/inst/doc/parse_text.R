@@ -11,7 +11,7 @@ library(longpca)
 ## -----------------------------------------------------------------------------
 library(nycflights13)
 formula =  ~ (month & day)*(dest)
-im = make_interaction_model(formula, flights)
+im = make_interaction_model(flights, formula)
 # pcs = pca(im, k = 6)
 
 ## -----------------------------------------------------------------------------
@@ -24,21 +24,21 @@ im$column_universe
 all_packages |> select(Package,  Imports)
 
 ## -----------------------------------------------------------------------------
-im_imports = make_interaction_model(~Package*Imports, tib = all_packages, parse_text= TRUE)
+im_imports = make_interaction_model(all_packages, ~Package*Imports, parse_text= TRUE)
 im_imports$row_universe
 im_imports$column_universe
 
 ## -----------------------------------------------------------------------------
-im_imports = make_interaction_model(~Package*Imports, tib = all_packages, parse_text= TRUE, to_lower = FALSE)
+im_imports = make_interaction_model(all_packages, ~Package*Imports, parse_text= TRUE, to_lower = FALSE)
 im_imports$column_universe
 
 ## -----------------------------------------------------------------------------
-im_description = make_interaction_model(~Package*Description, top_packages, parse_text = TRUE, to_lower= TRUE)
+im_description = make_interaction_model(top_packages,~Package*Description,  parse_text = TRUE, to_lower= TRUE)
 diagnose(im_description)
 im_description$column_universe
 
 ## -----------------------------------------------------------------------------
-im_imports_authors = make_interaction_model(~Package*(Imports&Author&Description&Title), tib = top_packages, parse_text = TRUE)
+im_imports_authors = make_interaction_model(top_packages, ~Package*(Imports&Author&Description&Title), parse_text = TRUE)
 im_imports_authors$row_universe
 im_imports_authors$column_universe
 

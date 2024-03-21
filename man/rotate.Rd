@@ -7,8 +7,31 @@
 rotate(pcs, mode = NULL)
 }
 \arguments{
-\item{pcs}{}
+\item{mode}{specify row or column if you only want to rotate one mode.}
 }
 \description{
-perform varimax rotation on both rows and columns.
+perform varimax rotation on both rows and columns.  If mode is specified, the only that mode is rotated.
+}
+\examples{
+im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE)
+pcs = pca(im, k = 10)
+# streaks(pcs)
+sparse_pcs = rotate(pcs)
+# notice how the rotation aligns the streaks with the axes...
+# streaks(sparse_pcs, "columns")
+# if you do not specify a mode, then the middle B matrix will not be strictly diagonal...
+image(longpca:::get_middle_matrix(sparse_pcs))
+# if you rotate only the columns, then the middle B matrix is set to diagonal and this matrix is "pushed into" the other mode.
+sparse_columns_pcs = rotate(pcs, mode = "columns")
+# because we only rotated one mode, the B matrix is the identity matrix:
+image(longpca:::get_middle_matrix(sparse_columns_pcs))
+# these values were pushed into the row_features.  You can see that their scale is drastically reduced:
+sparse_pcs$row_features$vpc_01_rows |> sd()
+sparse_columns_pcs$row_features$vpc_01_rows |> sd()
+# importantly, this is not simply the row pcs scaled by the singular values... it is also rotated by the varimax rotation for the columns...
+# here is the algebra using the SVD:
+# U D V' = (UDR)(VR)'
+# after rotating only the columns...
+# (UDR) gives the new row_features
+# (VR) gives the new column_features
 }

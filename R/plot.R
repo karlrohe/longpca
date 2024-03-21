@@ -9,28 +9,28 @@
 #'
 #' @examples
 make_leverage = function(pcs){
-  # types_of_modes = pcs %>% distinct(type) %>% pull(type)
+  # types_of_modes = pcs |> distinct(type) |> pull(type)
   # this_type = types_of_modes[1]
   lev_list=list()
 
-  row_pc_mat = pcs$row_features  %>%
-    select(starts_with(pcs$settings$prefix_for_dimensions)) %>%
-    as.matrix
+  row_pc_mat = pcs$row_features  |>
+    select(starts_with(pcs$settings$prefix_for_dimensions)) |>
+    as.matrix()
 
   row_leverage = rowSums(row_pc_mat^2)
 
-  lev_list[[1]] = pcs$row_features  %>%
-    select(-starts_with(pcs$settings$prefix_for_dimensions)) %>%
+  lev_list[[1]] = pcs$row_features  |>
+    select(-starts_with(pcs$settings$prefix_for_dimensions)) |>
     bind_cols(tibble(leverage = row_leverage))
 
-  col_pc_mat = pcs$column_features  %>%
-    select(starts_with(pcs$settings$prefix_for_dimensions)) %>%
-    as.matrix
+  col_pc_mat = pcs$column_features  |>
+    select(starts_with(pcs$settings$prefix_for_dimensions)) |>
+    as.matrix()
 
   col_leverage = rowSums(col_pc_mat^2)
 
-  lev_list[[2]] = pcs$column_features  %>%
-    select(-starts_with(pcs$settings$prefix_for_dimensions)) %>%
+  lev_list[[2]] = pcs$column_features  |>
+    select(-starts_with(pcs$settings$prefix_for_dimensions)) |>
     bind_cols(tibble(leverage = col_leverage))
 
 
@@ -73,24 +73,24 @@ localization = function(pcs){
 
 
   # make mode labels
-  my_row_names = pcs$settings$row_variables %>% paste(collapse  = " & ")
-  my_col_names = pcs$settings$column_variables %>% paste(collapse  = " & ")
+  my_row_names = pcs$settings$row_variables |> paste(collapse  = " & ")
+  my_col_names = pcs$settings$column_variables |> paste(collapse  = " & ")
 
 
-  row_dat = leverages_data[[1]] %>%
-    select(degree,leverage) %>%
-    mutate(mode = my_row_names) %>%
-    make_deg_lev_resid
+  row_dat = leverages_data[[1]] |>
+    select(degree,leverage) |>
+    mutate(mode = my_row_names) |>
+    make_deg_lev_resid()
 
-  col_dat = leverages_data[[2]] %>%
-    select(degree,leverage) %>%
-    mutate(mode = my_col_names) %>%
-    make_deg_lev_resid
+  col_dat = leverages_data[[2]] |>
+    select(degree,leverage) |>
+    mutate(mode = my_col_names) |>
+    make_deg_lev_resid()
 
   deg_lev_resid = bind_rows(row_dat, col_dat)
 
 
-  deg_lev_resid %>%
+  deg_lev_resid |>
     ggplot(aes(x=degree+1, y= residuals)) +
     geom_point()+
     # ggtitle(paste("   ", round(fit$coefficients[1],2),  " x deg ^", round(fit$coefficients[2],2)))+
@@ -153,13 +153,13 @@ streaks = function(pcs, mode = "rows",plot_columns= NULL){
   # ")
   #   }
   if(mode %in% c("row","r","rows")){
-    pc = pcs$row_features %>% select(starts_with(pcs$settings$prefix_for_dimensions))
+    pc = pcs$row_features |> select(starts_with(pcs$settings$prefix_for_dimensions))
   }else{
-    pc = pcs$column_features %>% select(starts_with(pcs$settings$prefix_for_dimensions))
+    pc = pcs$column_features |> select(starts_with(pcs$settings$prefix_for_dimensions))
   }
 
-  pc_mat = pc %>%
-    as.matrix
+  pc_mat = pc |>
+    as.matrix()
   # scale(center=F)
 
   k = ncol(pc_mat)

@@ -5,8 +5,8 @@
 \title{make_interaction_model}
 \usage{
 make_interaction_model(
-  fo,
-  tib,
+  .data,
+  formula,
   duplicates = "add",
   parse_text = FALSE,
   dropNA = TRUE,
@@ -15,15 +15,33 @@ make_interaction_model(
 )
 }
 \arguments{
-\item{fo}{a formula, like outcome ~ (row_nums & context) * measurement_type.}
+\item{.data}{a tibble that contains the variables in the formula. The only exception is that the left-hand-side can be 1 and this does not need to be in .data.}
 
-\item{tib}{a tibble that contains the variables in the formula. The only exception is that the left-hand-side can be 1 and this does not need to be in tib.}
+\item{formula}{a formula, like outcome ~ row_id * (measurement_type & context).}
 
-\item{dropNA}{recommended.  This drops rows of tib if there are any NA's among the essential variables.}
+\item{...}{additional arguments passed to \code{tidytext::unnest_tokens}}
 }
 \value{
-a list with four elements.  First, the sparse Matrix A. Second, row_universe which is akin to the row names of A, but in a tidy form.  Thir, column_universe which is like row_universe. Fourth, some settings.
+a list with four elements.  First, the interaction_tibble, akin to a sparse matrix in triplet form. Second, row_universe which is akin to the row names of A, but in a tidy form.  Thir, column_universe which is like row_universe. Fourth, some settings.
 }
 \description{
-make_interaction_model
+This generates an \code{interaction_model} object.  If you are comfortable thinking about matrices, you can think of this as a matrix-like-object.
+}
+\examples{
+library(nycflights13)
+im = make_interaction_model(flights,~(month & day)*dest)
+names(im)
+im$row_universe
+im$column_universe
+im$interaction_tibble
+im$settings
+# you can extract the sparse Matrix:
+A = longpca:::get_Matrix(im,  import_names = TRUE)
+str(A)
+im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE)
+names(im)
+im$row_universe
+im$column_universe
+im$interaction_tibble
+im$settings
 }

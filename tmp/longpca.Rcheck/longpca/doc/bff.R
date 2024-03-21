@@ -23,8 +23,8 @@ all_packages |> select(Package, Imports)
 
 ## -----------------------------------------------------------------------------
 # in make_interaction_model, the ... arguments go to tidytext::unnest_tokens for the text parsing.  In this case, we do not want to make the words lower case (because package names are case sensitive and that might be important later)
-idg = make_interaction_model(~Package*Imports,
-                             all_packages,
+idg = make_interaction_model(all_packages,
+                             ~Package*Imports,
                              parse_text = TRUE, 
                              to_lower = FALSE)
 idg

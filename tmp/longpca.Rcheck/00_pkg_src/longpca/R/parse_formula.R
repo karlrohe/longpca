@@ -83,7 +83,7 @@ parse_formula <- function(fo, tib) {
       stop("outcome_unweighted_1 is 'reserved' column name for parse_variables with '1~' formulas.
             this code is removing your column outcome_unweighted_1 and defining it as all 1s. this might cause an error later.")
     }
-    tib = tib %>% dplyr::mutate("outcome_unweighted_1" = 1)
+    tib = tib |> dplyr::mutate("outcome_unweighted_1" = 1)
     left_var = "outcome_unweighted_1"
   }
 

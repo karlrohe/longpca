@@ -43,11 +43,11 @@ used for diagnose
 
 }
 
-\section{row_degrees = edge_tib_list$edge_tib \%>\% count(row_id) \%>\% rename(degree=n)}{
+\section{row_degrees = edge_tib_list$edge_tib |> count(row_id) |> rename(degree=n)}{
 
 }
 
-\section{col_degrees = edge_tib_list$edge_tib \%>\% count(col_id) \%>\% rename(degree=n)}{
+\section{col_degrees = edge_tib_list$edge_tib |> count(col_id) |> rename(degree=n)}{
 
 }
 
