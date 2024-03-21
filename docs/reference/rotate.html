@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -68,7 +68,7 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, <span class="va">all_packages</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co"># streaks(pcs)</span></span></span>
 <span class="r-in"><span><span class="va">sparse_pcs</span> <span class="op">=</span> <span class="fu">rotate</span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span></span></span>

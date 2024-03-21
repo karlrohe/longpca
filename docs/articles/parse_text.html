@@ -41,7 +41,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -97,7 +97,7 @@ the flights data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
 <span><span class="va">formula</span> <span class="op">=</span>  <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span></span>
-<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">flights</span><span class="op">)</span></span>
+<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="va">formula</span><span class="op">)</span></span>
 <span><span class="co"># pcs = pca(im, k = 6)</span></span></code></pre></div>
 <p>In this example, the formula is
 <code>~ (month &amp; day)*(dest)</code>. So, the rows are indexed by the
@@ -161,7 +161,7 @@ gives information about one R package.</p>
 packages. We can “extract” these values with
 <code>parse_text = TRUE</code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im_imports</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, tib <span class="op">=</span> <span class="va">all_packages</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">im_imports</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">im_imports</span><span class="op">$</span><span class="va">row_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,319 × 3</span></span></span>
 <span><span class="co">#&gt;    Package                n row_num</span></span>
@@ -206,7 +206,7 @@ passed off to <code>tidytext::unest_tokens</code>. For example, by
 default it puts the imported packages into lower case. We can turn that
 off…</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im_imports</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, tib <span class="op">=</span> <span class="va">all_packages</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span>, to_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">im_imports</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span>, to_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">im_imports</span><span class="op">$</span><span class="va">column_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6,230 × 4</span></span></span>
 <span><span class="co">#&gt;    from_text token        n col_num</span></span>
@@ -226,7 +226,7 @@ off…</p>
 <code>$column_universe</code> was previously <code>rcpp</code> (lower
 case). You could parse a different variable instead. For example,</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im_description</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Description</span>, <span class="va">top_packages</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span>, to_lower<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">im_description</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">top_packages</span>,<span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Description</span>,  parse_text <span class="op">=</span> <span class="cn">TRUE</span>, to_lower<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im_description</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation introduced</span></span>
 <span><span class="co">#&gt; infinite values.</span></span>
@@ -262,7 +262,7 @@ case). You could parse a different variable instead. For example,</p>
 these is often a factor that indicates “document length”.</p>
 <p>You can also parse multiple columns with the <code>&amp;</code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im_imports_authors</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="op">(</span><span class="va">Imports</span><span class="op">&amp;</span><span class="va">Author</span><span class="op">&amp;</span><span class="va">Description</span><span class="op">&amp;</span><span class="va">Title</span><span class="op">)</span>, tib <span class="op">=</span> <span class="va">top_packages</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">im_imports_authors</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">top_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="op">(</span><span class="va">Imports</span><span class="op">&amp;</span><span class="va">Author</span><span class="op">&amp;</span><span class="va">Description</span><span class="op">&amp;</span><span class="va">Title</span><span class="op">)</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">im_imports_authors</span><span class="op">$</span><span class="va">row_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,094 × 3</span></span></span>
 <span><span class="co">#&gt;    Package             n row_num</span></span>
@@ -328,26 +328,26 @@ default in <code>pick_dim</code>; 20 should be enough.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ------------ Summary of Tests ------------</span></span>
 <span><span class="co">#&gt;   k         z        pvals         padj</span></span>
-<span><span class="co">#&gt;   1 52.443726 0.000000e+00 0.000000e+00</span></span>
-<span><span class="co">#&gt;   2 10.239665 6.584602e-25 6.584602e-25</span></span>
-<span><span class="co">#&gt;   3  7.076749 7.378766e-13 7.378766e-13</span></span>
-<span><span class="co">#&gt;   4 18.337413 2.080685e-75 2.080685e-75</span></span>
-<span><span class="co">#&gt;   5 11.612535 1.779523e-31 1.779523e-31</span></span>
-<span><span class="co">#&gt;   6  4.663854 1.551707e-06 1.551707e-06</span></span>
-<span><span class="co">#&gt;   7  4.623120 1.890055e-06 1.890055e-06</span></span>
-<span><span class="co">#&gt;   8  7.207221 2.855255e-13 2.855255e-13</span></span>
-<span><span class="co">#&gt;   9  9.819630 4.634132e-23 4.634132e-23</span></span>
-<span><span class="co">#&gt;  10  9.502903 1.020592e-21 1.020592e-21</span></span>
-<span><span class="co">#&gt;  11  9.401788 2.682183e-21 2.682183e-21</span></span>
-<span><span class="co">#&gt;  12  6.809335 4.902549e-12 4.902549e-12</span></span>
-<span><span class="co">#&gt;  13  4.519146 3.104480e-06 3.104480e-06</span></span>
-<span><span class="co">#&gt;  14  6.713663 9.489934e-12 9.489934e-12</span></span>
-<span><span class="co">#&gt;  15  8.407021 2.102776e-17 2.102776e-17</span></span>
-<span><span class="co">#&gt;  16  8.168600 1.559945e-16 1.559945e-16</span></span>
-<span><span class="co">#&gt;  17  8.537552 6.854766e-18 6.854766e-18</span></span>
-<span><span class="co">#&gt;  18  8.400160 2.229348e-17 2.229348e-17</span></span>
-<span><span class="co">#&gt;  19  8.221287 1.006658e-16 1.006658e-16</span></span>
-<span><span class="co">#&gt;  20  7.571338 1.846992e-14 1.846992e-14</span></span></code></pre></div>
+<span><span class="co">#&gt;   1 52.225100 0.000000e+00 0.000000e+00</span></span>
+<span><span class="co">#&gt;   2 10.489027 4.851107e-26 4.851107e-26</span></span>
+<span><span class="co">#&gt;   3  7.321142 1.229351e-13 1.229351e-13</span></span>
+<span><span class="co">#&gt;   4 18.463016 2.049021e-76 2.049021e-76</span></span>
+<span><span class="co">#&gt;   5 11.746910 3.662429e-32 3.662429e-32</span></span>
+<span><span class="co">#&gt;   6  4.891186 5.011504e-07 5.011504e-07</span></span>
+<span><span class="co">#&gt;   7  4.856658 5.969165e-07 5.969165e-07</span></span>
+<span><span class="co">#&gt;   8  7.381439 7.829381e-14 7.829381e-14</span></span>
+<span><span class="co">#&gt;   9  9.467716 1.430145e-21 1.430145e-21</span></span>
+<span><span class="co">#&gt;  10  9.276305 8.772864e-21 8.772864e-21</span></span>
+<span><span class="co">#&gt;  11  9.084343 5.216360e-20 5.216360e-20</span></span>
+<span><span class="co">#&gt;  12  5.622308 9.421158e-09 9.421158e-09</span></span>
+<span><span class="co">#&gt;  13  4.720068 1.178829e-06 1.178829e-06</span></span>
+<span><span class="co">#&gt;  14  6.471448 4.853416e-11 4.853416e-11</span></span>
+<span><span class="co">#&gt;  15  8.032066 4.792229e-16 4.792229e-16</span></span>
+<span><span class="co">#&gt;  16  8.330619 4.021024e-17 4.021024e-17</span></span>
+<span><span class="co">#&gt;  17  8.209523 1.110348e-16 1.110348e-16</span></span>
+<span><span class="co">#&gt;  18  7.532892 2.481433e-14 2.481433e-14</span></span>
+<span><span class="co">#&gt;  19  8.500501 9.438711e-18 9.438711e-18</span></span>
+<span><span class="co">#&gt;  20  7.048323 9.054337e-13 9.054337e-13</span></span></code></pre></div>
 <p>I’m going to pick 10 for convenience.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im_imports_authors</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>

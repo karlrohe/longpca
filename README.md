@@ -64,7 +64,7 @@ formula… and some data:
 
 ``` r
 formula = 1 ~ (month & day)*(dest)
-im = make_interaction_model(formula, flights)
+im = make_interaction_model(flights, formula)
 pcs = pca(im, k = 6)
 ```
 
@@ -94,7 +94,7 @@ matrix…
 
 ``` r
 formula = 1 ~ (month & day)*(dest)
-im = make_interaction_model(formula, flights)
+im = make_interaction_model(flights,formula)
 names(im)
 ```
 

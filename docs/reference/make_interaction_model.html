@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -57,8 +57,8 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_interaction_model</span><span class="op">(</span></span>
-<span>  <span class="va">fo</span>,</span>
-<span>  <span class="va">tib</span>,</span>
+<span>  <span class="va">.data</span>,</span>
+<span>  <span class="va">formula</span>,</span>
 <span>  duplicates <span class="op">=</span> <span class="st">"add"</span>,</span>
 <span>  parse_text <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  dropNA <span class="op">=</span> <span class="cn">TRUE</span>,</span>
@@ -69,20 +69,16 @@
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>fo</dt>
-<dd><p>a formula, like outcome ~ (row_nums &amp; context) * measurement_type.</p></dd>
+    <dl><dt>.data</dt>
+<dd><p>a tibble that contains the variables in the formula. The only exception is that the left-hand-side can be 1 and this does not need to be in .data.</p></dd>
 
 
-<dt>tib</dt>
-<dd><p>a tibble that contains the variables in the formula. The only exception is that the left-hand-side can be 1 and this does not need to be in tib.</p></dd>
+<dt>formula</dt>
+<dd><p>a formula, like outcome ~ row_id * (measurement_type &amp; context).</p></dd>
 
 
-<dt>parse_text</dt>
-<dd><p>if set to TRUE, then the right side of * (i.e. the measurement_type) will be parsed as a sequence of tokens via tidytext::unnest_tokens.  Additional arguments in ... will be passed to unnest_tokens.  For example, adding to_lower = FALSE will ensure case is kept. Additionally, you could set token to be something other than words (ngrams or skip_ngrams and then additionally specify n = ).  See unnest_token for more arguments.</p></dd>
-
-
-<dt>dropNA</dt>
-<dd><p>recommended.  This drops rows of tib if there are any NA's among the essential variables.</p></dd>
+<dt>...</dt>
+<dd><p>additional arguments passed to <code><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">tidytext::unnest_tokens</a></code></p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -95,7 +91,7 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu">make_interaction_model</span><span class="op">(</span><span class="op">~</span><span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span>, <span class="va">flights</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu">make_interaction_model</span><span class="op">(</span><span class="va">flights</span>,<span class="op">~</span><span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "interaction_tibble" "row_universe"       "column_universe"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "settings"          </span>
@@ -147,7 +143,7 @@
 <span class="r-in"><span><span class="va">im</span><span class="op">$</span><span class="va">settings</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 ~ (month &amp; day) * dest</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7faba7d2b808&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff044eca368&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data_prefix</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -176,7 +172,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ : chr [1:105] "ORD" "ATL" "LAX" "BOS" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ x       : num [1:31229] 52 55 55 55 49 54 55 55 54 55 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ factors : list()</span>
-<span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu">make_interaction_model</span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, <span class="va">all_packages</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu">make_interaction_model</span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "interaction_tibble" "row_universe"       "column_universe"   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [4] "settings"          </span>
@@ -228,7 +224,7 @@
 <span class="r-in"><span><span class="va">im</span><span class="op">$</span><span class="va">settings</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 ~ Package * Imports</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7faba11dab98&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7ff060f2b240&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data_prefix</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "text"</span>

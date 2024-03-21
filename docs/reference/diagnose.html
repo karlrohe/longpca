@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -69,7 +69,7 @@
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="op">(</span><span class="va">month</span><span class="op">&amp;</span><span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span>, <span class="va">flights</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="op">~</span><span class="op">(</span><span class="va">month</span><span class="op">&amp;</span><span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">diagnose</span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span><span style="color: #00BB00;">log-10</span> transformation introduced infinite values.</span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>Removed 28 rows containing missing values or values outside the scale range</span>

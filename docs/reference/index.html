@@ -24,7 +24,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -60,6 +60,24 @@
       
 
       <dl><dt>
+          
+          <code><a href="add_graph_summaries.html">add_graph_summaries()</a></code> 
+        </dt>
+        <dd>graph_summaries
+this function takes an interaction_model and  an interaction_model, where row_universe and column_universe have two additional columns $coreness and $component_label. importantly, strange behavior if im is a symmetric graph. this treats each row index and each column index as nodes in a graph.  So, if something appears in both rows and columns (e.g. as in symmetric graph), then this will be ignored.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="clean.html">clean()</a></code> 
+        </dt>
+        <dd>clean
+Given and interaction_model, this returns a new interaction_model that is the "k-core" of the "largest connected component" of the original interaction_model.  This function is recommended when <code>diagnose(im)</code> shows that the majority of rows/columns have 1, 2, or 3 connections.  In this case, the data is potentially too sparse for pca.  If you simply throwing away the rows/columns that are weakly connected, then you will reduce the connections of those that remain.  The k-core is what you get if you keep on iterating.  In particular, it will find the largest subset of rows and columns from the interaction_model such that every row and column has at least <code>core_threshold</code> number of connections or "data points" in interaction_tibble.  This is exactly the k-core if the row and columns correspond to unique elements (non-overlapping).  If the elements in the rows match some elements in the columns, then those elements are represented twice... once for the row and once for the column.  It is possible that only one of those is retained.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="core.html">core()</a></code> 
+        </dt>
+        <dd>core
+Given an interaction_model, this will return another interaction_model that corresponds to the "k-core" of the input.  This function is recommended when <code>diagnose(im)</code> shows that the majority of rows/columns have 1, 2, or 3 connections.  In this case, the data is potentially too sparse for pca.  If you simply throwing away the rows/columns that are weakly connected, then you will reduce the connections of those that remain.  The k-core is what you get if you keep on iterating.  In particular, it will find the largest subset of rows and columns from the interaction_model such that every row and column has at least <code>core_threshold</code> number of connections or "data points" in interaction_tibble.  This is exactly the k-core if the row and columns correspond to unique elements (non-overlapping).  If the elements in the rows match some elements in the columns, then those elements are represented twice... once for the row and once for the column.  It is possible that only one of those is retained.</dd>
+      </dl><dl><dt>
           
           <code><a href="diagnose.html">diagnose()</a></code> 
         </dt>
@@ -119,6 +137,11 @@
           <code><a href="make_sparse_output.html">make_sparse_output()</a></code> 
         </dt>
         <dd>make_sparse_output (internal to rotate)</dd>
+      </dl><dl><dt>
+          
+          <code><a href="old_make_interaction_model.html">old_make_interaction_model()</a></code> 
+        </dt>
+        <dd>old_make_interaction_model</dd>
       </dl><dl><dt>
           
           <code><a href="pair.html">pair()</a></code> 
@@ -194,6 +217,12 @@
           <code><a href="streaks.html">streaks()</a></code> 
         </dt>
         <dd>streaks</dd>
+      </dl><dl><dt>
+          
+          <code><a href="subset_im.html">subset_im()</a></code> 
+        </dt>
+        <dd>subset_im
+If you've removed some rows of row_universe or column_universe, then you want to redefine a bunch of things... you need new row/col numbering and you want to remove rows from interaction_tibble.  this does that.</dd>
       </dl><dl><dt>
           
           <code><a href="summary.interaction_model.html">summary(<i>&lt;interaction_model&gt;</i>)</a></code> 

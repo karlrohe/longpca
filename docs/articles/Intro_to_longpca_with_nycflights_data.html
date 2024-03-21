@@ -6,12 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="longpca">
-<title>Intro_to_longpca_with_nycflights_data • longpca</title>
+<title> • longpca</title>
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Intro_to_longpca_with_nycflights_data">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="">
 <meta property="og:description" content="longpca">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -41,7 +41,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -70,7 +70,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-      <img src="" class="logo" alt=""><h1>Intro_to_longpca_with_nycflights_data</h1>
+      <img src="" class="logo" alt=""><h1></h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/karlrohe/longpca/blob/HEAD/vignettes/Intro_to_longpca_with_nycflights_data.Rmd" class="external-link"><code>vignettes/Intro_to_longpca_with_nycflights_data.Rmd</code></a></small>
@@ -79,6 +79,26 @@
 
     
     
+<table class="table"><tbody>
+<tr class="odd">
+<td>title: “Intro_to_longpca_with_nycflights_data”</td>
+</tr>
+<tr class="even">
+<td>output: rmarkdown::html_vignette</td>
+</tr>
+<tr class="odd">
+<td>vignette: &gt;</td>
+</tr>
+<tr class="even">
+<td>%</td>
+</tr>
+<tr class="odd">
+<td>%</td>
+</tr>
+<tr class="even">
+<td>%</td>
+</tr>
+</tbody></table>
 <div class="section level3">
 <h3 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h3>
@@ -138,8 +158,8 @@ suggesting the name <code>longpca</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
 <span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_count.html">pca_count</a></span><span class="op">(</span><span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span>, </span>
-<span>                       <span class="va">flights</span>, </span>
-<span>                       k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<span>                <span class="va">flights</span>, </span>
+<span>                k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <p>This performs PCA. The key innovation is the “formula”:</p>
 <p><code>~ (month &amp; day)*(dest)</code>,</p>
 <p>which specifies the model that we want (i.e. the matrix for PCA). In
@@ -175,17 +195,17 @@ destination, on each day.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
 <span><span class="co">#&gt;   month   day     n row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     7    24  <span style="text-decoration: underline;">1</span>000      16     85            <span style="text-decoration: underline;">1</span>000      1.05     1.05     0.075<span style="text-decoration: underline;">2</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     4    14   917     251     85             917      1.00    -<span style="color: #BB0000;">0.296</span>    0.170 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    26   973     151     86             973      1.03    -<span style="color: #BB0000;">1.18</span>    -<span style="color: #BB0000;">1.04</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     8     3   809     313     87             809     0.926     0.454    2.48  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6    12   983     100     87             983     1.03      0.534   -<span style="color: #BB0000;">0.283</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     7    24  <span style="text-decoration: underline;">1</span>000      16     85            <span style="text-decoration: underline;">1</span>000     1.05      1.05     0.075<span style="text-decoration: underline;">2</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: pc_4_rows &lt;dbl&gt;, pc_5_rows &lt;dbl&gt;, pc_6_rows &lt;dbl&gt;</span></span></span>
 <span><span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span> <span class="op">%&gt;%</span> <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
 <span><span class="co">#&gt;   dest      n col_num degree weighted_degree pc_1_columns pc_2_columns</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> ROC    <span style="text-decoration: underline;">2</span>416      42    365            <span style="text-decoration: underline;">2</span>416        0.868       -<span style="color: #BB0000;">0.192</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> MSN     572      70    352             572        0.409        0.639</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> GRR     765      65    349             765        0.478       -<span style="color: #BB0000;">0.493</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> SDF    <span style="text-decoration: underline;">1</span>157      56    365            <span style="text-decoration: underline;">1</span>157        0.596        0.526</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> SEA    <span style="text-decoration: underline;">3</span>923      29    365            <span style="text-decoration: underline;">3</span>923        1.11         0.803</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> PVD     376      75    259             376        0.308       -<span style="color: #BB0000;">0.744</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: pc_3_columns &lt;dbl&gt;, pc_4_columns &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pc_5_columns &lt;dbl&gt;, pc_6_columns &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Because they are tidy, it makes them pretty easy to ggplot.</p>
@@ -226,11 +246,11 @@ destinations is a map. Let’s plot it there. Be sure you have
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">airports</span> <span class="op">%&gt;%</span> <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
-<span><span class="co">#&gt;   faa   name                  lat    lon   alt    tz dst   tzone           </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> MSO   Missoula Intl        46.9 -<span style="color: #BB0000;">114.</span>   <span style="text-decoration: underline;">3</span>205    -<span style="color: #BB0000;">7</span> A     America/Denver  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CHS   Charleston Afb Intl  32.9  -<span style="color: #BB0000;">80.0</span>    45    -<span style="color: #BB0000;">5</span> A     America/New_York</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> HKY   Hickory Rgnl         35.7  -<span style="color: #BB0000;">81.4</span>  <span style="text-decoration: underline;">1</span>189    -<span style="color: #BB0000;">5</span> A     America/New_York</span></span>
+<span><span class="co">#&gt;   faa   name                      lat    lon   alt    tz dst   tzone            </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                   <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>            </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> BKC   Buckland Airport         66.0 -<span style="color: #BB0000;">161.</span>     31    -<span style="color: #BB0000;">9</span> A     America/Anchorage</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> MZJ   Pinal Airpark            32.5 -<span style="color: #BB0000;">111.</span>   <span style="text-decoration: underline;">1</span>893    -<span style="color: #BB0000;">7</span> N     America/Phoenix  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> DWH   David Wayne Hooks Field  30.1  -<span style="color: #BB0000;">95.6</span>   152    -<span style="color: #BB0000;">6</span> A     America/Chicago</span></span>
 <span></span>
 <span><span class="co"># first, get the lat and lon for the airports:</span></span>
 <span><span class="va">airport_dat</span> <span class="op">=</span> <span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span> <span class="op">%&gt;%</span> </span>
@@ -353,7 +373,7 @@ matrix completion, e.g. predicting arrival delay:
 goes on. Each of the key functions in this package is handling a class
 <code>interaction_model</code>:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">flights</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="va">formula</span><span class="op">)</span></span>
 <span><span class="va">im</span></span>
 <span><span class="co">#&gt; $row_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 365 × 4</span></span></span>
@@ -445,24 +465,24 @@ For this example, it picks <code>k=4</code>.</p>
 <p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cv_eigs</span></span>
-<span><span class="co">#&gt; Estimated graph dimension:    5</span></span>
+<span><span class="co">#&gt; Estimated graph dimension:    4</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Number of bootstraps:         5</span></span>
 <span><span class="co">#&gt; Edge splitting probabaility:  0.1</span></span>
 <span><span class="co">#&gt; Significance level:       0.05</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ------------ Summary of Tests ------------</span></span>
-<span><span class="co">#&gt;   k          z        pvals         padj</span></span>
-<span><span class="co">#&gt;   1 166.971878 0.000000e+00 0.000000e+00</span></span>
-<span><span class="co">#&gt;   2  11.574356 2.779341e-31 2.779341e-31</span></span>
-<span><span class="co">#&gt;   3   8.104634 2.645227e-16 2.645227e-16</span></span>
-<span><span class="co">#&gt;   4   4.097711 2.086283e-05 2.086283e-05</span></span>
-<span><span class="co">#&gt;   5   1.801998 3.577286e-02 3.577286e-02</span></span>
-<span><span class="co">#&gt;   6  -3.111896 9.990706e-01 9.990706e-01</span></span>
-<span><span class="co">#&gt;   7  -5.801602 1.000000e+00 1.000000e+00</span></span>
-<span><span class="co">#&gt;   8  -6.360576 1.000000e+00 1.000000e+00</span></span>
-<span><span class="co">#&gt;   9  -7.387958 1.000000e+00 1.000000e+00</span></span>
-<span><span class="co">#&gt;  10  -7.714933 1.000000e+00 1.000000e+00</span></span></code></pre></div>
+<span><span class="co">#&gt;   k           z        pvals         padj</span></span>
+<span><span class="co">#&gt;   1 166.3734388 0.000000e+00 0.000000e+00</span></span>
+<span><span class="co">#&gt;   2  12.7589735 1.389190e-37 1.389190e-37</span></span>
+<span><span class="co">#&gt;   3   9.0900854 4.948065e-20 4.948065e-20</span></span>
+<span><span class="co">#&gt;   4   3.5619728 1.840393e-04 1.840393e-04</span></span>
+<span><span class="co">#&gt;   5   0.8464955 1.986382e-01 1.986382e-01</span></span>
+<span><span class="co">#&gt;   6  -2.8318376 9.976859e-01 9.976859e-01</span></span>
+<span><span class="co">#&gt;   7  -5.2534802 9.999999e-01 9.999999e-01</span></span>
+<span><span class="co">#&gt;   8  -6.6653427 1.000000e+00 1.000000e+00</span></span>
+<span><span class="co">#&gt;   9  -7.6593631 1.000000e+00 1.000000e+00</span></span>
+<span><span class="co">#&gt;  10  -7.9119877 1.000000e+00 1.000000e+00</span></span></code></pre></div>
 <p>Notice that the top-line of the printout says that the estimated
 graph dimension is 4. So, we will use <code>k=6</code> and see that in
 this example they become harder to interpret. This is what we would
@@ -506,17 +526,17 @@ contains some details that are handy in later functions.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
 <span><span class="co">#&gt;   month   day     n row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     9     3   956     203     86             956     1.02      -<span style="color: #BB0000;">1.06</span>   -<span style="color: #BB0000;">0.483</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     7    15   999      21     85             999     1.04      -<span style="color: #BB0000;">1.05</span>    0.063<span style="text-decoration: underline;">4</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    17   907     269     88             907     0.985      1.42   -<span style="color: #BB0000;">0.284</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     1     3   914     255     87             914     0.990    -<span style="color: #BB0000;">1.54</span>     -<span style="color: #BB0000;">0.416</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     8    17   780     318     87             780     0.909     0.444     2.55 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6    16   918     249     89             918     0.990     0.610     0.846</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: pc_4_rows &lt;dbl&gt;, pc_5_rows &lt;dbl&gt;, pc_6_rows &lt;dbl&gt;</span></span></span>
 <span><span class="fu">sample_n</span><span class="op">(</span><span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
 <span><span class="co">#&gt;   dest      n col_num degree weighted_degree pc_1_columns pc_2_columns</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> LGA       1     105      1               1      0.001<span style="text-decoration: underline;">27</span>     -<span style="color: #BB0000;">0.009</span><span style="color: #BB0000; text-decoration: underline;">87</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> BZN      36      96     36              36      0.043<span style="text-decoration: underline;">7</span>       0.412  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> ALB     439      74    260             439      0.336        1.72   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> PHX    <span style="text-decoration: underline;">4</span>656      24    365            <span style="text-decoration: underline;">4</span>656        1.21        -<span style="color: #BB0000;">0.466</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> ORD   <span style="text-decoration: underline;">17</span>283       1    365           <span style="text-decoration: underline;">17</span>283        2.33         1.32 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> TYS     631      69    322             631        0.438        0.455</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: pc_3_columns &lt;dbl&gt;, pc_4_columns &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pc_5_columns &lt;dbl&gt;, pc_6_columns &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Notice that these features are in a wide and tidy form, making it

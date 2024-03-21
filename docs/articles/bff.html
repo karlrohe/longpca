@@ -41,7 +41,7 @@
 <li class="active nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">Intro_to_longpca_with_nycflights_data</a>
+    <a class="dropdown-item" href="../articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
     <a class="dropdown-item" href="../articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="../articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -139,8 +139,8 @@ function <code>make_interaction_model</code> has an argument
 interactions and can easily extract this information:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># in make_interaction_model, the ... arguments go to tidytext::unnest_tokens for the text parsing.  In this case, we do not want to make the words lower case (because package names are case sensitive and that might be important later)</span></span>
-<span><span class="va">idg</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>,</span>
-<span>                             <span class="va">all_packages</span>,</span>
+<span><span class="va">idg</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>,</span>
+<span>                             <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>,</span>
 <span>                             parse_text <span class="op">=</span> <span class="cn">TRUE</span>, </span>
 <span>                             to_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">idg</span></span>
