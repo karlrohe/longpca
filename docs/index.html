@@ -41,7 +41,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/Intro_to_longpca_with_nycflights_data.html">UNKNOWN TITLE</a>
+    <a class="dropdown-item" href="articles/Intro_to_longpca_with_nycflights_data.html">Intro to longpca with nycflights data</a>
     <a class="dropdown-item" href="articles/bff.html">Analyzing the CRAN Dependency Graph with longpca</a>
     <a class="dropdown-item" href="articles/parse_text.html">parse_text inside longpca</a>
   </div>
@@ -90,7 +90,7 @@
 <p>The code is fast and nimble. First you define “the model” with a formula… and some data:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">formula</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span></span>
-<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">flights</span><span class="op">)</span></span>
+<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="va">formula</span><span class="op">)</span></span>
 <span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
 <p>There are three functions to run on <code>im</code>: <code>diagnose</code>, <code>pick_dim</code>, and <code>pca</code>.</p>
 <p>There are three key functions to run on <code>pcs</code>: <code>plot</code>, <code>rotate</code>, and <code>top</code>.</p>
@@ -106,7 +106,7 @@
 <p>The function <code>make_interaction_model</code> constructs a list with the class <code>interaction_model</code>. You can think of this as an abstraction of a matrix…</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">formula</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span></span>
-<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">formula</span>, <span class="va">flights</span><span class="op">)</span></span>
+<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>,<span class="va">formula</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="do">## [1] "interaction_tibble" "row_universe"       "column_universe"   </span></span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="do">## [4] "settings"</span></span></code></pre></div>
