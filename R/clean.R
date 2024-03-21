@@ -10,20 +10,20 @@
 #' @importFrom dplyr count slice_head pull bind_rows select filter
 #'
 #' @examples
-clean = function(im, core_threshold = 3){
+clean = function(im_input, core_threshold = 3){
 
 
-  if(!"coreness" %in% colnames(im$row_universe)){
+  if(!"coreness" %in% colnames(im_input$row_universe)){
     print("adding graph summaries (coreness and connected components).")
-    im = add_graph_summaries(im)
+    im_input = add_graph_summaries(im_input)
   }
 
-  row_LCC <- im$row_universe |>
+  row_LCC <- im_input$row_universe |>
     count(component_label, sort = TRUE) |>
     slice_head(n = 1) |>
     pull(component_label)
 
-  col_LCC <- im$column_universe |>
+  col_LCC <- im_input$column_universe |>
     count(component_label, sort = TRUE) |>
     slice_head(n = 1) |>
     pull(component_label)
@@ -32,8 +32,8 @@ clean = function(im, core_threshold = 3){
 
   if(col_LCC != row_LCC){
     print("WEIRD THING: the rows and columns have different largest components.")
-    LCC = bind_rows(im$row_universe |> select(component_label),
-                    im$column_universe |> select(component_label)
+    LCC = bind_rows(im_input$row_universe |> select(component_label),
+                    im_input$column_universe |> select(component_label)
     ) |>
       count(component_label, sort = TRUE) |>
       slice_head(n = 1) |>
@@ -41,17 +41,17 @@ clean = function(im, core_threshold = 3){
 
   }
 
-  im$row_universe = im$row_universe |>
+  im_input$row_universe = im_input$row_universe |>
     filter(component_label>=LCC) |>
     filter(coreness>=core_threshold)
 
-  im$column_universe = im$column_universe |>
+  im_input$column_universe = im_input$column_universe |>
     filter(component_label>=LCC)|>
     filter(coreness>=core_threshold)
 
-  im = subset_im(im)
+  im_input = subset_im(im_input)
 
-  return(im)
+  return(im_input)
 
 
 
@@ -70,7 +70,7 @@ clean = function(im, core_threshold = 3){
 #' @import dplyr
 #'
 #' @examples
-add_graph_summaries = function(im){
+add_graph_summaries = function(im_input){
 
   # this function takes an interaction_model
   #  it returns an interaction_model, where row_universe and column_universe have two additional columns $coreness and $component_label
@@ -78,7 +78,7 @@ add_graph_summaries = function(im){
   #   this treats each row index and each column index as nodes in a graph.  So, if something appears in both rows and columns (e.g. as in symmetric graph), then this will be ignored.
 
   # Step 1: Mutate the columns to make r_ and c_ and construct graph.
-  g = im$interaction_tibble |>
+  g = im_input$interaction_tibble |>
     transmute(row_num = paste0("r_", row_num),
               col_num = paste0("c_", col_num)) |>
     distinct() |>
@@ -113,11 +113,11 @@ add_graph_summaries = function(im){
   row_tibble <- row_data %>% rename(row_num = name)
   col_tibble <- col_data %>% rename(col_num = name)
 
-  im$row_universe = im$row_universe |> left_join(row_tibble, by = "row_num")
-  im$column_universe = im$column_universe |> left_join(col_tibble, by = "col_num")
+  im_input$row_universe = im_input$row_universe |> left_join(row_tibble, by = "row_num")
+  im_input$column_universe = im_input$column_universe |> left_join(col_tibble, by = "col_num")
 
   # Now, 'row_tibble' and 'col_tibble' are your final tibbles with the desired information.
-  return(im)
+  return(im_input)
 }
 
 
@@ -126,7 +126,7 @@ add_graph_summaries = function(im){
 #' core
 #' Given an interaction_model, this will return another interaction_model that corresponds to the "k-core" of the input.  This function is recommended when `diagnose(im)` shows that the majority of rows/columns have 1, 2, or 3 connections.  In this case, the data is potentially too sparse for pca.  If you simply throwing away the rows/columns that are weakly connected, then you will reduce the connections of those that remain.  The k-core is what you get if you keep on iterating.  In particular, it will find the largest subset of rows and columns from the interaction_model such that every row and column has at least `core_threshold` number of connections or "data points" in interaction_tibble.  This is exactly the k-core if the row and columns correspond to unique elements (non-overlapping).  If the elements in the rows match some elements in the columns, then those elements are represented twice... once for the row and once for the column.  It is possible that only one of those is retained.
 #'
-#' @param im
+#' @param im_input
 #' @param core_threshold
 #'
 #' @return
@@ -135,18 +135,18 @@ add_graph_summaries = function(im){
 #' @import dplyr
 #'
 #' @examples
-core = function(im, core_threshold){
+core = function(im_input, core_threshold){
 
 
-  if(!"coreness" %in% colnames(im$row_universe)){
+  if(!"coreness" %in% colnames(im_input$row_universe)){
     print("adding graph summaries (coreness and connected components).")
     im = add_graph_summaries(im)
   }
 
-  im$row_universe = im$row_universe |>
+  im_input$row_universe = im_input$row_universe |>
     filter(coreness>=core_threshold)
 
-  im$column_universe = im$column_universe |>
+  im_input$column_universe = im_input$column_universe |>
     filter(coreness>=core_threshold)
 
   im = make_new(im)
@@ -159,7 +159,7 @@ core = function(im, core_threshold){
 #' subset_im
 #' If you've removed some rows of row_universe or column_universe, then you want to redefine a bunch of things... you need new row/col numbering and you want to remove rows from interaction_tibble.  this does that.
 #'
-#' @param im
+#' @param im_input
 #'
 #' @return
 #' @export
@@ -167,25 +167,27 @@ core = function(im, core_threshold){
 #'
 #'
 #' @examples
-subset_im = function(im){
-  im$row_universe = im$row_universe |>
+subset_im = function(im_input){
+  im_input$row_universe = im_input$row_universe |>
     mutate(new_row_num = row_number())
 
-  im$column_universe = im$column_universe |>
+  im_input$column_universe = im_input$column_universe |>
     mutate(new_col_num = row_number())
 
-  im$interaction_tibble = im$interaction_tibble |>
-    left_join(im$row_universe |> select(row_num, new_row_num), by = "row_num") |>
-    left_join(im$column_universe |> select(col_num, new_col_num), by = "col_num") |>
+  im_input$interaction_tibble = im_input$interaction_tibble |>
+    left_join(im_input$row_universe |> select(row_num, new_row_num), by = "row_num") |>
+    left_join(im_input$column_universe |> select(col_num, new_col_num), by = "col_num") |>
     select(-row_num, -col_num) |>
     rename(row_num = new_row_num, col_num = new_col_num) |>
     drop_na()
 
-  im$row_universe = im$row_universe |>
+  im_input$row_universe = im_input$row_universe |>
     select(-row_num, -n) |>
     rename(row_num = new_row_num)
 
-  im$column_universe = im$column_universe |>
+  im_input$column_universe = im_input$column_universe |>
     select(-col_num, -n) |>
     rename(col_num = new_col_num)
+
+  return(im_input)
 }

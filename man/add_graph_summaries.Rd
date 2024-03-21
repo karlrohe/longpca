@@ -5,7 +5,7 @@
 \title{graph_summaries
 this function takes an interaction_model and  an interaction_model, where row_universe and column_universe have two additional columns $coreness and $component_label. importantly, strange behavior if im is a symmetric graph. this treats each row index and each column index as nodes in a graph.  So, if something appears in both rows and columns (e.g. as in symmetric graph), then this will be ignored.}
 \usage{
-add_graph_summaries(im)
+add_graph_summaries(im_input)
 }
 \arguments{
 \item{im}{}
