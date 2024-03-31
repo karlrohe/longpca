@@ -170,8 +170,8 @@ add_graph_summaries <- function(im_input, row_key=NULL, col_key=NULL, tib_with_w
 
   # Create an igraph object from the interaction tibble
   g <- im_input$interaction_tibble |>
-    left_join(im$row_universe |> select(row_num, any_of(row_key)), by = "row_num") |>
-    left_join(im$column_universe |> select(col_num, any_of(col_key)), by  = "col_num") |>
+    left_join(im_input$row_universe |> select(row_num, any_of(row_key)), by = "row_num") |>
+    left_join(im_input$column_universe |> select(col_num, any_of(col_key)), by  = "col_num") |>
     select(-row_num, -col_num, -outcome) |>
     distinct() |>
     igraph::graph_from_data_frame()
