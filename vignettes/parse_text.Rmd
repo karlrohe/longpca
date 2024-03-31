@@ -16,15 +16,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+This document shows how you can use `parse_text` inside the function `make_interaction_model`.
 
-This document shows how you can use `parse_text` inside the function `make_interaction_model`.  
-
-```{r setup}
+```{r, echo=FALSE,include=FALSE}
 library(dplyr)
 library(longpca)
 ```
 
-Recall that the basic use of `make_interaction_model` in the flights data:
+[Recall that the basic use of `make_interaction_model` in the flights data](articles/Intro_to_longpca_with_nycflights_data.html)...
 
 ```{r}
 library(nycflights13)
@@ -33,16 +32,20 @@ im = make_interaction_model(flights, formula)
 # pcs = pca(im, k = 6)
 ```
 
+That article with `nycflights13` discussed the formula syntax for `make_interaction_model`:
 
-In this example, the formula is `~ (month & day)*(dest)`.  So, the rows are indexed by the unique values of `month` and `day` and the columns are indexed by the unique values of `dest`. 
+`outcome ~ unit * context.`
 
-```{r}
-im$row_universe
-im$column_universe
-```
+It described four specifications (summarized below). However, Specification 4 could not be demonstrated on that data. This article will discuss Specification 4.
 
+1)  *Specification 1:* We count the co-occurrences of `(month & day)` with `dest` by leaving the left side of the formula empty `~ (month & day)*(dest)` or by putting a "place holder" `1` there... `1 ~ (month & day)*(dest)`. Counting the co-occurrences is sometimes called a cross-tab or a contingency table. When we do PCA to this matrix of counts, some folks call that Correspondence Analysis.
+2)  *Specification 2:* If there is a variable on the left side of the formula, for example `seats ~ (month & day)*(dest)` and we use the default settings for `make_interaction_model`, then we sum up the number of seats for each `(month & day)` and `dest` pair.
+3)  *Specification 3:* If there is a variable on the left side of the formula, for example `arr_delay ~ (month & day)*(dest)` and we set `make_interaction_model(..., duplicates = "average")`, then we take the average `arr_delay` over each `(month & day)` and `dest` pair. For this specification, one should use `pca_na` instead of `pca`.
+4)  *Specification 4:* If there is a variable in the data that is a sequence that needs to be parsed (e.g. a text field could be a sequence of words), this this document describes how to use `make_interaction_model(..., parse_text = TRUE)`.
 
-If our data contains sentences, or *sequences* of id's (e.g. words/bi-grams/etc), then the "unique values" need to first be parsed/extracted.  For example, loaded into `longpca` is a toy data set `all_packages`.  It is about 20000 rows.  Each row gives information about one R package.
+## Specification 4: parsing text.
+
+In the flights data, the variable `dest` has 105 unique values. These serve as the context_id's in the formula `~ (month & day)*dest`. Sometimes, a variable in the data contains free text, or *sequences of words*. In this case, we need to first parse/extract the context_id's (e.g. words/bi-grams/etc). For example, loaded into `longpca` is a toy data set `all_packages`. It is about 20000 rows. Each row gives information about one R package.
 
 ```{r}
 # you can get a fresh version here:
@@ -50,29 +53,42 @@ If our data contains sentences, or *sequences* of id's (e.g. words/bi-grams/etc)
 all_packages |> select(Package,  Imports)
 ```
 
-Notice how the column `Imports` gives a "csv" of other packages. We can "extract" these values with `parse_text = TRUE`:
+Notice how the column `Imports` gives a "csv" of other packages. We can "parse" these values with `parse_text = TRUE`:
+
 ```{r}
 im_imports = make_interaction_model(all_packages, ~Package*Imports, parse_text= TRUE)
 im_imports$row_universe
 im_imports$column_universe
 ```
-Under the hood, this calls `tidytext::unnest_tokens` to convert `Imports` into a "bag-of-words".  So, the columns are now indexed by the unique packages that are imported.  There are  20,319 total `Packages` in `all_packages` and each one forms a "row" in `im_imports`.  Only 6,230 of these packages have been imported by another package.  Each of these forms a "column" in `im_imports`.  Here "row" and "column" are in quotes because `im_imports` is not a matrix, but there is a matrix "under the hood" that has these rows and columns.
 
-Additional arguments to `make_interaction_model` are passed off to `tidytext::unest_tokens`.  For example, by default it puts the imported packages into lower case. We can turn that off... 
+Under the hood, `make_interaction_model(..., parse_text = TRUE)` calls `tidytext::unnest_tokens` to parse the variable after the `*`. In this case, it converts `Imports` into a "bag-of-words". It also converts every letter to lower case and removes punctuation. So, the columns in `im_imports` are indexed by the unique packages that are imported. There are 20,319 total `Packages` in `all_packages` and each one forms a "row" in `im_imports`. Only 6,230 of these packages have been imported by another package. Each of these forms a "column" in `im_imports`. Here "row" and "column" are in quotes because `im_imports` is not a matrix, but there is a matrix "under the hood" that has these rows and columns.
+
+Additional arguments to `make_interaction_model` are passed off to `tidytext::unest_tokens`. For example, by default it puts the imported packages into lower case. We can turn that off...
+
 ```{r}
 im_imports = make_interaction_model(all_packages, ~Package*Imports, parse_text= TRUE, to_lower = FALSE)
 im_imports$column_universe
 ```
 
-Notice how `Rcpp` in row 6 of the `$column_universe` was previously `rcpp` (lower case). You could parse a different variable instead.  For example,
+Notice how `Rcpp` in row 6 of the `$column_universe` was previously `rcpp` (lower case). You could parse a different variable instead. For example,
 
 ```{r}
-im_description = make_interaction_model(top_packages,~Package*Description,  parse_text = TRUE, to_lower= TRUE)
-diagnose(im_description)
-im_description$column_universe
+im_text = make_interaction_model(top_packages,~Package*Description,  parse_text = TRUE, to_lower= TRUE)
+diagnose(im_text)
+im_text$column_universe |> arrange(desc(n))
 ```
 
-Here we see the stopwords.  These will form high degree nodes in your `interaction_model` graph.  A factor that loads heavily on these is often a factor that indicates "document length". 
+Here we see the stopwords. These will form high degree nodes in your `interaction_model` graph. A factor that loads heavily on these is often a factor that indicates "document length". Alternatively, you can remove stop words like this:
+
+```{r}
+# remove stop words by removing them from the column_universe,
+#  then use the function subset_im to renumber the columns/rows and remove any lines from interaction_tibble
+im_text$column_universe = im_text$column_universe |> 
+  anti_join(tidytext::stop_words, by = c("token"="word"))
+im_text = im_text |> subset_im()
+# inspect the new column_universe to see that the stop words have been removed. 
+im_text$column_universe |> arrange(desc(n))
+```
 
 You can also parse multiple columns with the `&`:
 
@@ -83,20 +99,29 @@ im_imports_authors$column_universe
 
 ```
 
-
 So, let's do a quick analysis. We see that the tokens are very very sparse, with 64% of tokens appearing only once! We will want to keep an eye out for localization in the `streaks` plot.
 
 ```{r}
 diagnose(im_imports_authors)
 ```
 
-Because it is so sparse, I'm going to use more bootstraps than default in `pick_dim`; 20 should be enough.
+Because it is so sparse, the function `core` can be used to pull out the densely connected core of the data. In particular, it treats the `interaction_model` object as a bipartite graph, then finds the [k-core](https://en.wikipedia.org/wiki/Degeneracy_(graph_theory)){.uri} of the [largest connected component](https://en.wikipedia.org/wiki/Giant_component).
+
+```{r}
+# you can remove these words that appear less than 5 times (and documents that have less than 5 words) via:
+im_text = core(im_text, core_threshold = 5)
+diagnose(im_text)
+```
+
+We can identify the largest statistically reasonable choice for `k` using `pick_dim` which uses [cross-validated eigenvalues](https://arxiv.org/abs/2108.03336) as implimented in the package `gdim` [(github)](https://github.com/RoheLab/gdim).
+
 ```{r}
 eigcv = pick_dim(im_imports_authors, num_bootstraps = 20)
 plot(eigcv)
 eigcv
 ```
-I'm going to pick 10 for convenience. 
+
+I'm going to pick 10 for convenience.
 
 ```{r}
 pcs = pca(im_imports_authors, k = 10)
@@ -110,7 +135,19 @@ streaks(spcs)
 streaks(spcs, "columns")
 ```
 
-For example, the second rotated component looks to pick up the cluster of r packages for making html things:
+
+Let's use 
 ```{r}
-top(spcs, 2,keep_how_many = 15)
+im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE, to_lower = FALSE)
+pcs = im |> core() |> pca(10)
+im_text = make_interaction_model(top_packages, ~Package*(Title & Description), parse_text= TRUE)
+im_text$column_universe = im_text$column_universe |> dplyr::anti_join(tidytext::stop_words, by = c("token"="word"))
+im_text = im_text |> subset_im() |> core()
+bff(pcs, im_text, num_best = 4)
 ```
+
+<!-- For example, the second rotated component looks to pick up the cluster of r packages for making html things: -->
+
+<!-- ```{r} -->
+<!-- top(spcs, 2,keep_how_many = 15) -->
+<!-- ``` -->

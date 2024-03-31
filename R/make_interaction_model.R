@@ -38,6 +38,20 @@ utils::globalVariables(c(".data", "formula"))
 #' im$column_universe
 #' im$interaction_tibble
 #' im$settings
+#' # with text, there is often a great number of weakly connected words (words that appear once).
+#' # you can remove these words that appear less than 10 times (and documents that have less than 10 words) via:
+#' core(im, core_threshold = 10)
+#' # core retains the k-core of the "largest connected component" in the bipartite graph between rows and columns.
+#'
+#' library(dplyr)
+#' # You can provide more than two text columns to make_interaction_model:
+#' im_text = make_interaction_model(top_packages, ~Package*(Title & Description), parse_text= TRUE)
+#' im_text$column_universe |> arrange(desc(n))
+#' # remove stop words by removing them from the column_universe,
+#' #  then use the function subset_im to renumber the columns/rows and remove any lines from interaction_tibble
+#' im_text$column_universe = im_text$column_universe |> anti_join(tidytext::stop_words, by = c("token"="word"))
+#' im_text = im_text |> subset_im()
+#' im_text$column_universe |> arrange(desc(n))
 make_interaction_model <- function(.data, formula, duplicates = "add", parse_text = FALSE, dropNA = TRUE, data_prefix = NULL, ...) {
   if (parse_text & (duplicates != "add")) {
     duplicates <- "add"
@@ -226,11 +240,11 @@ make_interaction_model_from_variables = function(tib, row_column, column_column,
   if(duplicates == "average"){
     interaction_tibble = interaction_tibble |>
       group_by(row_num,col_num) |>
-      summarize(outcome = mean(outcome),
-                n = n(),
-                sd = if_else(n>1, sd(outcome),0),
-                min = min(outcome),
-                max = max(outcome)) |>
+      summarize(n = n(),
+                sd = if_else(n>1, sd(outcome, na.rm=TRUE),0),
+                min = min(outcome, na.rm=TRUE),
+                max = max(outcome, na.rm=TRUE),
+                outcome = mean(outcome, na.rm=TRUE)) |>
       ungroup()
   }
 

@@ -149,61 +149,61 @@ mode_detector = function(this_mode){
   warning("this_mode not recognized:", this_mode, ". please set to 'row' or 'column' or leave empty to remove warning.  Continuing with this_mode = NULL")
 }
 
-join_features <- function(pcs, fresh_features, feature_tag = NULL, this_mode = NULL) {
-  # Extracting row and column variable names from pcs settings
-  if(!is.null(this_mode))  this_mode = mode_detector(this_mode)
-
-  row_vars <- pcs$settings$row_variables
-  column_vars <- pcs$settings$column_variables
-  # Checking for common variables in row features and fresh_features
-  common_row_vars <- intersect(row_vars, names(fresh_features))
-  # Checking for common variables in column features and fresh_features
-  common_column_vars <- intersect(column_vars, names(fresh_features))
-
-  some_matching_rows = length(common_row_vars)!=0
-  some_matching_columns = length(common_column_vars)!=0
-  if(!is.null(this_mode)){
-    if(this_mode == "row" & !some_matching_rows) stop("no matching row variables")
-    if(this_mode == "column" & !some_matching_columns) stop("no matching row variables")
-  }
-  if(is.null(this_mode) & some_matching_columns & some_matching_rows){
-    stop("this_mode not specified and there are both matching row and column variables.  please rerun and specify this_mode as 'row' or 'column'.")
-  }
-  # If common variables are found in row variables, perform a left join on those
-  if (some_matching_rows) {
-    pcs$row_features = left_join(pcs$row_features, fresh_features, by = common_row_vars)
-    fresh_feature_names = setdiff(colnames(fresh_features),common_row_vars)
-    if(is.null(feature_tag)){
-      starting_here = length(pcs$settings$fresh_row_features)
-      feature_tag = paste0("fresh_row_set_", starting_here+1)
-    }
-    pcs$settings$fresh_row_sets = c(pcs$settings$fresh_row_sets, feature_tag)
-    pcs$settings$fresh_row_features[[feature_tag]] = list(fresh_feature_names = fresh_feature_names, joined_by = common_row_vars)
-
-  }
-
-  # If common variables are found in column variables, perform a left join on those
-  else if (some_matching_columns) {
-    pcs$column_features = left_join(pcs$column_features, fresh_features, by = common_column_vars)
-    fresh_feature_names = setdiff(colnames(fresh_features),common_column_vars)
-    if(is.null(feature_tag)){
-      starting_here = length(pcs$settings$fresh_column_features)
-      feature_tag = paste0("fresh_column_set_", starting_here+1)
-    }
-    pcs$settings$fresh_column_sets = c(pcs$settings$fresh_column_sets, feature_tag)
-    pcs$settings$fresh_column_features[[feature_tag]] = list(fresh_feature_names = fresh_feature_names, joined_by = common_column_vars)
-
-  }
-
-
-  # If there are no common variables, return a message indicating no join was performed
-  else {
-    message("No common variables found for joining.")
-    return(NULL)
-  }
-
-  return(pcs)
-}
+# join_features <- function(pcs, fresh_features, feature_tag = NULL, this_mode = NULL) {
+#   # Extracting row and column variable names from pcs settings
+#   if(!is.null(this_mode))  this_mode = mode_detector(this_mode)
+#
+#   row_vars <- pcs$settings$row_variables
+#   column_vars <- pcs$settings$column_variables
+#   # Checking for common variables in row features and fresh_features
+#   common_row_vars <- intersect(row_vars, names(fresh_features))
+#   # Checking for common variables in column features and fresh_features
+#   common_column_vars <- intersect(column_vars, names(fresh_features))
+#
+#   some_matching_rows = length(common_row_vars)!=0
+#   some_matching_columns = length(common_column_vars)!=0
+#   if(!is.null(this_mode)){
+#     if(this_mode == "row" & !some_matching_rows) stop("no matching row variables")
+#     if(this_mode == "column" & !some_matching_columns) stop("no matching row variables")
+#   }
+#   if(is.null(this_mode) & some_matching_columns & some_matching_rows){
+#     stop("this_mode not specified and there are both matching row and column variables.  please rerun and specify this_mode as 'row' or 'column'.")
+#   }
+#   # If common variables are found in row variables, perform a left join on those
+#   if (some_matching_rows) {
+#     pcs$row_features = left_join(pcs$row_features, fresh_features, by = common_row_vars)
+#     fresh_feature_names = setdiff(colnames(fresh_features),common_row_vars)
+#     if(is.null(feature_tag)){
+#       starting_here = length(pcs$settings$fresh_row_features)
+#       feature_tag = paste0("fresh_row_set_", starting_here+1)
+#     }
+#     pcs$settings$fresh_row_sets = c(pcs$settings$fresh_row_sets, feature_tag)
+#     pcs$settings$fresh_row_features[[feature_tag]] = list(fresh_feature_names = fresh_feature_names, joined_by = common_row_vars)
+#
+#   }
+#
+#   # If common variables are found in column variables, perform a left join on those
+#   else if (some_matching_columns) {
+#     pcs$column_features = left_join(pcs$column_features, fresh_features, by = common_column_vars)
+#     fresh_feature_names = setdiff(colnames(fresh_features),common_column_vars)
+#     if(is.null(feature_tag)){
+#       starting_here = length(pcs$settings$fresh_column_features)
+#       feature_tag = paste0("fresh_column_set_", starting_here+1)
+#     }
+#     pcs$settings$fresh_column_sets = c(pcs$settings$fresh_column_sets, feature_tag)
+#     pcs$settings$fresh_column_features[[feature_tag]] = list(fresh_feature_names = fresh_feature_names, joined_by = common_column_vars)
+#
+#   }
+#
+#
+#   # If there are no common variables, return a message indicating no join was performed
+#   else {
+#     message("No common variables found for joining.")
+#     return(NULL)
+#   }
+#
+#   return(pcs)
+# }
 
 
 

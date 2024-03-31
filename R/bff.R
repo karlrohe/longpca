@@ -1,4 +1,86 @@
-#' # join_features at the bottom.
+#' Best Feature Function (bff)
+#' Given a pc object from pca, or a rotated version, we wish to interpret the individual dimensions. Often, each unit/row (or context/column) of the original interaction_model will have a some sort of text description.  For example, if each row is an R package, we have the package title and description. Convert these text descriptions into an interaction_model where the units (i.e. the variable before the *) matches either the units or context for the pc.
+#'
+#' This function bff takes both the pc object, and an interaction_model.  It
+#'
+#' @param pcs
+#' @param im_text
+#' @param num_best
+#'
+#' @return
+#' @importFrom dplyr select any_of matches left_join mutate group_by top_n arrange ungroup
+#' @importFrom tidyr pivot_longer pivot_wider
+#' @importFrom Matrix crossprod
+#' @export
+#'
+#' @examples
+#' im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE, to_lower = FALSE)
+#' pcs = im |> pca(10)
+#' im_text = make_interaction_model(top_packages, ~Package*(Title & Description), parse_text= TRUE)
+#' im_text$column_universe = im_text$column_universe |> dplyr::anti_join(tidytext::stop_words, by = c("token"="word"))
+#' im_text = im_text |> subset_im() |> core()
+#' bff(pcs, im_text, num_best = 4)
+bff <- function(pcs, im_text, num_best = 10) {
+  # Determine which set of features to use based on alignment with `im_text$settings$row_variables`
+  variable_name_for_join <- im_text$settings$row_variables
+  use_row_features <- variable_name_for_join %in% names(pcs$row_features)
+
+  # Prepare the loadings tibble
+  if (use_row_features) {
+    loading_tib <- pcs$row_features %>%
+      select(any_of(variable_name_for_join),
+             matches(paste0("^", pcs$settings$prefix_for_dimensions)))
+  } else {
+    loading_tib <- pcs$column_features %>%
+      select(any_of(variable_name_for_join),
+             matches(paste0("^", pcs$settings$prefix_for_dimensions)))
+  }
+
+  # Ensure loading_tib rows match `im_text$row_universe`
+  loading_aligned <- im_text$row_universe %>%
+    select(any_of(variable_name_for_join)) %>%
+    left_join(loading_tib, by = variable_name_for_join)
+
+  # # Handle multiple or no matches by summarizing
+  # loading_summarized <- loading_aligned %>%
+  #   group_by(!!!syms(variable_name_for_join)) %>%
+  #   summarise(across(starts_with("pc_"), sum, na.rm = TRUE), .groups = 'drop')
+  #
+  # Construct features matrix from `im_text`
+  # Assuming `get_Matrix` function exists and returns a sparse Matrix
+  features <- get_Matrix(im_text) # Placeholder for actual feature matrix preparation
+
+  # Apply vsp::bff logic (simplified here for brevity)
+  # Assuming `vsp::bff` function exists and takes loadings and features matrices
+  features <- get_Matrix(im_text, import_names = TRUE)
+  loadings = loading_aligned |> select(-variable_name_for_join) |> as.matrix()
+
+  l1_normalize <- function(x) x/sum(x)
+  loadings[loadings < 0] <- 0
+  k <- ncol(loadings)
+  best_feat <- matrix("", ncol = k, nrow = num_best)
+  nc <- apply(loadings, 2, l1_normalize)
+  nOutC <- apply(loadings == 0, 2, l1_normalize)
+  inCluster <- sqrt(crossprod(features, nc))
+  outCluster <- sqrt(crossprod(features, nOutC))
+  # inCluster <- t(features)%*%nc
+  # inCluster@x = sqrt(inCluster@x)
+  # outCluster <- t(features) %*%nOutC
+  # outCluster@x = sqrt(outCluster@x)
+
+  diff <- inCluster - outCluster
+  out_tib = diff %>% as.matrix() %>% as_tibble(rownames = "word") %>%
+    tidyr::pivot_longer(-word, names_to = "factor", values_to = "importance") %>%
+    group_by(factor) %>% top_n(num_best, importance) %>%
+    arrange(factor, desc(importance)) %>% mutate(rank = row_number()) %>%
+    ungroup() %>% tidyr::pivot_wider(id_cols = factor, names_from = rank,
+                                     names_prefix = "word", values_from = word)
+  return(out_tib)
+
+}
+
+
+
 #'
 #'
 #'

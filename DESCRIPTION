@@ -21,7 +21,9 @@ Imports:
     stringr,
     tidyr,
     tidyselect,
-    tidytext
+    tidytext, 
+    tibble,
+    igraph
 URL: https://github.com/karlrohe/longpca
 BugReports: https://github.com/karlrohe/longpca/issues
 Suggests: 

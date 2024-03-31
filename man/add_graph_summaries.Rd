@@ -2,15 +2,35 @@
 % Please edit documentation in R/clean.R
 \name{add_graph_summaries}
 \alias{add_graph_summaries}
-\title{graph_summaries
-this function takes an interaction_model and  an interaction_model, where row_universe and column_universe have two additional columns $coreness and $component_label. importantly, strange behavior if im is a symmetric graph. this treats each row index and each column index as nodes in a graph.  So, if something appears in both rows and columns (e.g. as in symmetric graph), then this will be ignored.}
+\title{Add Graph Summaries to interaction_model}
 \usage{
-add_graph_summaries(im_input)
+add_graph_summaries(
+  im_input,
+  row_key = NULL,
+  col_key = NULL,
+  tib_with_weights = NULL
+)
 }
 \arguments{
-\item{im}{}
+\item{im_input}{An interaction_model object containing an interaction tibble, row universe, and column universe.}
+
+\item{row_key}{The column name in the row universe that corresponds to the node names in the graph.}
+
+\item{col_key}{The column name in the column universe that corresponds to the node names in the graph.}
+
+\item{tib_with_weights}{A tibble containing node weights for personalized PageRank calculation.}
+}
+\value{
+The input interaction_model object with added graph summaries in the row and column universes.
 }
 \description{
-graph_summaries
-this function takes an interaction_model and  an interaction_model, where row_universe and column_universe have two additional columns $coreness and $component_label. importantly, strange behavior if im is a symmetric graph. this treats each row index and each column index as nodes in a graph.  So, if something appears in both rows and columns (e.g. as in symmetric graph), then this will be ignored.
+This function computes graph summaries coreness, connected components, and personalized PageRank
+for an interaction_model. It adds these summaries to the row and column universes of the input interaction_model.
+}
+\examples{
+im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE, to_lower = FALSE)
+row_key = "Package"
+col_key = "token"
+tib_with_weights = all_packages |> dplyr::mutate(weights = nchar(Package)) |> dplyr::select(Package, weights)
+add_graph_summaries(im, row_key, col_key, tib_with_weights)
 }

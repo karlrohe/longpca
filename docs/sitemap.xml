@@ -28,7 +28,13 @@
     <loc>/index.html</loc>
   </url>
   <url>
+    <loc>/reference/add_bipartite_summaries.html</loc>
+  </url>
+  <url>
     <loc>/reference/add_graph_summaries.html</loc>
+  </url>
+  <url>
+    <loc>/reference/bff.html</loc>
   </url>
   <url>
     <loc>/reference/clean.html</loc>
@@ -95,6 +101,9 @@
   </url>
   <url>
     <loc>/reference/pca_count.html</loc>
+  </url>
+  <url>
+    <loc>/reference/pca_na.html</loc>
   </url>
   <url>
     <loc>/reference/pca_sum.html</loc>

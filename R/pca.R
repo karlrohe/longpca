@@ -51,13 +51,13 @@ get_Matrix = function(interaction_model, import_names = FALSE){
 
     these_row_names = interaction_model$row_universe |>
       rowwise() |>
-      transmute(combined = paste(c_across(all_of(interaction_model$settings$row_variables)), collapse = "/")) |>
+      transmute(combined = paste(c_across(all_of(rev(interaction_model$settings$row_variables))), collapse = "/")) |>
       ungroup() |>
       pull(combined)
 
     these_col_names = interaction_model$column_universe |>
       rowwise() |>
-      transmute(combined = paste(c_across(all_of(interaction_model$settings$column_variables)), collapse = "/")) |>
+      transmute(combined = paste(c_across(all_of(rev(interaction_model$settings$column_variables))), collapse = "/")) |>
       ungroup() |>
       pull(combined)
 
@@ -289,9 +289,9 @@ remove_L_normalization = function(s_svd, A, orthogonalize= FALSE){
 # pca_average does low-rank matrix completion
 
 
-#' pca_average
+#' pca_na
 #'
-#' This performs pca on a matrix with missing entries.
+#' This performs pca on an interaction_model, where if a (row_id,col_id) are not present in the data, then it is presumed NA and imputed.  This contrasts to the other `pca` function which imputes the missing values to zero.
 #'
 #' @param fo
 #' @param tib
@@ -301,9 +301,9 @@ remove_L_normalization = function(s_svd, A, orthogonalize= FALSE){
 #' @export
 #'
 #' @examples
-pca_average = function(fo, tib, k){
+pca_na = function(im, k){
 
-  # this is the second user function to generate pcs
+
   # the output is a pc object... a list of:
   # row_features (for whichever term is first on the right hand side of the formula)
   # column_features (for whichever term is second on the right hand side of the formula)
@@ -311,37 +311,46 @@ pca_average = function(fo, tib, k){
   # settings (this is a list of details)
 
 
-  im = make_interaction_model(tib, fo, duplicates= "average")
+  # im = make_interaction_model(tib, fo, duplicates= "average")
   # sp_A_dat = make_incomplete_matrix_raw(fo, tib)
+  cat("Taking", k, "core.  Starting with:\n", nrow(im$row_universe), "rows\n",
+      nrow(im$column_universe), "columns\n",
+      nrow(im$interaction_tibble), "observed values")
+  im = core(im,core_threshold = k)
+  cat("After taking", k, "core.  There remain:\n", nrow(im$row_universe), "rows\n",
+      nrow(im$column_universe), "columns\n",
+      nrow(im$interaction_tibble), "observed values")
+
+
   A = get_Incomplete_Matrix(im)
   # A = sp_A_dat$A
-  L = glaplacian(A)
-  s_svd = softImpute::softImpute(L,rank.max = k)
-  s_svd = remove_L_normalization(s_svd,A)
+  # L = glaplacian(A)
+  # s_svd = softImpute::softImpute(L,rank.max = k)
+  # s_svd = remove_L_normalization(s_svd,A)
+  s_svd = softImpute::softImpute(A, rank.max = k)
 
   dimension_prefix = "na_pc"
+  pcs = s_2_pc(interaction_model = im, s = s_svd, dimension_prefix=dimension_prefix)
 
-  pcs = s_2_pc(sparse_matrix_data = sp_A_dat, s = s_svd, dimension_prefix=dimension_prefix)
-
-
-  parsed_model =  parse_formula(fo, tib)
 
   settings = list(fit_method = "pca_average",
                   prefix_for_dimensions = stringr::str_glue(dimension_prefix, "_"),
+                  prefix_for_data = im$settings$data_prefix,
+                  prefix_for_method = dimension_prefix,
                   k = k,
-                  normalized = TRUE,
-                  reguarlized = TRUE,
-                  outcome_variables = parsed_model[[1]],
-                  row_variables  = parsed_model[[2]],
-                  column_variables  = parsed_model[[3]])
+                  normalized = FALSE,
+                  reguarlized = FALSE,
+                  outcome_variables = im$settings$outcome_variables,
+                  row_variables  = im$settings$row_variables,
+                  column_variables  = im$settings$column_variables)
 
   pcs[[4]] = settings
   names(pcs)[4] = "settings"
-
   class(pcs) = "pc"
   pcs
 
 }
+pca_average= pca_na
 pca_mean = pca_average
 
 

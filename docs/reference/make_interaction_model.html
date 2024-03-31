@@ -143,7 +143,7 @@
 <span class="r-in"><span><span class="va">im</span><span class="op">$</span><span class="va">settings</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 ~ (month &amp; day) * dest</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f7ddb4cfc90&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f9ba08a5ce0&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data_prefix</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
@@ -168,7 +168,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ p       : int [1:106] 0 365 730 1095 1460 1825 2190 2555 2920 3285 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ Dim     : int [1:2] 365 105</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ Dimnames:List of 2</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ : chr [1:365] "11/27" "7/11" "7/8" "7/10" ...</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ : chr [1:365] "27/11" "11/7" "8/7" "10/7" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   .. ..$ : chr [1:105] "ORD" "ATL" "LAX" "BOS" ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ x       : num [1:31229] 52 55 55 55 49 54 55 55 54 55 ...</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   ..@ factors : list()</span>
@@ -224,7 +224,7 @@
 <span class="r-in"><span><span class="va">im</span><span class="op">$</span><span class="va">settings</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $fo</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 ~ Package * Imports</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f7dbeea71a0&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> &lt;environment: 0x7f9bb01affa8&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $data_prefix</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "text"</span>
@@ -241,6 +241,89 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $column_variables</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "from_text" "token"    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># with text, there is often a great number of weakly connected words (words that appear once).</span></span></span>
+<span class="r-in"><span><span class="co"># you can remove these words that appear less than 10 times (and documents that have less than 10 words) via:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="core.html">core</a></span><span class="op">(</span><span class="va">im</span>, core_threshold <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "adding graph summaries (coreness and connected components)."</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $row_universe</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 3,058 × 5</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    Package                n coreness component_label row_num</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Seurat                64       16               1       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> tidyverse             60       16               1       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> radiant.data          58       16               1       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> radiant.model         58       16               1       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> SSDM                  55       16               1       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> BasketballAnalyzeR    53       16               1       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> tRigon                49       16               1       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> AFM                   48       16               1       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> dextergui             48       16               1       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> proteus               48       16               1      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 3,048 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $column_universe</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 666 × 6</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    from_text token        n coreness component_label col_num</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Imports   stats     <span style="text-decoration: underline;">5</span>442       16               1       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Imports   utils     <span style="text-decoration: underline;">3</span>423       16               1       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Imports   dplyr     <span style="text-decoration: underline;">3</span>299       16               1       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Imports   methods   <span style="text-decoration: underline;">3</span>210       16               1       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Imports   ggplot2   <span style="text-decoration: underline;">3</span>135       16               1       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Imports   rcpp      <span style="text-decoration: underline;">2</span>548       16               1       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Imports   rlang     <span style="text-decoration: underline;">2</span>172       16               1       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Imports   graphics  <span style="text-decoration: underline;">2</span>158       16               1       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Imports   magrittr  <span style="text-decoration: underline;">1</span>954       16               1       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Imports   stringr   <span style="text-decoration: underline;">1</span>698       16               1      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 656 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-in"><span><span class="co"># core retains the k-core of the "largest connected component" in the bipartite graph between rows and columns.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Attaching package: ‘dplyr’</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     filter, lag</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span>     intersect, setdiff, setequal, union</span>
+<span class="r-in"><span><span class="co"># You can provide more than two text columns to make_interaction_model:</span></span></span>
+<span class="r-in"><span><span class="va">im_text</span> <span class="op">=</span> <span class="fu">make_interaction_model</span><span class="op">(</span><span class="va">top_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="op">(</span><span class="va">Title</span> <span class="op">&amp;</span> <span class="va">Description</span><span class="op">)</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9,800 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    from_text   token         n col_num</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Description and        <span style="text-decoration: underline;">2</span>571       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Description the        <span style="text-decoration: underline;">1</span>999       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Description of         <span style="text-decoration: underline;">1</span>388       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Description for        <span style="text-decoration: underline;">1</span>350       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Description to         <span style="text-decoration: underline;">1</span>104       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Description a          <span style="text-decoration: underline;">1</span>013       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Description in          722       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Description functions   581       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Description data        541       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Description package     515      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 9,790 more rows</span></span>
+<span class="r-in"><span><span class="co"># remove stop words by removing them from the column_universe,</span></span></span>
+<span class="r-in"><span><span class="co">#  then use the function subset_im to renumber the columns/rows and remove any lines from interaction_tibble</span></span></span>
+<span class="r-in"><span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">=</span> <span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="fu">tidytext</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/tidytext/man/stop_words.html" class="external-link">stop_words</a></span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"token"</span><span class="op">=</span><span class="st">"word"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im_text</span> <span class="op">=</span> <span class="va">im_text</span> <span class="op">|&gt;</span> <span class="fu"><a href="subset_im.html">subset_im</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 9,214 × 4</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    from_text   token         n col_num</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> Description functions   581       1</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> Description data        541       2</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> Description package     515       3</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> Description models      319       4</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> Description doi         285       5</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> Description methods     226       6</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> Description analysis    218       7</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> Description function    164       8</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> Description model       155       9</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> Description based       142      10</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 9,204 more rows</span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

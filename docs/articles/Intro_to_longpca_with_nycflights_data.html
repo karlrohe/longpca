@@ -134,160 +134,12 @@ suggesting the name <code>longpca</code>.</p>
 <div class="section level4">
 <h4 id="pca-the-nycflights-">PCA the nycflights.<a class="anchor" aria-label="anchor" href="#pca-the-nycflights-"></a>
 </h4>
-<p>The code is fast and nimble:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
-<span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_count.html">pca_count</a></span><span class="op">(</span><span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span>, </span>
-<span>                <span class="va">flights</span>, </span>
-<span>                k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<p>This performs PCA. The key innovation is the “formula”:</p>
-<p><code>~ (month &amp; day)*(dest)</code>,</p>
-<p>which specifies the model that we want (i.e. the matrix for PCA). In
-particular, it will perform PCA on a matrix where the rows are indexed
-by <code>(month &amp; day)</code>, two variables of the
-<code>flights</code> data. There are 365 unique values of these. And the
-columns of the matrix are indexed by destinations <code>dest</code>,
-another variable in <code>flights</code>. There are about 100 different
-destinations. There are multiple rows of <code>flights</code> with
-identical values of <code>month &amp; day</code> and <code>dest</code>
-(e.g. lots of flights from LGA -&gt; LAX every day); the function
-<code>pca_count</code> fills the elements of the matrix by counting the
-number of flights on each day to each destination.</p>
-<p>A similar function <code>pca_sum</code> allows for a variable on the
-left hand side of the formula and it populates the elements of the
-matrix by summing up the values. For example, <code>nycflights13</code>
-has the number of seats available in each plane. We can join this data
-to the flights to find the number of seats available on each flight.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">=</span> <span class="va">flights</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">month</span>, <span class="va">day</span>, <span class="va">dest</span>, <span class="va">tailnum</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">planes</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span><span class="va">tailnum</span>, <span class="va">seats</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(tailnum)`</span></span></code></pre></div>
-<p>If we use the formula <code>seats ~(month &amp; day)*dest</code>
-inside <code>pca_sum</code>, then it will perform PCA on a matrix where
-the elements correspond to the total number of seats that flew to each
-destination, on each day.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pcs_seats</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_sum.html">pca_sum</a></span><span class="op">(</span><span class="va">seats</span> <span class="op">~</span><span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span>, <span class="va">dat</span>, <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<p>The output contains the pc’s and their loadings in a tidy format:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pcs</span><span class="op">$</span><span class="va">row_features</span> <span class="op">%&gt;%</span> <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
-<span><span class="co">#&gt;   month   day     n row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    12    13   970     165     86             970      1.03    -<span style="color: #BB0000;">0.379</span>     0.215</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    18   948     211     85             948      1.02     1.46      0.805</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3    13   974     144     83             974      1.04     1.28      1.16 </span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: pc_4_rows &lt;dbl&gt;, pc_5_rows &lt;dbl&gt;, pc_6_rows &lt;dbl&gt;</span></span></span>
-<span><span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span> <span class="op">%&gt;%</span> <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
-<span><span class="co">#&gt;   dest      n col_num degree weighted_degree pc_1_columns pc_2_columns</span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> STL    <span style="text-decoration: underline;">4</span>339      26    365            <span style="text-decoration: underline;">4</span>339        1.17        -<span style="color: #BB0000;">0.236</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> SFO   <span style="text-decoration: underline;">13</span>331       7    365           <span style="text-decoration: underline;">13</span>331        2.05        -<span style="color: #BB0000;">1.51</span> </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> OAK     312      82    312             312        0.302       -<span style="color: #BB0000;">0.492</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: pc_3_columns &lt;dbl&gt;, pc_4_columns &lt;dbl&gt;,</span></span></span>
-<span><span class="co">#&gt; <span style="color: #949494;">#   pc_5_columns &lt;dbl&gt;, pc_6_columns &lt;dbl&gt;</span></span></span></code></pre></div>
-<p>Because they are tidy, it makes them pretty easy to ggplot.</p>
-<p>First, let’s do the rows (i.e. dates). To interpret pc’s, it is best
-to plot it with contextual information and/or in the <em>native
-space</em>. For dates, the native space is a time series or a sequence.
-Let’s plot it there. I give my interpretation after the plots.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_count.html">pca_count</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span>, <span class="va">flights</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span></span>
-<span><span class="va">pcs</span><span class="op">$</span><span class="va">row_features</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">make_date</span><span class="op">(</span>day <span class="op">=</span> <span class="va">day</span>, month<span class="op">=</span><span class="va">month</span>, year <span class="op">=</span> <span class="fl">2013</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="fu">contains</span><span class="op">(</span><span class="st">"pc_"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu">contains</span><span class="op">(</span><span class="st">"pc_"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"pc_dimension"</span>, values_to <span class="op">=</span> <span class="st">"loadings"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">loadings</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">pc_dimension</span>, scales<span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_smooth</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; `geom_smooth()` using method = 'loess' and formula = 'y ~ x'</span></span></code></pre></div>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
-<p>I always think of the first pc as the “mean”. What we see is that
-flights are more or less constant throughout the year (see y-axis). I
-presume that the oscillations are for the weekends. <code>pc_1</code>
-says that, across destinations, there are more flights during the work
-week and fewer flights on the weekends. The second pc gives a seasonal
-effect (fewer flights in winter, more in summer); importantly, after
-<code>pc_1</code>, some destinations will have negative values of this
-(i.e. more in the winter, fewer in the summer). The third pc is positive
-on weekend destinations (more flights on the weekends and fewer during
-the weekdays relative to <code>pc_1</code>). Again, like
-<code>pc_2</code> some destinations will have a negative value
-(i.e. more flights on the weekends and fewer during the weekdays
-relative to the previous two pc’s). The last three are harder to
-interpret. My uninformed guess is that it is some artifact of airline
-decisions. If you have a guess, I’d love to hear it. Also, later on with
-<code>pick_dim</code>, we have some evidence that they are noise.</p>
-<p>Now, let’s do the columns (i.e. destinations). The “native space” for
-destinations is a map. Let’s plot it there. Be sure you have
-<code>maps</code> installed.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">airports</span> <span class="op">%&gt;%</span> <span class="fu">sample_n</span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
-<span><span class="co">#&gt;   faa   name                           lat   lon   alt    tz dst   tzone        </span></span>
-<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>        </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> HOU   William P Hobby               29.6 -<span style="color: #BB0000;">95.3</span>    46    -<span style="color: #BB0000;">6</span> A     America/Chic…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> 70J   Cairo-Grady County Airport    30.9 -<span style="color: #BB0000;">84.2</span>   265    -<span style="color: #BB0000;">5</span> A     America/New_…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> GHG   Marshfield Municipal Airport  42.1 -<span style="color: #BB0000;">70.7</span>     9    -<span style="color: #BB0000;">5</span> A     America/New_…</span></span>
-<span></span>
-<span><span class="co"># first, get the lat and lon for the airports:</span></span>
-<span><span class="va">airport_dat</span> <span class="op">=</span> <span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">left_join</span><span class="op">(</span><span class="va">airports</span> <span class="op">%&gt;%</span> <span class="fu">select</span><span class="op">(</span>dest<span class="op">=</span><span class="va">faa</span>, <span class="va">lat</span>,<span class="va">lon</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">lat</span>, <span class="va">lon</span>, <span class="fu">contains</span><span class="op">(</span><span class="st">"_col"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu">contains</span><span class="op">(</span><span class="st">"pc_"</span><span class="op">)</span>,</span>
-<span>               names_to <span class="op">=</span> <span class="st">"pc_dimension"</span>, values_to <span class="op">=</span> <span class="st">"loadings"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
-<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Joining with `by = join_by(dest)`</span></span>
-<span></span>
-<span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">maps</span><span class="op">)</span></span>
-<span><span class="va">usa_map</span> <span class="op">&lt;-</span> <span class="fu">map_data</span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span></span>
-<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
-<span>  <span class="fu">geom_polygon</span><span class="op">(</span>data <span class="op">=</span> <span class="va">usa_map</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">long</span>, y <span class="op">=</span> <span class="va">lat</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span>, </span>
-<span>               fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">coord_fixed</span><span class="op">(</span><span class="fl">1.3</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">65</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span> </span>
-<span><span class="co"># i'm only keeping lower 48 states, dropping Anchorage and Honolulu.</span></span>
-<span></span>
-<span></span>
-<span><span class="va">p</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">airport_dat</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lon</span>, y <span class="op">=</span> <span class="va">lat</span>, </span>
-<span>                                       size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">loadings</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">loadings</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">pc_dimension</span><span class="op">)</span>  <span class="op">+</span></span>
-<span>  <span class="fu">scale_color_gradient2</span><span class="op">(</span>low <span class="op">=</span> <span class="st">"red"</span>, high <span class="op">=</span> <span class="st">"blue"</span>, mid <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
-<p>Here <code>pc_1</code> should align with larger and smaller airports
-(bigger airports &lt;-&gt; more flights throughout the year).
-<code>pc_2</code> is negative on Denver and Florida and positive in
-Maine. Looking back at the time series plots, I interpret this to mean
-that people go to Denver (skiing) and Florida (beach) in the winter and
-Maine (coastline) in the summer. <code>pc_3</code> picks up the
-“fly-over zone”… looking back at the time series, folks prefer to travel
-here during the work week. So, the blue areas are more weekend
-(vacation) destinations and the red areas are the fly-over. The other
-pc’s are difficult for me to interpret (my guess is that they are weird
-artifacts of airline things… noise). We do see that the last three are
-heavily localized on a few airports, looking back at the pairs plots you
-can see this localization. Given that, my sense is that they are not so
-interesting, but if I needed to make sense of them, I would print out
-their most extreme elements and dig into those airports. Making this
-function is a todo item.</p>
-<p>So, using the code is easy. You just need to specify a formula. It’s
-fun to think of other combinations and easy to try them out.</p>
-<p>There are three functions that you might like <code>diagnose</code>,
-<code>pick_dim</code>, and <code>plot</code> that are explained
-below.</p>
-</div>
-</div>
-<div class="section level2">
-<h2 id="a-deeper-look-inside-the-code-">A deeper look inside the code.<a class="anchor" aria-label="anchor" href="#a-deeper-look-inside-the-code-"></a>
-</h2>
 <p>To illustrate the code, consider the popular data example
 <code>nycflights13</code> which contains a row for every flight
 departing from the 3 main New York City airports during 2013 (LGA, JFK,
 and EWR). It includes things like date, destination, and information
 about delays.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
 <span><span class="va">flights</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 336,776 × 19</span></span></span>
@@ -310,82 +162,316 @@ about delays.</p>
 <p>There are so many matrices “inside” of this data, but you don’t think
 of them when you see this data. Many applications are like this. The
 data does not look like matrix. Instead, it looks like a spreadsheet or
-a SQL database or a tibble. That is how the users think about their
-data. <em>And underneath it</em>, there are so many possible
-matrices.</p>
-<div class="section level3">
-<h3 id="a-formula-to-make-the-matrix-transparent">A formula to make the matrix transparent<a class="anchor" aria-label="anchor" href="#a-formula-to-make-the-matrix-transparent"></a>
-</h3>
-<p>For example, in the flights example, you could make a matrix where
-every row is a day of the year and every column is a destination
-airport. Each element of the matrix is the number of flights to that
-destination on that day. To do that, we propose using a formula, like in
-<code>lm</code>.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">formula</span> <span class="op">=</span> <span class="fl">1</span> <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span></span></code></pre></div>
-<p>This formula and the flights data will make a sparse matrix. The
-left-hand side is <code>1</code> to denote we are just going to count
-the occurrences over the 336,776 rows of <code>flights</code>. If there
-was another column (e.g. <code>size</code>) for which it was sensible to
-sum multiple values (e.g. number of people on the flight, or number of
-gallons of fuel consumed), then you could do that with
-<code>size ~ (month &amp; day)*(dest)</code>. On the right hand side,
-there is an “interaction” in the parlance of linear models and the
-notation of <code>lm</code>. The first terms in the interaction will
-index the rows of a matrix. Here, there are two columns of
-<code>flights</code>, in particular <code>month &amp; day</code>. There
-are 365 unique combinations of these values. Each will be a row. The
-second term in the interaction does the same thing, but those terms will
-become the columns.</p>
-<p>All suggestions welcome for the formula syntax. Maybe it should also
-allow <code>(month &amp; day) ~ dest</code>? Maybe the ampersand
-<code>&amp;</code> is confusing and another symbol would be better?
-Other thoughts? Relevant footnote: the syntax should also allow low-rank
-matrix completion, e.g. predicting arrival delay:
-<code>arr_delay ~ (month &amp; day)*(dest)</code>.</p>
+a SQL database or a tidy tibble. That is how the users often think about
+their data. <em>And underneath it</em>, there are so many possible
+matrices. This code will reveal these possibilities.</p>
+<p>The first step to using <code>longpca</code> is the function
+<code>make_interaction_model</code>. This requires two arguments, the
+data (tidy data in “long format”) and the formula (explained in detail
+below).</p>
+<p>Right now, there are four ways to specify a model with
+<code>make_interaction_model</code>. Hopefully, we can find more.
+Perhaps you will have a way?</p>
+<p>Once you make an <code>interaction_model</code>, there are many
+things you can do. Before running PCA, you can <code>diagnose</code> to
+see if the data is “too sparse”, then if so, you can <code>core</code>
+to find the dense core of observed data. You can also
+<code>pick_dim</code> to estimate how large of a model <code>k</code>
+your data can infer.</p>
+<p>Here, for the introduction, we will just run PCA right away:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
+<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
+<p>This performs PCA. The key innovation is the “formula”:</p>
+<p><code>~ (month &amp; day)*(dest)</code>,</p>
+<p>which specifies the model that we want. If you are already
+comfortable with matrices and the SVD, then you can imagine this as the
+matrix we will apply SVD to (in the future, this will be imagined as
+fitting a statistical model via least squares).</p>
+<p>The basic syntax of the formula is this:</p>
+<p><code>outcome ~ unit * context</code>.</p>
+<p>The outcome can be left blank (Specification 1 below), otherwise it
+should be a variable in the data. <code>unit</code> and
+<code>context</code> can be variables in the data, or they might be
+specified by multiple variables in the data. For example, in the formula
+<code>~ (month &amp; day)*(dest)</code>, the units are specified by
+<code>(month &amp; day)</code>.</p>
+<p>The next section discusses the various ways of using the formula.</p>
 </div>
+</div>
+<div class="section level3">
+<h3 id="four-ways-to-specify-an-interaction_model">Four ways to specify an interaction_model<a class="anchor" aria-label="anchor" href="#four-ways-to-specify-an-interaction_model"></a>
+</h3>
+<div class="section level6">
+<h6 id="specification-1-empty-left-side">Specification 1: Empty left-side<a class="anchor" aria-label="anchor" href="#specification-1-empty-left-side"></a>
+</h6>
+<p>The first and most basic use (perhaps also be the most powerful) is
+to not specify an outcome:</p>
+<p><code>~ (month &amp; day)*(dest)</code>.</p>
+<p><em>Specification 1</em> happens when the left-side of the formula is
+empty. It specifies a matrix where</p>
+<ol style="list-style-type: decimal">
+<li>the units (or rows) are indexed by <code>(month &amp; day)</code>,
+two variables of the <code>flights</code> data,</li>
+<li>the context (or columns) are indexed by destinations
+<code>dest</code>, and</li>
+<li>the outcome (or elements of the matrix) are the number of flights to
+each <code>dest</code> on each <code>(month &amp; day)</code>.</li>
+</ol>
+<p>So, there 365 rows (one for each day), about 100 columns (one for
+each destination), and the sum of all elements in the matrix is
+<code>336,776</code>, the number of rows in the flights data.</p>
+<p>Said another way, if you leave the left-side empty, it counts
+co-occurrences of <code>(month &amp; day)</code> with <code>dest</code>
+and makes a matrix of those co-occurrences. Some people call this matrix
+a cross-tab or a contingency table. When we do PCA to this matrix of
+counts, some folks call that Correspondence Analysis.</p>
+</div>
+<div class="section level6">
+<h6 id="specification-2-a-variable-the-left-side-that-counts-something">Specification 2: A variable the left-side that counts something<a class="anchor" aria-label="anchor" href="#specification-2-a-variable-the-left-side-that-counts-something"></a>
+</h6>
+<p>In this formulation, the outcome (on the left-side of the formula)
+will have a variable. For example, <code>nycflights13</code> has the
+number of seats available in each plane. We can join this data to the
+flights to find the number of seats available on each flight.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">=</span> <span class="va">flights</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">month</span>, <span class="va">day</span>, <span class="va">dest</span>, <span class="va">tailnum</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">planes</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">tailnum</span>, <span class="va">seats</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(tailnum)`</span></span></code></pre></div>
+<p>Then, we can use the formula,</p>
+<p><code>seats ~ (month &amp; day)*dest</code></p>
+<p>with the new data <code>dat</code> in
+<code>make_interaction_model</code>. This is <em>Specification 2</em>.
+It happens when (i) we specify an outcome on the left-hand side of the
+formula and (ii) we use the default settings of
+<code>make_interaction_model</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im_seats</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">dat</span>, <span class="va">seats</span> <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span><span class="op">)</span></span></code></pre></div>
+<p>In this formula above, the units and context are identical to the
+example for Specification 1. The difference is that now the outcome
+counts the total number of <code>seats</code> that flew to each
+destination, on each day.</p>
+<p>In fact, Specification 2 is very similar to Specification 1. Imagine
+that <code>flights</code> had a variable called <code>1</code> and every
+element of that varialbe is a numeric 1. Then, the formula</p>
+<p><code>1 ~ (month &amp; day)*(dest)</code></p>
+<p>could be interpreted via Specification 2. And in fact, you can type
+that formula without having a variable <code>1</code> in your data and
+<code>make_interaction_model</code> will understand it the same as
+<code>~ (month &amp; day)*(dest)</code>.</p>
+</div>
+<div class="section level6">
+<h6 id="specification-3-the-outcome-variable-the-thing-on-the-left-side-of-the-formula-should-be-averaged">Specification 3: The outcome variable (the thing on the left-side of
+the formula) should be averaged<a class="anchor" aria-label="anchor" href="#specification-3-the-outcome-variable-the-thing-on-the-left-side-of-the-formula-should-be-averaged"></a>
+</h6>
+<p>The flights data contains a column <code>arr_delay</code> which gives
+the arrival delay for the flight. One possible model is</p>
+<p><code>arr_delay ~ (month &amp; day)*(dest)</code>.</p>
+<p>It does not make sense to simply add up the arrival delays. It makes
+sense to average them. This is specified in
+<code>make_interaction_model</code> with the argument
+<code>duplicates = "average"</code>:</p>
+<p><code>make_interaction_model(flights, arr_delay ~ (month &amp; day)*(dest), duplicates = "average")</code></p>
+<p>This uses the same units and context as the last two examples, but it
+is helpful to begin imagining some things that correspond to arrival
+delays and how might they interact. From this, we build our model. For
+example, in my experience, flights later in the day are more likely to
+be delayed. Also, weekday flights are worse than weekend flights. I
+wonder if there is an interaction between them.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">day_dat</span> <span class="op">=</span> <span class="va">flights</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>day <span class="op">=</span> <span class="fu">wday</span><span class="op">(</span><span class="va">time_hour</span>, label <span class="op">=</span> <span class="cn">TRUE</span>, abbr <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="va">im_delays</span> <span class="op">=</span> <span class="va">day_dat</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">hour</span>, <span class="va">day</span> , <span class="va">arr_delay</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">arr_delay</span> <span class="op">~</span> <span class="va">hour</span><span class="op">*</span><span class="va">day</span>,duplicates <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span></span></code></pre></div>
+<p><em>Specification 3</em> happens when (i) there is a variable on the
+left-hand side of the formula, (ii) <code>duplicates = "average"</code>
+in <code>make_interaction_model</code>, and (iii)
+<strong>typically</strong> you then want to use <code>pca_na</code>
+instead of <code>pca</code> to compute the principal components:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pc_delays</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_na.html">pca_na</a></span><span class="op">(</span><span class="va">im_delays</span>, k <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Taking 3 core.  Starting with:</span></span>
+<span><span class="co">#&gt;  20 rows</span></span>
+<span><span class="co">#&gt;  7 columns</span></span>
+<span><span class="co">#&gt;  133 observed values[1] "adding graph summaries (coreness and connected components)."</span></span>
+<span><span class="co">#&gt; After taking 3 core.  There remain:</span></span>
+<span><span class="co">#&gt;  19 rows</span></span>
+<span><span class="co">#&gt;  7 columns</span></span>
+<span><span class="co">#&gt;  133 observed values</span></span></code></pre></div>
+<p>Often, many (or most) of the possible combinations of the (unit,
+context) pairs do not appear in the data. For example, there were no
+flights to MSN (Madison, Wisconsin) on January 5th. When most of the
+possible combinations do not appear, we say that the data is “sparse”.
+(You can diagnose the level of sparsity with <code>diagnose</code> and
+you can look at a “dense subset” of the data with
+<code>core</code>).</p>
+<p>If any of the combinations do not appear in the data, then you need
+to decide if PCA should understand those values to be zero or
+<code>NA</code>. You need to think about your problem to decide which
+one makes sense. In Specifications 1 and 2, it makes sense to make the
+missing elements zero because <em>the sum of zero numbers is zero</em>.
+In this case, you use the function <code>pca</code>. In Specification 3,
+it likely makes sense to have the missing values be <code>NA</code>
+because <em>the average of zero numbers is <code>NA</code></em>. In this
+case, call <code>pca_na</code> which computes the PCs via
+<code><a href="https://rdrr.io/pkg/softImpute/man/softImpute.html" class="external-link">softImpute::softImpute</a></code>.</p>
+<p>Another way to specify this model (i.e. a different interaction to
+explore) would be to make the unit <code>(day &amp; hour)</code> and the
+context <code>dest</code>:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im_dest_delay</span> <span class="op">=</span> <span class="va">day_dat</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">arr_delay</span> <span class="op">~</span> <span class="op">(</span><span class="va">day</span><span class="op">&amp;</span><span class="va">hour</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span>,duplicates <span class="op">=</span> <span class="st">"average"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level6">
+<h6 id="specification-4-the-variable-after-the-is-a-text-field-or-a-sequence-that-needs-to-be-parsed">Specification 4: The variable after the * is a text field (or a
+sequence) that needs to be parsed<a class="anchor" aria-label="anchor" href="#specification-4-the-variable-after-the-is-a-text-field-or-a-sequence-that-needs-to-be-parsed"></a>
+</h6>
+<p>There are no good motivating examples for Specification 4 in the
+flights data. Instead, please see <a href="articles/parse_text.html">the
+<code>parse_text</code> vignette</a>. You can access that functionality
+with the argument <code>parse_text = TRUE</code> inside
+<code>make_interaction_model</code>.</p>
+</div>
+</div>
+<div class="section level3">
+<h3 id="what-is-inside-the-output-of-pca">What is inside the output of pca<a class="anchor" aria-label="anchor" href="#what-is-inside-the-output-of-pca"></a>
+</h3>
+<p>The output of <code>pca</code> (and <code>pca_na</code>) contains the
+pc’s and their loadings in a tidy format:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">pcs</span><span class="op">$</span><span class="va">row_features</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
+<span><span class="co">#&gt;   month   day     n row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    10    23   975     143     84             975      1.03    -<span style="color: #BB0000;">1.02</span>    0.684  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     3    20   970     161     83             970      1.03     1.28    1.17   </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     8    26   982     109     87             982      1.03    -<span style="color: #BB0000;">0.827</span>   0.008<span style="text-decoration: underline;">65</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: pc_4_rows &lt;dbl&gt;, pc_5_rows &lt;dbl&gt;, pc_6_rows &lt;dbl&gt;</span></span></span>
+<span><span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
+<span><span class="co">#&gt;   dest      n col_num degree weighted_degree pc_1_columns pc_2_columns</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> LEX       1     104      1               1      0.001<span style="text-decoration: underline;">35</span>     -<span style="color: #BB0000;">0.001</span><span style="color: #BB0000; text-decoration: underline;">24</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> MKE    <span style="text-decoration: underline;">2</span>802      35    365            <span style="text-decoration: underline;">2</span>802      0.935       -<span style="color: #BB0000;">0.078</span><span style="color: #BB0000; text-decoration: underline;">6</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> BWI    <span style="text-decoration: underline;">1</span>781      48    365            <span style="text-decoration: underline;">1</span>781      0.726        1.94   </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: pc_3_columns &lt;dbl&gt;, pc_4_columns &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   pc_5_columns &lt;dbl&gt;, pc_6_columns &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>Because they are tidy, it makes them pretty easy to ggplot.</p>
+<p>First, let’s do the units (i.e. dates/rows). To interpret PC’s, it is
+best to plot it in the <em>native space</em>. For dates, the native
+space is a time series or a sequence. Let’s plot it there. I give my
+interpretation after the plots.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pcs</span><span class="op">$</span><span class="va">row_features</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>date <span class="op">=</span> <span class="fu">make_date</span><span class="op">(</span>day <span class="op">=</span> <span class="va">day</span>, month<span class="op">=</span><span class="va">month</span>, year <span class="op">=</span> <span class="fl">2013</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"pc_"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"pc_"</span><span class="op">)</span>, names_to <span class="op">=</span> <span class="st">"pc_dimension"</span>, values_to <span class="op">=</span> <span class="st">"loadings"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">loadings</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">pc_dimension</span>, scales<span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">geom_smooth</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; `geom_smooth()` using method = 'loess' and formula = 'y ~ x'</span></span></code></pre></div>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p>I always think of the first PC as the “mean”. What we see is that
+flights are more or less constant throughout the year (see y-axis). I
+presume that the oscillations are for the weekends. <code>pc_1</code>
+says that, across destinations, there are more flights during the work
+week and fewer flights on the weekends. The second pc gives a seasonal
+effect (fewer flights in winter, more in summer); importantly, after
+<code>pc_1</code>, some destinations will have negative values of this
+(i.e. more in the winter, fewer in the summer). The third pc is positive
+on weekend destinations (more flights on the weekends and fewer during
+the weekdays relative to <code>pc_1</code>). Again, like
+<code>pc_2</code> some destinations will have a negative value
+(i.e. more flights on the weekends and fewer during the weekdays
+relative to the previous two pc’s). The last three are harder to
+interpret. My uninformed guess is that it is some artifact of airline
+decisions. If you have a guess, I’d love to hear it. Also, later on with
+<code>pick_dim</code>, we have some evidence that they are noise.</p>
+<p>Now, let’s do the columns (i.e. destinations). The “native space” for
+destinations is a map. Let’s plot it there. Be sure you have
+<code>maps</code> installed.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">airports</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 8</span></span></span>
+<span><span class="co">#&gt;   faa   name                            lat   lon   alt    tz dst   tzone       </span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> 09J   Jekyll Island Airport          31.1 -<span style="color: #BB0000;">81.4</span>    11    -<span style="color: #BB0000;">5</span> A     America/New…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> GTB   Wheeler Sack Aaf               44.1 -<span style="color: #BB0000;">75.7</span>   690    -<span style="color: #BB0000;">5</span> A     America/New…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> MTH   Florida Keys Marathon Airport  24.7 -<span style="color: #BB0000;">81.1</span>     7    -<span style="color: #BB0000;">5</span> A     America/New…</span></span>
+<span></span>
+<span><span class="co"># first, get the lat and lon for the airports:</span></span>
+<span><span class="va">airport_dat</span> <span class="op">=</span> <span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">airports</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span>dest<span class="op">=</span><span class="va">faa</span>, <span class="va">lat</span>,<span class="va">lon</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">lat</span>, <span class="va">lon</span>, <span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"_col"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html" class="external-link">contains</a></span><span class="op">(</span><span class="st">"pc_"</span><span class="op">)</span>,</span>
+<span>               names_to <span class="op">=</span> <span class="st">"pc_dimension"</span>, values_to <span class="op">=</span> <span class="st">"loadings"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Joining with `by = join_by(dest)`</span></span>
+<span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">maps</span><span class="op">)</span></span>
+<span><span class="va">usa_map</span> <span class="op">&lt;-</span> <span class="fu">map_data</span><span class="op">(</span><span class="st">"state"</span><span class="op">)</span></span>
+<span><span class="va">p</span> <span class="op">&lt;-</span> <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_polygon</span><span class="op">(</span>data <span class="op">=</span> <span class="va">usa_map</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">long</span>, y <span class="op">=</span> <span class="va">lat</span>, group <span class="op">=</span> <span class="va">group</span><span class="op">)</span>, </span>
+<span>               fill <span class="op">=</span> <span class="st">"white"</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">coord_fixed</span><span class="op">(</span><span class="fl">1.3</span>, xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">125</span>, <span class="op">-</span><span class="fl">65</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span><span class="op">)</span> </span>
+<span><span class="co"># i'm only keeping lower 48 states, dropping Anchorage and Honolulu.</span></span>
+<span></span>
+<span></span>
+<span><span class="va">p</span> <span class="op">+</span> <span class="fu">geom_point</span><span class="op">(</span>data <span class="op">=</span> <span class="va">airport_dat</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">lon</span>, y <span class="op">=</span> <span class="va">lat</span>, </span>
+<span>                                       size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">loadings</span><span class="op">)</span>, color <span class="op">=</span> <span class="va">loadings</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span> <span class="va">pc_dimension</span><span class="op">)</span>  <span class="op">+</span></span>
+<span>  <span class="fu">scale_color_gradient2</span><span class="op">(</span>low <span class="op">=</span> <span class="st">"red"</span>, high <span class="op">=</span> <span class="st">"blue"</span>, mid <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p>Here <code>pc_1</code> should align with larger and smaller airports
+(bigger airports &lt;-&gt; more flights throughout the year).
+<code>pc_2</code> is negative on Denver and Florida and positive in
+Maine. Looking back at the time series plots, I interpret this to mean
+that people go to Denver (skiing) and Florida (beach) in the winter and
+Maine (coastline) in the summer. <code>pc_3</code> picks up the
+“fly-over zone”… looking back at the time series, folks prefer to travel
+here during the work week. So, the blue areas are more weekend
+(vacation) destinations and the red areas are the fly-over. The other
+pc’s are difficult for me to interpret (my guess is that they are weird
+artifacts of airline things… noise). We do see that the last three are
+heavily localized on a few airports, looking back at the pairs plots you
+can see this localization. Given that, my sense is that they are not so
+interesting, but if I needed to make sense of them, I would print out
+their most extreme elements and dig into those airports. Making this
+function is a todo item.</p>
+<p>So, using the code is easy. You just need to specify a formula. It’s
+fun to think of other combinations and easy to try them out.</p>
+<p>There are three functions that you might like <code>diagnose</code>,
+<code>pick_dim</code>, and <code>plot</code> that are explained
+below.</p>
 </div>
 <div class="section level2">
-<h2 id="model-first-not-matrix-first-">Model first, not matrix first.<a class="anchor" aria-label="anchor" href="#model-first-not-matrix-first-"></a>
+<h2 id="a-deeper-look-inside-the-code-">A deeper look inside the code.<a class="anchor" aria-label="anchor" href="#a-deeper-look-inside-the-code-"></a>
 </h2>
+<div class="section level4">
+<h4 id="what-is-an-interaction_model">What is an interaction_model?<a class="anchor" aria-label="anchor" href="#what-is-an-interaction_model"></a>
+</h4>
 <p>To make maximum use of this package, it is helpful to think about
-<em>models</em>, not <em>matrices</em>. This will become clearer as time
-goes on. Each of the key functions in this package is handling a class
-<code>interaction_model</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="va">formula</span><span class="op">)</span></span>
-<span><span class="va">im</span></span>
-<span><span class="co">#&gt; $row_universe</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 365 × 4</span></span></span>
-<span><span class="co">#&gt;    month   day     n row_num</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    11    27  <span style="text-decoration: underline;">1</span>014       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     7    11  <span style="text-decoration: underline;">1</span>006       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     7     8  <span style="text-decoration: underline;">1</span>004       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     7    10  <span style="text-decoration: underline;">1</span>004       4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    12     2  <span style="text-decoration: underline;">1</span>004       5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     7    18  <span style="text-decoration: underline;">1</span>003       6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7    25  <span style="text-decoration: underline;">1</span>003       7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     7    12  <span style="text-decoration: underline;">1</span>002       8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     7     9  <span style="text-decoration: underline;">1</span>001       9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     7    17  <span style="text-decoration: underline;">1</span>001      10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 355 more rows</span></span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $column_universe</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 105 × 3</span></span></span>
-<span><span class="co">#&gt;    dest      n col_num</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ORD   <span style="text-decoration: underline;">17</span>283       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ATL   <span style="text-decoration: underline;">17</span>215       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> LAX   <span style="text-decoration: underline;">16</span>174       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> BOS   <span style="text-decoration: underline;">15</span>508       4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> MCO   <span style="text-decoration: underline;">14</span>082       5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> CLT   <span style="text-decoration: underline;">14</span>064       6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> SFO   <span style="text-decoration: underline;">13</span>331       7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> FLL   <span style="text-decoration: underline;">12</span>055       8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> MIA   <span style="text-decoration: underline;">11</span>728       9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> DCA    <span style="text-decoration: underline;">9</span>705      10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 95 more rows</span></span></span></code></pre></div>
+<em>models</em>, not <em>matrices</em>. Each of the key functions in
+this package is handling a class <code>interaction_model</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">formula</span> <span class="op">=</span> <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="va">dest</span></span>
+<span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="va">formula</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/class.html" class="external-link">class</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "interaction_model"</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "interaction_tibble" "row_universe"       "column_universe"   </span></span>
+<span><span class="co">#&gt; [4] "settings"</span></span></code></pre></div>
 <p><code>im</code> is a list of four elements. First,
 <code>$interaction_tibble</code> which can be thought of as a sparse
 matrix in triplet form; <code>get_Matrix(im)</code> uses this to
@@ -394,12 +480,10 @@ construct a sparse matrix. Then, <code>$row_universe</code> and
 information corresponding to each row/column. Finally,
 <code>$settings</code> contains various details about the
 construction.</p>
-<p>This function has an argument <code>parse_text</code> that uses
-<code><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">tidytext::unnest_tokens</a></code> to construct “document-term
-interaction models”. More on this later.</p>
+</div>
 </div>
 <div class="section level2">
-<h2 id="lets-do-the-analysis">Let’s do the analysis<a class="anchor" aria-label="anchor" href="#lets-do-the-analysis"></a>
+<h2 id="lets-do-a-more-careful-analysis">Let’s do a more careful analysis<a class="anchor" aria-label="anchor" href="#lets-do-a-more-careful-analysis"></a>
 </h2>
 <div class="section level4">
 <h4 id="examining-the-matrix-sparsity">Examining the matrix sparsity<a class="anchor" aria-label="anchor" href="#examining-the-matrix-sparsity"></a>
@@ -410,11 +494,11 @@ issues”. The matrix needs to be “dense enough” for the PCA to find good
 stuff. So, <code>diagnose</code> prints some simple diagnostics and
 plots the “degree distribution” for the rows and columns. Here, “degree”
 is the number of non-zero elements in that row or column.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># inspect "degree distributions" with this funciton:</span></span>
 <span><span class="co">#  recall that im is the interaction_model defined above.</span></span>
 <span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;   measurement      dest `month &amp; day`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -425,25 +509,61 @@ is the number of non-zero elements in that row or column.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> percent_le_2        2             0</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> percent_le_3        2             0</span></span></code></pre>
 <p>For example, if either average degree was less than 10, then I might
-be worried. <code>percent_le_x</code> gives the percent of rows/columns
-that have row/col sums less than or equal to <code>x</code>. If these
-values are large, then the matrix is very sparse and you might have
-trouble. Issues with sparsity will likely manifest in localization;
+be worried. Another diagnostic in the print out is
+<code>percent_le_x</code> which gives the percent of rows/columns that
+have row/col sums less than or equal to <code>x</code>. If a majority of
+rows or columns has degree less than or equal to 3, then I would be
+worried. These are clues that the matrix is very sparse and you might
+have trouble. Issues with sparsity will likely manifest in localization;
 something that will be evaluated in functions below.</p>
+<p>One possibility is to take the “core”:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im_cored</span> <span class="op">=</span> <span class="fu"><a href="../reference/core.html">core</a></span><span class="op">(</span><span class="va">im</span>,core_threshold <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "adding graph summaries (coreness and connected components)."</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">im</span><span class="op">$</span><span class="va">column_universe</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 105</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">im_cored</span><span class="op">$</span><span class="va">column_universe</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 103</span></span>
+<span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im_cored</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation introduced</span></span>
+<span><span class="co">#&gt; infinite values.</span></span>
+<span><span class="co">#&gt; Warning: Removed 27 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_bar()`).</span></span></code></pre></div>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   measurement      dest `month &amp; day`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> number_of_items   103           365</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> average_degree    303            86</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> median_degree     365            86</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> percent_le_1        0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> percent_le_2        0             0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> percent_le_3        0             0</span></span></code></pre>
+<p>This finds the largest subset of rows and columns such that each row
+and column has at least <code>core_threshold = 3</code> data points (and
+it will also return the largest connected component). In this case, it
+discards two destination airports, LEX and LGA:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="va">im_cored</span><span class="op">$</span><span class="va">column_universe</span>, by <span class="op">=</span> <span class="st">"dest"</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 3</span></span></span>
+<span><span class="co">#&gt;   dest      n col_num</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> LEX       1     104</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> LGA       1     105</span></span></code></pre></div>
 </div>
 <div class="section level4">
 <h4 id="picking-k-with-cross-validated-eigenvalues">Picking k with cross-validated eigenvalues<a class="anchor" aria-label="anchor" href="#picking-k-with-cross-validated-eigenvalues"></a>
 </h4>
-<p>When doing a PCA, you need to pick the number of dimensions that you
-want. The way that we do this in my lab is with cross-validated
-eigenvalues. It gives you a Z-score and a p-value. <a href="https://arxiv.org/abs/2108.03336" class="external-link">Here is the arxiv paper</a>.
-Alex Hayes made it a proper R package on CRAN <a href="https://cran.r-project.org/web/packages/gdim/gdim.pdf" class="external-link">gdim</a>.
+<p>When doing a PCA, you need to pick the model size <span class="math inline">\(k\)</span>. The way that we do this in my lab is
+with cross-validated eigenvalues. It gives you a Z-score and a p-value.
+<a href="https://arxiv.org/abs/2108.03336" class="external-link">Here is the arxiv paper</a>.
+Alex Hayes and Fan Chen made it a proper R package on CRAN <a href="https://cran.r-project.org/web/packages/gdim/gdim.pdf" class="external-link">gdim</a>.
 For this example, it picks <code>k=4</code>.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cv_eigs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pick_dim.html">pick_dim</a></span><span class="op">(</span><span class="va">im</span>, dimMax <span class="op">=</span> <span class="fl">10</span>,num_bootstraps <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> </span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">cv_eigs</span><span class="op">)</span></span></code></pre></div>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cv_eigs</span></span>
 <span><span class="co">#&gt; Estimated graph dimension:    4</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -453,16 +573,16 @@ For this example, it picks <code>k=4</code>.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ------------ Summary of Tests ------------</span></span>
 <span><span class="co">#&gt;   k           z        pvals         padj</span></span>
-<span><span class="co">#&gt;   1 166.4083215 0.000000e+00 0.000000e+00</span></span>
-<span><span class="co">#&gt;   2  13.0484610 3.242205e-39 3.242205e-39</span></span>
-<span><span class="co">#&gt;   3   8.6566495 2.429169e-18 2.429169e-18</span></span>
-<span><span class="co">#&gt;   4   4.0953216 2.107914e-05 2.107914e-05</span></span>
-<span><span class="co">#&gt;   5   0.9390701 1.738474e-01 1.738474e-01</span></span>
-<span><span class="co">#&gt;   6  -2.7257523 9.967922e-01 9.967922e-01</span></span>
-<span><span class="co">#&gt;   7  -6.1539803 1.000000e+00 1.000000e+00</span></span>
-<span><span class="co">#&gt;   8  -5.4668386 1.000000e+00 1.000000e+00</span></span>
-<span><span class="co">#&gt;   9  -8.2643559 1.000000e+00 1.000000e+00</span></span>
-<span><span class="co">#&gt;  10  -7.9972971 1.000000e+00 1.000000e+00</span></span></code></pre></div>
+<span><span class="co">#&gt;   1 166.9096296 0.000000e+00 0.000000e+00</span></span>
+<span><span class="co">#&gt;   2  12.5328707 2.467185e-36 2.467185e-36</span></span>
+<span><span class="co">#&gt;   3   8.7270943 1.306496e-18 1.306496e-18</span></span>
+<span><span class="co">#&gt;   4   4.7824034 8.660580e-07 8.660580e-07</span></span>
+<span><span class="co">#&gt;   5   0.6311604 2.639678e-01 2.639678e-01</span></span>
+<span><span class="co">#&gt;   6  -2.8350333 9.977090e-01 9.977090e-01</span></span>
+<span><span class="co">#&gt;   7  -5.9380729 1.000000e+00 1.000000e+00</span></span>
+<span><span class="co">#&gt;   8  -6.0137710 1.000000e+00 1.000000e+00</span></span>
+<span><span class="co">#&gt;   9  -7.7210977 1.000000e+00 1.000000e+00</span></span>
+<span><span class="co">#&gt;  10  -7.6142011 1.000000e+00 1.000000e+00</span></span></code></pre></div>
 <p>Notice that the top-line of the printout says that the estimated
 graph dimension is 4. So, we will use <code>k=6</code> and see that in
 this example they become harder to interpret. This is what we would
@@ -472,51 +592,48 @@ noise?</p>
 <div class="section level4">
 <h4 id="lets-get-the-people-some-pca">Let’s get the people some PCA<a class="anchor" aria-label="anchor" href="#lets-get-the-people-some-pca"></a>
 </h4>
-<p>For right now, I named the function <code>pca_count</code>, because
-if there are multiple rows of the data that have the same values for
-<code>(month &amp; day)</code> and also for <code>dest</code>, then the
-value inside the matrix is a <em>sum</em> of the values on the left hand
-side of the formula. Right now, that is just <code>1</code>. So, it
-<em>counts</em> how many times that entry appears. Some people call this
-a cross-tab or a contingency table. When we do PCA to this matrix of
-counts, some folks call that Correspondence Analysis.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span></span>
-<span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_count.html">pca_count</a></span><span class="op">(</span><span class="va">formula</span>, tib <span class="op">=</span> <span class="va">flights</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># There are two other ways to accomplish the same thing:</span></span>
-<span><span class="va">pcs_with_sum</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca_sum.html">pca_sum</a></span><span class="op">(</span><span class="va">formula</span>, tib <span class="op">=</span> <span class="va">flights</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
-<span><span class="co"># or directly with the interaction_model object via the function pca:</span></span>
-<span><span class="va">pcs_with_im</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span></code></pre></div>
-<p>In particular, the code takes a square root of every count. Then,
-computes the normalized and regularized Laplacian <code>L</code> (using
-the number of non-zero entries as the degree). Then, computes the
-leading <code>k</code> singular vectors. This is all done with sparse
-linear algebra via the packages <code>Matrix</code> and
-<code>irlba</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span></span>
+<p>For right now, the default of <code>make_interaction_model</code> is
+that if there are multiple rows of the long data that have the same
+values for <code>(month &amp; day)</code> and also for
+<code>dest</code>, then the value inside the matrix is a <em>sum</em> of
+the values on the left hand side of the formula. If there is no variable
+specified on the left hand side, then it is like imagining there is an
+additional column in your data, <code>1</code>, that has the value 1 in
+every row. So, <code>formula = ~ (month &amp; day)*(dest)</code> is
+equivalent to <code>formula = 1 ~ (month &amp; day)*(dest)</code>. By
+<em>summing</em> over the outcomes, if it is a <code>1</code>, then it
+<em>counts</em> how many times that entry appears.</p>
+<p>Because it is a count, and the variance stabilizing transformation
+for a Poisson is square root, the default in the code for
+<code>pca</code> is to square root each count. Then, the code computes
+the normalized and regularized Laplacian <code>L</code> (using the
+number of non-zero entries as the degree). Then, computes the leading
+<code>k</code> singular vectors. This is all done with sparse linear
+algebra via the packages <code>Matrix</code> and <code>irlba</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im</span>, k <span class="op">=</span> <span class="fl">6</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "row_features"    "column_features" "middle_B"        "settings"</span></span></code></pre></div>
 <p>The <code>row_features</code> and <code>column_features</code> are
 the PC’s and loadings (I don’t prefer those old terms).
 <code>middle_B</code> gives the singular values. <code>settings</code>
 contains some details that are handy in later functions.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">sample_n</span><span class="op">(</span><span class="va">pcs</span><span class="op">$</span><span class="va">row_features</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">$</span><span class="va">row_features</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 12</span></span></span>
 <span><span class="co">#&gt;   month   day     n row_num degree weighted_degree pc_1_rows pc_2_rows pc_3_rows</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    10    30   973     153     82             973     1.04      0.919     0.708</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     2    19   943     217     82             943     1.02     -<span style="color: #BB0000;">1.55</span>      1.03 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     3     9   765     329     82             765     0.906    -<span style="color: #BB0000;">2.08</span>     -<span style="color: #BB0000;">2.18</span> </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>     4    23   965     177     82             965     1.04      0.146  -<span style="color: #BB0000;">0.671</span>  </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>     6    26   995      40     88             995     1.04     -<span style="color: #BB0000;">0.719</span>  -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">45</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>     6    22   812     307     88             812     0.928    -<span style="color: #BB0000;">0.368</span>   2.24   </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 3 more variables: pc_4_rows &lt;dbl&gt;, pc_5_rows &lt;dbl&gt;, pc_6_rows &lt;dbl&gt;</span></span></span>
-<span><span class="fu">sample_n</span><span class="op">(</span><span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/sample_n.html" class="external-link">sample_n</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">$</span><span class="va">column_features</span>, size<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 11</span></span></span>
 <span><span class="co">#&gt;   dest      n col_num degree weighted_degree pc_1_columns pc_2_columns</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> SRQ    <span style="text-decoration: underline;">1</span>211      55    365            <span style="text-decoration: underline;">1</span>211        0.615       -<span style="color: #BB0000;">0.740</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> CVG    <span style="text-decoration: underline;">3</span>941      28    365            <span style="text-decoration: underline;">3</span>941        1.11         0.561</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> XNA    <span style="text-decoration: underline;">1</span>036      57    314            <span style="text-decoration: underline;">1</span>036        0.554        0.578</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> EYW      17      99     17              17       0.021<span style="text-decoration: underline;">5</span>        0.423</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> SDF    <span style="text-decoration: underline;">1</span>157      56    365            <span style="text-decoration: underline;">1</span>157       0.596        -<span style="color: #BB0000;">0.526</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> HDN      15     100     15              15       0.018<span style="text-decoration: underline;">3</span>        0.612</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 4 more variables: pc_3_columns &lt;dbl&gt;, pc_4_columns &lt;dbl&gt;,</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;">#   pc_5_columns &lt;dbl&gt;, pc_6_columns &lt;dbl&gt;</span></span></span></code></pre></div>
 <p>Notice that these features are in a wide and tidy form, making it
@@ -528,18 +645,18 @@ and longitude) for <code>column_features</code>.</p>
 </h6>
 <p>You can <code>plot(pcs)</code>. It makes these five plots, each
 described after all plots are displayed.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; Press [Enter] to continue to the next plot...</span></span></code></pre>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-18-2.png" width="700"></p>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-21-2.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; Press [Enter] to continue to the next plot...</span></span>
 <span><span class="co">#&gt; `geom_smooth()` using formula = 'y ~ s(x, bs = "cs")'</span></span></code></pre>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-18-3.png" width="700"></p>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-21-3.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; Press [Enter] to continue to the next plot...</span></span></code></pre>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-18-4.png" width="700"></p>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-21-4.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; Press [Enter] to continue to the next plot...</span></span></code></pre>
-<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-18-5.png" width="700"></p>
+<p><img src="Intro_to_longpca_with_nycflights_data_files/figure-html/unnamed-chunk-21-5.png" width="700"></p>
 <p>These are the five plots:</p>
 <ol style="list-style-type: decimal">
 <li>Screeplot: The top <code>k</code> singular values of

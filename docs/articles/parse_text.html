@@ -81,65 +81,63 @@
     
 <p>This document shows how you can use <code>parse_text</code> inside
 the function <code>make_interaction_model</code>.</p>
+<p><a href="articles/Intro_to_longpca_with_nycflights_data.html">Recall
+that the basic use of <code>make_interaction_model</code> in the flights
+data</a>…</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     filter, lag</span></span>
-<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/karlrohe/longpca" class="external-link">longpca</a></span><span class="op">)</span></span></code></pre></div>
-<p>Recall that the basic use of <code>make_interaction_model</code> in
-the flights data:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/hadley/nycflights13" class="external-link">nycflights13</a></span><span class="op">)</span></span>
 <span><span class="va">formula</span> <span class="op">=</span>  <span class="op">~</span> <span class="op">(</span><span class="va">month</span> <span class="op">&amp;</span> <span class="va">day</span><span class="op">)</span><span class="op">*</span><span class="op">(</span><span class="va">dest</span><span class="op">)</span></span>
 <span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">flights</span>, <span class="va">formula</span><span class="op">)</span></span>
 <span><span class="co"># pcs = pca(im, k = 6)</span></span></code></pre></div>
-<p>In this example, the formula is
-<code>~ (month &amp; day)*(dest)</code>. So, the rows are indexed by the
-unique values of <code>month</code> and <code>day</code> and the columns
-are indexed by the unique values of <code>dest</code>.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im</span><span class="op">$</span><span class="va">row_universe</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 365 × 4</span></span></span>
-<span><span class="co">#&gt;    month   day     n row_num</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span>    11    27  <span style="text-decoration: underline;">1</span>014       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span>     7    11  <span style="text-decoration: underline;">1</span>006       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span>     7     8  <span style="text-decoration: underline;">1</span>004       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span>     7    10  <span style="text-decoration: underline;">1</span>004       4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span>    12     2  <span style="text-decoration: underline;">1</span>004       5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span>     7    18  <span style="text-decoration: underline;">1</span>003       6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span>     7    25  <span style="text-decoration: underline;">1</span>003       7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span>     7    12  <span style="text-decoration: underline;">1</span>002       8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span>     7     9  <span style="text-decoration: underline;">1</span>001       9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span>     7    17  <span style="text-decoration: underline;">1</span>001      10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 355 more rows</span></span></span>
-<span><span class="va">im</span><span class="op">$</span><span class="va">column_universe</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 105 × 3</span></span></span>
-<span><span class="co">#&gt;    dest      n col_num</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> ORD   <span style="text-decoration: underline;">17</span>283       1</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> ATL   <span style="text-decoration: underline;">17</span>215       2</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> LAX   <span style="text-decoration: underline;">16</span>174       3</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> BOS   <span style="text-decoration: underline;">15</span>508       4</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> MCO   <span style="text-decoration: underline;">14</span>082       5</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> CLT   <span style="text-decoration: underline;">14</span>064       6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> SFO   <span style="text-decoration: underline;">13</span>331       7</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> FLL   <span style="text-decoration: underline;">12</span>055       8</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> MIA   <span style="text-decoration: underline;">11</span>728       9</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> DCA    <span style="text-decoration: underline;">9</span>705      10</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 95 more rows</span></span></span></code></pre></div>
-<p>If our data contains sentences, or <em>sequences</em> of id’s
-(e.g. words/bi-grams/etc), then the “unique values” need to first be
-parsed/extracted. For example, loaded into <code>longpca</code> is a toy
-data set <code>all_packages</code>. It is about 20000 rows. Each row
-gives information about one R package.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>That article with <code>nycflights13</code> discussed the formula
+syntax for <code>make_interaction_model</code>:</p>
+<p><code>outcome ~ unit * context.</code></p>
+<p>It described four specifications (summarized below). However,
+Specification 4 could not be demonstrated on that data. This article
+will discuss Specification 4.</p>
+<ol style="list-style-type: decimal">
+<li>
+<em>Specification 1:</em> We count the co-occurrences of
+<code>(month &amp; day)</code> with <code>dest</code> by leaving the
+left side of the formula empty <code>~ (month &amp; day)*(dest)</code>
+or by putting a “place holder” <code>1</code> there…
+<code>1 ~ (month &amp; day)*(dest)</code>. Counting the co-occurrences
+is sometimes called a cross-tab or a contingency table. When we do PCA
+to this matrix of counts, some folks call that Correspondence
+Analysis.</li>
+<li>
+<em>Specification 2:</em> If there is a variable on the left side of
+the formula, for example <code>seats ~ (month &amp; day)*(dest)</code>
+and we use the default settings for <code>make_interaction_model</code>,
+then we sum up the number of seats for each
+<code>(month &amp; day)</code> and <code>dest</code> pair.</li>
+<li>
+<em>Specification 3:</em> If there is a variable on the left side of
+the formula, for example
+<code>arr_delay ~ (month &amp; day)*(dest)</code> and we set
+<code>make_interaction_model(..., duplicates = "average")</code>, then
+we take the average <code>arr_delay</code> over each
+<code>(month &amp; day)</code> and <code>dest</code> pair. For this
+specification, one should use <code>pca_na</code> instead of
+<code>pca</code>.</li>
+<li>
+<em>Specification 4:</em> If there is a variable in the data that is
+a sequence that needs to be parsed (e.g. a text field could be a
+sequence of words), this this document describes how to use
+<code>make_interaction_model(..., parse_text = TRUE)</code>.</li>
+</ol>
+<div class="section level2">
+<h2 id="specification-4-parsing-text-">Specification 4: parsing text.<a class="anchor" aria-label="anchor" href="#specification-4-parsing-text-"></a>
+</h2>
+<p>In the flights data, the variable <code>dest</code> has 105 unique
+values. These serve as the context_id’s in the formula
+<code>~ (month &amp; day)*dest</code>. Sometimes, a variable in the data
+contains free text, or <em>sequences of words</em>. In this case, we
+need to first parse/extract the context_id’s (e.g. words/bi-grams/etc).
+For example, loaded into <code>longpca</code> is a toy data set
+<code>all_packages</code>. It is about 20000 rows. Each row gives
+information about one R package.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># you can get a fresh version here:</span></span>
 <span><span class="co"># all_packages = available.packages() %&gt;% as_tibble()</span></span>
 <span><span class="va">all_packages</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">Package</span>,  <span class="va">Imports</span><span class="op">)</span></span>
@@ -158,9 +156,9 @@ gives information about one R package.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> ABCanalysis   plotrix                              </span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 20,309 more rows</span></span></span></code></pre></div>
 <p>Notice how the column <code>Imports</code> gives a “csv” of other
-packages. We can “extract” these values with
+packages. We can “parse” these values with
 <code>parse_text = TRUE</code>:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">im_imports</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">im_imports</span><span class="op">$</span><span class="va">row_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20,319 × 3</span></span></span>
@@ -192,12 +190,16 @@ packages. We can “extract” these values with
 <span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Imports   magrittr  <span style="text-decoration: underline;">1</span>954       9</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Imports   stringr   <span style="text-decoration: underline;">1</span>698      10</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 6,220 more rows</span></span></span></code></pre></div>
-<p>Under the hood, this calls <code><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">tidytext::unnest_tokens</a></code> to
-convert <code>Imports</code> into a “bag-of-words”. So, the columns are
-now indexed by the unique packages that are imported. There are 20,319
-total <code>Packages</code> in <code>all_packages</code> and each one
-forms a “row” in <code>im_imports</code>. Only 6,230 of these packages
-have been imported by another package. Each of these forms a “column” in
+<p>Under the hood,
+<code>make_interaction_model(..., parse_text = TRUE)</code> calls
+<code><a href="https://rdrr.io/pkg/tidytext/man/unnest_tokens.html" class="external-link">tidytext::unnest_tokens</a></code> to parse the variable after the
+<code>*</code>. In this case, it converts <code>Imports</code> into a
+“bag-of-words”. It also converts every letter to lower case and removes
+punctuation. So, the columns in <code>im_imports</code> are indexed by
+the unique packages that are imported. There are 20,319 total
+<code>Packages</code> in <code>all_packages</code> and each one forms a
+“row” in <code>im_imports</code>. Only 6,230 of these packages have been
+imported by another package. Each of these forms a “column” in
 <code>im_imports</code>. Here “row” and “column” are in quotes because
 <code>im_imports</code> is not a matrix, but there is a matrix “under
 the hood” that has these rows and columns.</p>
@@ -205,7 +207,7 @@ the hood” that has these rows and columns.</p>
 passed off to <code>tidytext::unest_tokens</code>. For example, by
 default it puts the imported packages into lower case. We can turn that
 off…</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">im_imports</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span>, to_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">im_imports</span><span class="op">$</span><span class="va">column_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6,230 × 4</span></span></span>
@@ -225,9 +227,9 @@ off…</p>
 <p>Notice how <code>Rcpp</code> in row 6 of the
 <code>$column_universe</code> was previously <code>rcpp</code> (lower
 case). You could parse a different variable instead. For example,</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">im_description</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">top_packages</span>,<span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Description</span>,  parse_text <span class="op">=</span> <span class="cn">TRUE</span>, to_lower<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im_description</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im_text</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">top_packages</span>,<span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Description</span>,  parse_text <span class="op">=</span> <span class="cn">TRUE</span>, to_lower<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im_text</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation introduced</span></span>
 <span><span class="co">#&gt; infinite values.</span></span>
 <span><span class="co">#&gt; Warning: Removed 7 rows containing missing values or values outside the scale range</span></span>
@@ -242,7 +244,7 @@ case). You could parse a different variable instead. For example,</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> percent_le_1          0                  57</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> percent_le_2          0                  71</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> percent_le_3          0                  77</span></span>
-<span><span class="va">im_description</span><span class="op">$</span><span class="va">column_universe</span></span>
+<span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,878 × 4</span></span></span>
 <span><span class="co">#&gt;    from_text   token         n col_num</span></span>
 <span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
@@ -259,9 +261,32 @@ case). You could parse a different variable instead. For example,</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7,868 more rows</span></span></span></code></pre>
 <p>Here we see the stopwords. These will form high degree nodes in your
 <code>interaction_model</code> graph. A factor that loads heavily on
-these is often a factor that indicates “document length”.</p>
+these is often a factor that indicates “document length”. Alternatively,
+you can remove stop words like this:</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># remove stop words by removing them from the column_universe,</span></span>
+<span><span class="co">#  then use the function subset_im to renumber the columns/rows and remove any lines from interaction_tibble</span></span>
+<span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">=</span> <span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="fu">tidytext</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/tidytext/man/stop_words.html" class="external-link">stop_words</a></span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"token"</span><span class="op">=</span><span class="st">"word"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">im_text</span> <span class="op">=</span> <span class="va">im_text</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/subset_im.html">subset_im</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co"># inspect the new column_universe to see that the stop words have been removed. </span></span>
+<span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/arrange.html" class="external-link">arrange</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/desc.html" class="external-link">desc</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 7,435 × 4</span></span></span>
+<span><span class="co">#&gt;    from_text   token         n col_num</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Description functions   581       1</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Description data        541       2</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Description package     515       3</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Description models      319       4</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Description doi         285       5</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Description methods     226       6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Description analysis    218       7</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Description function    164       8</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Description model       155       9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Description based       142      10</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 7,425 more rows</span></span></span></code></pre></div>
 <p>You can also parse multiple columns with the <code>&amp;</code>:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">im_imports_authors</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">top_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="op">(</span><span class="va">Imports</span><span class="op">&amp;</span><span class="va">Author</span><span class="op">&amp;</span><span class="va">Description</span><span class="op">&amp;</span><span class="va">Title</span><span class="op">)</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">im_imports_authors</span><span class="op">$</span><span class="va">row_universe</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1,094 × 3</span></span></span>
@@ -296,13 +321,13 @@ these is often a factor that indicates “document length”.</p>
 <p>So, let’s do a quick analysis. We see that the tokens are very very
 sparse, with 64% of tokens appearing only once! We will want to keep an
 eye out for localization in the <code>streaks</code> plot.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im_imports_authors</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning in scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation introduced</span></span>
 <span><span class="co">#&gt; infinite values.</span></span>
 <span><span class="co">#&gt; Warning: Removed 5 rows containing missing values or values outside the scale range</span></span>
 <span><span class="co">#&gt; (`geom_bar()`).</span></span></code></pre></div>
-<p><img src="parse_text_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="parse_text_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
 <span><span class="co">#&gt;   measurement     Package `from_text &amp; token`</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
@@ -312,13 +337,38 @@ eye out for localization in the <code>streaks</code> plot.</p>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> percent_le_1          0                  60</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> percent_le_2          0                  75</span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> percent_le_3          0                  81</span></span></code></pre>
-<p>Because it is so sparse, I’m going to use more bootstraps than
-default in <code>pick_dim</code>; 20 should be enough.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<p>Because it is so sparse, the function <code>core</code> can be used
+to pull out the densely connected core of the data. In particular, it
+treats the <code>interaction_model</code> object as a bipartite graph,
+then finds the <a href="https://en.wikipedia.org/wiki/Degeneracy_(graph_theory)" class="external-link uri">k-core</a> of the <a href="https://en.wikipedia.org/wiki/Giant_component" class="external-link">largest connected
+component</a>.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># you can remove these words that appear less than 5 times (and documents that have less than 5 words) via:</span></span>
+<span><span class="va">im_text</span> <span class="op">=</span> <span class="fu"><a href="../reference/core.html">core</a></span><span class="op">(</span><span class="va">im_text</span>, core_threshold <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "adding graph summaries (coreness and connected components)."</span></span>
+<span><span class="fu"><a href="../reference/diagnose.html">diagnose</a></span><span class="op">(</span><span class="va">im_text</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning in scale_y_log10(): <span style="color: #00BB00;">log-10</span> transformation introduced</span></span>
+<span><span class="co">#&gt; infinite values.</span></span>
+<span><span class="co">#&gt; Warning: Removed 8 rows containing missing values or values outside the scale range</span></span>
+<span><span class="co">#&gt; (`geom_bar()`).</span></span></code></pre></div>
+<p><img src="parse_text_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<pre><code><span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   measurement     Package `from_text &amp; token`</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> number_of_items    <span style="text-decoration: underline;">1</span>002                <span style="text-decoration: underline;">1</span>188</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> average_degree       18                  15</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> median_degree        15                   9</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> percent_le_1          0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> percent_le_2          0                   0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> percent_le_3          0                   0</span></span></code></pre>
+<p>We can identify the largest statistically reasonable choice for
+<code>k</code> using <code>pick_dim</code> which uses <a href="https://arxiv.org/abs/2108.03336" class="external-link">cross-validated eigenvalues</a>
+as implimented in the package <code>gdim</code> <a href="https://github.com/RoheLab/gdim" class="external-link">(github)</a>.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eigcv</span> <span class="op">=</span> <span class="fu"><a href="../reference/pick_dim.html">pick_dim</a></span><span class="op">(</span><span class="va">im_imports_authors</span>, num_bootstraps <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">eigcv</span><span class="op">)</span></span></code></pre></div>
-<p><img src="parse_text_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p><img src="parse_text_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">eigcv</span></span>
 <span><span class="co">#&gt; Estimated graph dimension:    20</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -328,89 +378,58 @@ default in <code>pick_dim</code>; 20 should be enough.</p>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  ------------ Summary of Tests ------------</span></span>
 <span><span class="co">#&gt;   k         z        pvals         padj</span></span>
-<span><span class="co">#&gt;   1 52.319590 0.000000e+00 0.000000e+00</span></span>
-<span><span class="co">#&gt;   2 11.149700 3.592414e-29 3.592414e-29</span></span>
-<span><span class="co">#&gt;   3  6.984824 1.426069e-12 1.426069e-12</span></span>
-<span><span class="co">#&gt;   4 18.297397 4.339895e-75 4.339895e-75</span></span>
-<span><span class="co">#&gt;   5 11.452228 1.145894e-30 1.145894e-30</span></span>
-<span><span class="co">#&gt;   6  5.800178 3.312220e-09 3.312220e-09</span></span>
-<span><span class="co">#&gt;   7  5.939552 1.429013e-09 1.429013e-09</span></span>
-<span><span class="co">#&gt;   8  6.074264 6.227893e-10 6.227893e-10</span></span>
-<span><span class="co">#&gt;   9  8.664685 2.263824e-18 2.263824e-18</span></span>
-<span><span class="co">#&gt;  10  9.272601 9.083053e-21 9.083053e-21</span></span>
-<span><span class="co">#&gt;  11  9.257115 1.050152e-20 1.050152e-20</span></span>
-<span><span class="co">#&gt;  12  6.082428 5.918820e-10 5.918820e-10</span></span>
-<span><span class="co">#&gt;  13  4.826877 6.934523e-07 6.934523e-07</span></span>
-<span><span class="co">#&gt;  14  6.610133 1.919877e-11 1.919877e-11</span></span>
-<span><span class="co">#&gt;  15  7.708007 6.389902e-15 6.389902e-15</span></span>
-<span><span class="co">#&gt;  16  7.544398 2.271903e-14 2.271903e-14</span></span>
-<span><span class="co">#&gt;  17  9.259857 1.023536e-20 1.023536e-20</span></span>
-<span><span class="co">#&gt;  18  7.979750 7.331490e-16 7.331490e-16</span></span>
-<span><span class="co">#&gt;  19  8.975443 1.411070e-19 1.411070e-19</span></span>
-<span><span class="co">#&gt;  20  7.252762 2.041782e-13 2.041782e-13</span></span></code></pre></div>
+<span><span class="co">#&gt;   1 52.485295 0.000000e+00 0.000000e+00</span></span>
+<span><span class="co">#&gt;   2 11.238153 1.324323e-29 1.324323e-29</span></span>
+<span><span class="co">#&gt;   3  6.928938 2.120063e-12 2.120063e-12</span></span>
+<span><span class="co">#&gt;   4 18.267156 7.556182e-75 7.556182e-75</span></span>
+<span><span class="co">#&gt;   5 11.858499 9.721468e-33 9.721468e-33</span></span>
+<span><span class="co">#&gt;   6  5.716077 5.450576e-09 5.450576e-09</span></span>
+<span><span class="co">#&gt;   7  5.689208 6.381499e-09 6.381499e-09</span></span>
+<span><span class="co">#&gt;   8  7.313266 1.303634e-13 1.303634e-13</span></span>
+<span><span class="co">#&gt;   9  7.949433 9.368327e-16 9.368327e-16</span></span>
+<span><span class="co">#&gt;  10  9.502129 1.028216e-21 1.028216e-21</span></span>
+<span><span class="co">#&gt;  11  9.000204 1.126495e-19 1.126495e-19</span></span>
+<span><span class="co">#&gt;  12  6.834819 4.105421e-12 4.105421e-12</span></span>
+<span><span class="co">#&gt;  13  4.717907 1.191416e-06 1.191416e-06</span></span>
+<span><span class="co">#&gt;  14  6.710736 9.682262e-12 9.682262e-12</span></span>
+<span><span class="co">#&gt;  15  7.593119 1.561483e-14 1.561483e-14</span></span>
+<span><span class="co">#&gt;  16  8.220860 1.010248e-16 1.010248e-16</span></span>
+<span><span class="co">#&gt;  17  8.542267 6.580719e-18 6.580719e-18</span></span>
+<span><span class="co">#&gt;  18  8.822639 5.589641e-19 5.589641e-19</span></span>
+<span><span class="co">#&gt;  19  8.112027 2.489107e-16 2.489107e-16</span></span>
+<span><span class="co">#&gt;  20  7.331145 1.140971e-13 1.140971e-13</span></span></code></pre></div>
 <p>I’m going to pick 10 for convenience.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">pcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="va">im_imports_authors</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/streaks.html">streaks</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span></span></code></pre></div>
-<p><img src="parse_text_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/streaks.html">streaks</a></span><span class="op">(</span><span class="va">pcs</span>, <span class="st">"columns"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="parse_text_files/figure-html/unnamed-chunk-11-2.png" width="700"></p>
+<p><img src="parse_text_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/streaks.html">streaks</a></span><span class="op">(</span><span class="va">pcs</span>, <span class="st">"columns"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="parse_text_files/figure-html/unnamed-chunk-13-2.png" width="700"></p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spcs</span> <span class="op">=</span> <span class="fu"><a href="../reference/rotate.html">rotate</a></span><span class="op">(</span><span class="va">pcs</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/streaks.html">streaks</a></span><span class="op">(</span><span class="va">spcs</span><span class="op">)</span></span></code></pre></div>
-<p><img src="parse_text_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/streaks.html">streaks</a></span><span class="op">(</span><span class="va">spcs</span>, <span class="st">"columns"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="parse_text_files/figure-html/unnamed-chunk-12-2.png" width="700"></p>
-<p>For example, the second rotated component looks to pick up the
-cluster of r packages for making html things:</p>
+<p><img src="parse_text_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="../reference/top.html">top</a></span><span class="op">(</span><span class="va">spcs</span>, <span class="fl">2</span>,keep_how_many <span class="op">=</span> <span class="fl">15</span><span class="op">)</span></span>
-<span><span class="co">#&gt; $top_rows</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 15 × 2</span></span></span>
-<span><span class="co">#&gt;    Package        vpc_02_rows</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> shiny                15.5 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> rmarkdown            12.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> crosstalk             9.74</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> leaflet.extras        7.08</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> bookdown              7.00</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> httpuv                6.61</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> leaflet               6.54</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> bslib                 6.05</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> jquerylib             5.18</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> fresh                 4.72</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> reactable             4.65</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> dygraphs              4.63</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> sass                  4.39</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> rhandsontable         4.36</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> DT                    4.24</span></span>
-<span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; $top_columns</span></span>
-<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 20 × 3</span></span></span>
-<span><span class="co">#&gt;    from_text   token        vpc_02_columns</span></span>
-<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> Author      library               35.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> Author      bootstrap             27.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> Author      jquery                26.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> Author      contributors          18.7 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> Author      cph                   18.3 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> Author      plugin                17.9 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> Author      ui                    14.2 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> Author      leaflet               13.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> Imports     htmltools             13.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> Author      inc                   13.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">11</span> Author      authors               13.0 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">12</span> Author      inst                  12.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">13</span> Author      authors.txt           12.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">14</span> Author      sievert               12.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">15</span> Author      carson                12.4 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">16</span> Description tidy                  -<span style="color: #BB0000;">3.04</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">17</span> Imports     tidyr                 -<span style="color: #BB0000;">3.17</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">18</span> Imports     dplyr                 -<span style="color: #BB0000;">3.20</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">19</span> Imports     tibble                -<span style="color: #BB0000;">3.59</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">20</span> Description data                  -<span style="color: #BB0000;">3.85</span></span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/streaks.html">streaks</a></span><span class="op">(</span><span class="va">spcs</span>, <span class="st">"columns"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="parse_text_files/figure-html/unnamed-chunk-14-2.png" width="700"></p>
+<p>Let’s use</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">im</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">all_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="va">Imports</span>, parse_text <span class="op">=</span> <span class="cn">TRUE</span>, to_lower <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">pcs</span> <span class="op">=</span> <span class="va">im</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/core.html">core</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/pca.html">pca</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "adding graph summaries (coreness and connected components)."</span></span>
+<span><span class="va">im_text</span> <span class="op">=</span> <span class="fu"><a href="../reference/make_interaction_model.html">make_interaction_model</a></span><span class="op">(</span><span class="va">top_packages</span>, <span class="op">~</span><span class="va">Package</span><span class="op">*</span><span class="op">(</span><span class="va">Title</span> <span class="op">&amp;</span> <span class="va">Description</span><span class="op">)</span>, parse_text<span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">=</span> <span class="va">im_text</span><span class="op">$</span><span class="va">column_universe</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter-joins.html" class="external-link">anti_join</a></span><span class="op">(</span><span class="fu">tidytext</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/tidytext/man/stop_words.html" class="external-link">stop_words</a></span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"token"</span><span class="op">=</span><span class="st">"word"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">im_text</span> <span class="op">=</span> <span class="va">im_text</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/subset_im.html">subset_im</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> <span class="fu"><a href="../reference/core.html">core</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "adding graph summaries (coreness and connected components)."</span></span>
+<span><span class="fu"><a href="../reference/bff.html">bff</a></span><span class="op">(</span><span class="va">pcs</span>, <span class="va">im_text</span>, num_best <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 0 × 1</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 1 variable: factor &lt;chr&gt;</span></span></span></code></pre></div>
+<!-- For example, the second rotated component looks to pick up the cluster of r packages for making html things: -->
+<!-- ```{r} -->
+<!-- top(spcs, 2,keep_how_many = 15) -->
+<!-- ``` -->
+</div>
   </main>
 </div>
 

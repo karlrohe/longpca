@@ -8,6 +8,8 @@ climate_data.R
 get_cdc_data.R
 tr.R
 README_cache/
+tmp/
+scraps/
 inst/doc
 vignettes/bff_cache/
 

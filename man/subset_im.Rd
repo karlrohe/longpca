@@ -2,8 +2,19 @@
 % Please edit documentation in R/clean.R
 \name{subset_im}
 \alias{subset_im}
-\title{subset_im
-If you've removed some rows of row_universe or column_universe, then you want to redefine a bunch of things... you need new row/col numbering and you want to remove rows from interaction_tibble.  this does that.}
+\title{#' core
+#' Given an interaction_model, this will return another interaction_model that corresponds to the "k-core" of the input.  This function is recommended when \code{diagnose(im)} shows that the majority of rows/columns have 1, 2, or 3 connections.  In this case, the data is potentially too sparse for pca.  If you simply throwing away the rows/columns that are weakly connected, then you will reduce the connections of those that remain.  The k-core is what you get if you keep on iterating.  In particular, it will find the largest subset of rows and columns from the interaction_model such that every row and column has at least \code{core_threshold} number of connections or "data points" in interaction_tibble.  This is exactly the k-core if the row and columns correspond to unique elements (non-overlapping).  If the elements in the rows match some elements in the columns, then those elements are represented twice... once for the row and once for the column.  It is possible that only one of those is retained.
+#'
+#' @param im_input
+#' @param core_threshold
+#'
+#' @return
+#' @export
+#'
+#' @import dplyr
+#'
+#' @examples
+core = function(im_input, core_threshold){}
 \usage{
 subset_im(im_input)
 }
@@ -11,6 +22,11 @@ subset_im(im_input)
 \item{im_input}{}
 }
 \description{
-subset_im
-If you've removed some rows of row_universe or column_universe, then you want to redefine a bunch of things... you need new row/col numbering and you want to remove rows from interaction_tibble.  this does that.
+if(!"coreness" \%in\% colnames(im_input$row_universe)){
+print("adding graph summaries (coreness and connected components).")
+im = add_bipartite_summaries(im)
+}
+}
+\details{
+
 }

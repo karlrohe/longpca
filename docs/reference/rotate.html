@@ -84,9 +84,9 @@
 <span class="r-plt img"><img src="rotate-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span><span class="co"># these values were pushed into the row_features.  You can see that their scale is drastically reduced:</span></span></span>
 <span class="r-in"><span><span class="va">sparse_pcs</span><span class="op">$</span><span class="va">row_features</span><span class="op">$</span><span class="va">vpc_01_rows</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9769103</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.9769102</span>
 <span class="r-in"><span><span class="va">sparse_columns_pcs</span><span class="op">$</span><span class="va">row_features</span><span class="op">$</span><span class="va">vpc_01_rows</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.553318e-05</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 5.553314e-05</span>
 <span class="r-in"><span><span class="co"># importantly, this is not simply the row pcs scaled by the singular values... it is also rotated by the varimax rotation for the columns...</span></span></span>
 <span class="r-in"><span><span class="co"># here is the algebra using the SVD:</span></span></span>
 <span class="r-in"><span><span class="co"># U D V' = (UDR)(VR)'</span></span></span>
