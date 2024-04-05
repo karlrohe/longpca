@@ -160,7 +160,7 @@ pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE
   if(sqrt_counts) A@x = sqrt(A@x)
   if(regularize) A = glaplacian(A)
   # s_svd = irlba::irlba(A,nu = k, nv = k)
-  s_svd = RSpectra::svds(A,nu = k, nv = k)
+  s_svd = RSpectra::svds(A,k = k)
 
   # dimension_prefix = paste0(im$settings$data_prefix, method_prefix)
   # print(length(dimension_prefix))
