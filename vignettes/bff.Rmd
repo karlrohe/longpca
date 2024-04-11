@@ -1,11 +1,13 @@
 ---
-title: "Analyzing the CRAN Dependency Graph with longpca"
+title: "Best Feature Function (bff)"
 output: rmarkdown::html_vignette
 author: "Karl Rohe"
 vignette: >
   %\VignetteIndexEntry{bff}
-  %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r, include = FALSE}
@@ -22,7 +24,7 @@ knitr::opts_chunk$set(
 #>options(repos = r)
 ```
 
-
+This document inspects the CRAN dependency graph using the `bff` function, which stands for "best feature function".  The data that we perform PCA to is the same as [parse_text](parse_text.html).  However, now we make more sense of the rotated factors by inspecting the package titles and descriptions to identify the "best" words for each factor.  Whereas the [parse_text](parse_text.html) vignette was primarily about the key functions to perform the PCA, this document takes more time to talk about data analysis. 
 
 ```{r setup}
 library(tidyverse)
@@ -55,7 +57,15 @@ The `$column_universe` illustrate how `make_interaction_model` has parsed the va
 diagnose(idg)
 ```
 
-Recall that "degree" is the number of interactions a row or column has. Above, `diagnose` shows that this graph is very sparse; the median degrees are in the low single digits.  However, we still expect to be able to detect some signal because in the plots we see that there are lots of Packages with degree over 10 (i.e. more than dependencies).  The other histogram illustrates the power law degree (the top of the bins roughly follow a straight line down on the log-log scale).  So, there are lots of packages being imported by over 100 other packages, and a handful of packages being imported by over 1000. 
+As discussed in the vignettes [core](core.html) and [parse_text](parse_text.html), this is very sparse.  A simple fix is to use `core` which looks at the "largest connected component" of the "k-core".  Essentially, it removes a bunch of packages (both rows and columns) that are weakly connected. 
+
+```{r}
+core_idg = core(idg, core_threshold = 3)
+diagnose(core_idg)
+```
+The number of `Package` items reduced from `20319` to `12144` and the number of `tokens` (i.e. packages that get imported) reduced from `6230` to `2574`.  While this is a big reduction, notice that the average and median degrees increased substantially.  
+
+However, we still expect to be able to detect some signal because in the plots we see that there are lots of Packages with degree over 10 (i.e. more than dependencies).  The other histogram illustrates the power law degree (the top of the bins roughly follow a straight line down on the log-log scale).  So, there are lots of packages being imported by over 100 other packages, and a handful of packages being imported by over 1000. 
 
 How many dimensions/PCs should we compute? This number is often denoted by k.  I have multiple competing thoughts/heuristics that might be useful for you.  I think...
 
@@ -67,11 +77,11 @@ How many dimensions/PCs should we compute? This number is often denoted by k.  I
 
 Built around the intuition in 2) above, we made "cross-validated eigenvalues" that you can access with the function `pick_dim`.  Essentially, for each PC dimension, we test the null hypothesis that the uncovered PC is uncorrelated with any underlying signal.  This requires "post-selection inference" for which we utilize cross-validation to get Z-scores and p-values for each dimension:
 
-```{r}
+```{r cache=TRUE}
 set.seed(1)
-# eicv = pick_dim(idg, dimMax = 100)
-# plot(eicv)
-# eicv$estimated_dimension
+eicv = pick_dim(core_idg, dimMax = 100)
+plot(eicv)
+eicv$estimated_dimension
 ```
 
 The first insignificant p-value is the 64th.  So, the code gives `$estimated_dimension` to be 63.  However, even after 64, there are some significant p-values.  The first negative Z-score happens at the 90th dimension. So, the decay to insignificance is slow and I am certain that there is signal after the 63rd dimension. 
@@ -79,7 +89,7 @@ The first insignificant p-value is the 64th.  So, the code gives `$estimated_dim
 For ease of illustration, will proceed with `k=11` dimensions. The first 10 Z-scores in `eicv` seem to be a bit larger than the rest.  
 
 ```{r}
-pcs = pca(idg, k = 11)
+pcs = pca(core_idg, k = 11)
 pcs
 ```
 

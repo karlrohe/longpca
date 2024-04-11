@@ -8,7 +8,7 @@
 #' @param num_best
 #'
 #' @return
-#' @importFrom dplyr select any_of matches left_join mutate group_by top_n arrange ungroup
+#' @importFrom dplyr select any_of matches left_join right_join mutate group_by top_n arrange ungroup
 #' @importFrom tidyr pivot_longer pivot_wider
 #' @importFrom Matrix crossprod
 #' @export
@@ -55,7 +55,10 @@ bff <- function(pcs, im_text, num_best = 10) {
   features <- get_Matrix(im_text, import_names = TRUE)
   loadings = loading_aligned |> select(-variable_name_for_join) |> as.matrix()
 
-  l1_normalize <- function(x) x/sum(x)
+  l1_normalize <- function(x){
+    x[is.na(x)]=0
+    x/sum(x)
+  }
   loadings[loadings < 0] <- 0
   k <- ncol(loadings)
   best_feat <- matrix("", ncol = k, nrow = num_best)

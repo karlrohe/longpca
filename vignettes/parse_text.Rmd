@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-This document shows how you can use `parse_text` inside the function `make_interaction_model`.
+This document shows how you can use `parse_text` inside the function `make_interaction_model`.  This document is less about *performing* PCA and more about the code that we use to do it.  
 
 ```{r, echo=FALSE,include=FALSE}
 library(dplyr)
@@ -99,24 +99,28 @@ im_imports_authors$column_universe
 
 ```
 
-So, let's do a quick analysis. We see that the tokens are very very sparse, with 64% of tokens appearing only once! We will want to keep an eye out for localization in the `streaks` plot.
+So, let's do a quick analysis. In particular, let's study `im_imports` which used the formula `~Package*Imports`.  In effect, this studies the "package dependency graph". 
+
 
 ```{r}
-diagnose(im_imports_authors)
+diagnose(im_imports)
+```
+We see that the tokens are very very sparse, with 64% of tokens appearing only once! We will want to keep an eye out for localization in the `streaks` plot.
+
+
+In cases of extreme sparsity like this, as a preventative step,  you can use the function `core` to pull out the densely connected core of the data. See the vignette [core](core.html) for more details.  In particular, it treats the `interaction_model` object as a bipartite graph, then finds the [k-core](https://en.wikipedia.org/wiki/Degeneracy_(graph_theory)){.uri} of the [largest connected component](https://en.wikipedia.org/wiki/Giant_component). 
+
+```{r}
+im_imports_core = core(im_imports, core_threshold = 3)
+diagnose(im_imports_core)
 ```
 
-Because it is so sparse, the function `core` can be used to pull out the densely connected core of the data. In particular, it treats the `interaction_model` object as a bipartite graph, then finds the [k-core](https://en.wikipedia.org/wiki/Degeneracy_(graph_theory)){.uri} of the [largest connected component](https://en.wikipedia.org/wiki/Giant_component).
+Notice how the number of `Packages` and `from_text & token` (i.e. Packages that were imported) are both drastically reduced after taking `core`.  Importantly, the `average_degree` and `median_degree` are much larger.  
+
+We can identify the largest statistically reasonable choice for the PCA model size `k` using `pick_dim` which uses [cross-validated eigenvalues](https://arxiv.org/abs/2108.03336) as implimented in the package `gdim` [(github)](https://github.com/RoheLab/gdim).
 
 ```{r}
-# you can remove these words that appear less than 5 times (and documents that have less than 5 words) via:
-im_text = core(im_text, core_threshold = 5)
-diagnose(im_text)
-```
-
-We can identify the largest statistically reasonable choice for `k` using `pick_dim` which uses [cross-validated eigenvalues](https://arxiv.org/abs/2108.03336) as implimented in the package `gdim` [(github)](https://github.com/RoheLab/gdim).
-
-```{r}
-eigcv = pick_dim(im_imports_authors, num_bootstraps = 20)
+eigcv = pick_dim(im_imports_core, num_bootstraps = 20)
 plot(eigcv)
 eigcv
 ```
@@ -124,7 +128,7 @@ eigcv
 I'm going to pick 10 for convenience.
 
 ```{r}
-pcs = pca(im_imports_authors, k = 10)
+pcs = pca(im_imports_core, k = 10)
 streaks(pcs)
 streaks(pcs, "columns")
 ```
@@ -135,19 +139,4 @@ streaks(spcs)
 streaks(spcs, "columns")
 ```
 
-
-Let's use 
-```{r}
-im = make_interaction_model(all_packages, ~Package*Imports, parse_text = TRUE, to_lower = FALSE)
-pcs = im |> core() |> pca(10)
-im_text = make_interaction_model(top_packages, ~Package*(Title & Description), parse_text= TRUE)
-im_text$column_universe = im_text$column_universe |> dplyr::anti_join(tidytext::stop_words, by = c("token"="word"))
-im_text = im_text |> subset_im() |> core()
-bff(pcs, im_text, num_best = 4)
-```
-
-<!-- For example, the second rotated component looks to pick up the cluster of r packages for making html things: -->
-
-<!-- ```{r} -->
-<!-- top(spcs, 2,keep_how_many = 15) -->
-<!-- ``` -->
+The vignette [bff](bff.html) interprets these factors/clusters using the package descriptions and the function `bff` which stands for "Best Feature Function".
