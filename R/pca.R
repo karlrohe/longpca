@@ -154,11 +154,15 @@ pca_sum = function(fo, tib, k){
 #' @export
 #'
 #' @examples
-pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE){
+pca = function(im,k, method_prefix = "pc", regularize = TRUE, sqrt_counts = TRUE, scale_classic = FALSE){
   A = get_Matrix(im)
   # A = sp_A_dat$A
   if(sqrt_counts) A@x = sqrt(A@x)
   if(regularize) A = glaplacian(A)
+  if(scale_classic) {
+    cm = colMeans(A^2)
+    A = A %*% diag(1/sqrt(cm))
+  }
   # s_svd = irlba::irlba(A,nu = k, nv = k)
   s_svd = RSpectra::svds(A,k = k)
 
