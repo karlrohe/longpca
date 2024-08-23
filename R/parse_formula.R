@@ -91,7 +91,12 @@ parse_formula <- function(fo, tib) {
 
 
   right_expr <- fo[3]
-  rhs = deparse(right_expr[[1]])
+  # rhs = deparse(right_expr[[1]])
+  # this next line is wild and thank you to sonnet for helping me fix it.
+  #   helps when the formula is very long and doesn't fit on one line for nice reading.
+  #   in that case, formulas do weird stuff ... breaking it appart. this puts it all back
+  #   together nice!
+  rhs = paste(deparse(right_expr[[1]], width.cutoff = 500), collapse = "")
   rhs_terms = extract_interaction(rhs)
   if(length(rhs_terms)!=2){
     stop("Your input formula \n\n    ",
